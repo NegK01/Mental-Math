@@ -1,8 +1,7 @@
-package com.negk01.mentalmath.ui.screens.home.components
+package com.negk01.mentalmath.ui.components
 
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.EmojiEvents
+import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
@@ -11,9 +10,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.negk01.mentalmath.navigation.Routes
 import com.negk01.mentalmath.ui.theme.Primary
@@ -62,31 +59,30 @@ fun BottomNavBar(
     currentRoute: String?
 ) {
     NavigationBar(
-//        modifier = Modifier.navigationBarsPadding(),
+        //        modifier = Modifier.navigationBarsPadding(),
         containerColor = Color.White,
 //        tonalElevation = 8.dp
     ) {
-
         NavigationBarItem(
             selected = currentRoute == Routes.HOME,
             onClick = { navController.navigateSingleTopTo(Routes.HOME) },
-            icon = { Icon(Icons.Default.Home, contentDescription = null) },
+            icon = { Icon(Icons.Default.Home, contentDescription = "Inicio") },
             label = { Text("Inicio") },
             colors = navigationColors()
         )
 
         NavigationBarItem(
-            selected = currentRoute == Routes.RESULTS,
-            onClick = { navController.navigateSingleTopTo(Routes.RESULTS) },
-            icon = { Icon(Icons.Default.EmojiEvents, contentDescription = null) },
-            label = { Text("Resultados") },
+            selected = currentRoute == Routes.HISTORY,
+            onClick = { navController.navigateSingleTopTo(Routes.HISTORY) },
+            icon = { Icon(Icons.Default.History, contentDescription = "Historial") },
+            label = { Text("Historial") },
             colors = navigationColors()
         )
 
         NavigationBarItem(
             selected = currentRoute == Routes.CONFIG,
             onClick = { navController.navigateSingleTopTo(Routes.CONFIG) },
-            icon = { Icon(Icons.Default.Settings, contentDescription = null) },
+            icon = { Icon(Icons.Default.Settings, contentDescription = "Configuración") },
             label = { Text("Configuración") },
             colors = navigationColors()
         )

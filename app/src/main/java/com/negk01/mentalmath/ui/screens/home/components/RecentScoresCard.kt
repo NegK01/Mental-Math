@@ -36,7 +36,7 @@ fun RecentScoresCard(
             Row {
                 Icon(
                     imageVector = Icons.Default.EmojiEvents,
-                    contentDescription = "Últimas puntuaciones",
+                    contentDescription = "Últimas 3 puntuaciones",
                     tint = Color(0xFFF59E0B),
                     modifier = androidx.compose.ui.Modifier.size(22.dp)
                 )
@@ -46,7 +46,7 @@ fun RecentScoresCard(
                 )
 
                 Text(
-                    text = "Últimas Puntuaciones",
+                    text = "Últimas 3 Puntuaciones",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = Color(0xFF1F2937)

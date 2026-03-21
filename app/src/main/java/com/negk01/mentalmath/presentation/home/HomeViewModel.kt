@@ -22,6 +22,12 @@ class HomeViewModel : ViewModel() {
                     date = "18/3/2026",
                     result = "4/5",
                     time = "3.1s"
+                ),
+                Score(
+                    difficulty = "Hard",
+                    date = "18/3/2026",
+                    result = "4/5",
+                    time = "3.1s"
                 )
             )
         )

@@ -1,4 +1,4 @@
-package com.negk01.mentalmath.ui.screens.config
+package com.negk01.mentalmath.ui.screens.history
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -10,30 +10,21 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.negk01.mentalmath.presentation.config.ConfigViewModel
-import com.negk01.mentalmath.ui.screens.config.components.DangerZone
-import com.negk01.mentalmath.ui.screens.config.components.DifficultySelector
-import com.negk01.mentalmath.ui.screens.config.components.OptionSwitch
 import com.negk01.mentalmath.ui.components.BottomNavBar
 import com.negk01.mentalmath.ui.theme.Background
 import com.negk01.mentalmath.ui.theme.TextPrimary
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
+import com.negk01.mentalmath.ui.theme.TextSecondary
 
 @Composable
-fun ConfigScreen(
+fun HistoryScreen(
     navController: NavController,
-    currentRoute: String?,
-    viewModel: ConfigViewModel = viewModel()
+    currentRoute: String?
 ) {
-    val uiState by viewModel.uiState.collectAsState()
-
     Scaffold(
         containerColor = Background,
         bottomBar = {
@@ -57,7 +48,7 @@ fun ConfigScreen(
             ) {
                 item {
                     Text(
-                        text = "Configuración",
+                        text = "Historial",
                         fontSize = 28.sp,
                         fontWeight = FontWeight.Bold,
                         color = TextPrimary
@@ -65,23 +56,10 @@ fun ConfigScreen(
                 }
 
                 item {
-                    DifficultySelector(
-                        selected = uiState.selectedDifficulty,
-                        onSelect = viewModel::onDifficultySelected
-                    )
-                }
-
-                item {
-                    OptionSwitch(
-                        title = "Efectos de sonido",
-                        checked = uiState.soundEnabled,
-                        onCheckedChange = viewModel::onSoundEnabledChanged
-                    )
-                }
-
-                item {
-                    DangerZone(
-                        onDelete = viewModel::clearScoresHistory
+                    Text(
+                        text = "Aquí verás todas tus partidas guardadas.",
+                        fontSize = 16.sp,
+                        color = TextSecondary
                     )
                 }
             }

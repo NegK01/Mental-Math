@@ -38,7 +38,7 @@ fun RoundDetailItem(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = "${item.expression} → ${item.userAnswer}",
+            text = item.expression,
             modifier = Modifier.weight(1f),
             fontSize = 18.sp,
             color = TextPrimary
