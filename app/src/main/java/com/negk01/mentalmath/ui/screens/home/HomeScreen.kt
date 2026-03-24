@@ -13,9 +13,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.negk01.mentalmath.navigation.Routes
 import com.negk01.mentalmath.presentation.home.HomeViewModel
 import com.negk01.mentalmath.ui.components.BottomNavBar
 import com.negk01.mentalmath.ui.screens.home.components.DailyStreakCard
@@ -28,7 +26,8 @@ import com.negk01.mentalmath.ui.theme.Background
 fun HomeScreen(
     navController: NavController,
     currentRoute: String?,
-    viewModel: HomeViewModel = viewModel()
+    onStartGame: () -> Unit,
+    viewModel: HomeViewModel
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -68,15 +67,13 @@ fun HomeScreen(
 
                 item {
                     RecentScoresCard(
-                        scores = uiState.recentScores
+                        records = uiState.recentRecords
                     )
                 }
 
                 item {
                     StartGameButton(
-                        onClick = {
-                            navController.navigate(Routes.GAME)
-                        }
+                        onClick = onStartGame
                     )
                 }
             }

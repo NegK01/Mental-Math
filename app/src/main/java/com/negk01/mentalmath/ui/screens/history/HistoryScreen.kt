@@ -6,25 +6,33 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.negk01.mentalmath.ui.components.BottomNavBar
+import com.negk01.mentalmath.ui.screens.home.components.RecentScoreItem
 import com.negk01.mentalmath.ui.theme.Background
 import com.negk01.mentalmath.ui.theme.TextPrimary
 import com.negk01.mentalmath.ui.theme.TextSecondary
+import com.negk01.mentalmath.presentation.history.HistoryViewModel
 
 @Composable
 fun HistoryScreen(
     navController: NavController,
-    currentRoute: String?
+    currentRoute: String?,
+    viewModel: HistoryViewModel
 ) {
+    val uiState by viewModel.uiState.collectAsState()
+
     Scaffold(
         containerColor = Background,
         bottomBar = {
@@ -55,12 +63,18 @@ fun HistoryScreen(
                     )
                 }
 
-                item {
-                    Text(
-                        text = "Aquí verás todas tus partidas guardadas.",
-                        fontSize = 16.sp,
-                        color = TextSecondary
-                    )
+                if (uiState.records.isEmpty()) {
+                    item {
+                        Text(
+                            text = "Aún no hay partidas guardadas.",
+                            fontSize = 16.sp,
+                            color = TextSecondary
+                        )
+                    }
+                } else {
+                    items(uiState.records) { record ->
+                        RecentScoreItem(record = record)
+                    }
                 }
             }
         }
