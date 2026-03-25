@@ -22,7 +22,30 @@ class HistoryViewModel(
     private fun observeHistory() {
         viewModelScope.launch {
             gameRecordRepository.getAllRecords().collect { records ->
-                _uiState.value = HistoryUiState(records = records)
+
+                val totalGames = records.size
+
+                val averageAccuracy = if (records.isEmpty()) 0.0 else {
+                    records.map {
+                        it.correctAnswers.toDouble() / it.totalRounds
+                    }.average() * 100
+                }
+
+                val averageTimeSeconds = if (records.isEmpty()) 0.0 else {
+                    records.map {
+                        it.averageResponseTimeMillis / 1000.0
+                    }.average()
+                }
+
+                //val bestStreak = records.maxOfOrNull { it.maxStreak } ?: 0
+
+                _uiState.value = HistoryUiState(
+                    records = records,
+                    totalGames = totalGames,
+                    averageAccuracy = averageAccuracy,
+                    averageTimeSeconds = averageTimeSeconds,
+                    //bestStreak = bestStreak
+                )
             }
         }
     }

@@ -24,53 +24,100 @@ object QuestionGenerator {
     }
 
     private fun generateMediumQuestion(): Question {
-        val first = simpleQuestion(5..30, allowNegative = false)
-        val second = simpleQuestion(2..20, allowNegative = false)
-
         val useCompound = Random.nextBoolean()
 
-        if (!useCompound) return first
-
-        val operators = listOf("+", "-", "×")
-        val operator = operators.random()
-        val expression = "${first.expression} $operator ${extractRightValue(second.expression)}"
-
-        val correctAnswer = when (operator) {
-            "+" -> first.correctAnswer + extractQuestionValue(second)
-            "-" -> first.correctAnswer - extractQuestionValue(second)
-            else -> first.correctAnswer * extractQuestionValue(second)
+        if (!useCompound) {
+            return simpleQuestion(
+                range = 5..30,
+                allowNegative = false
+            )
         }
 
-        if (correctAnswer < 0) return generateMediumQuestion()
+        val a = Random.nextInt(5, 31)
+        val b = Random.nextInt(2, 21)
+        val c = Random.nextInt(2, 21)
 
-        return Question(expression, correctAnswer)
+        return when (Random.nextInt(4)) {
+            0 -> {
+                val expression = "$a + $b + $c"
+                val answer = a + b + c
+                Question(expression, answer)
+            }
+
+            1 -> {
+                val expression = "$a - $b + $c"
+                val answer = a - b + c
+                if (answer < 0) generateMediumQuestion() else Question(expression, answer)
+            }
+
+            2 -> {
+                val expression = "$a + $b × $c"
+                val answer = a + (b * c)
+                Question(expression, answer)
+            }
+
+            else -> {
+                val expression = "$a × $b - $c"
+                val answer = (a * b) - c
+                if (answer < 0) generateMediumQuestion() else Question(expression, answer)
+            }
+        }
     }
 
     private fun generateHardQuestion(): Question {
-        val a = Random.nextInt(2, 21)
-        val b = Random.nextInt(2, 11)
-        val c = Random.nextInt(2, 16)
-        val d = Random.nextInt(2, 11)
-
-        val type = Random.nextInt(3)
+        val type = Random.nextInt(5)
 
         return when (type) {
             0 -> {
+                val a = Random.nextInt(2, 21)
+                val b = Random.nextInt(2, 11)
+                val c = Random.nextInt(2, 16)
+                val d = Random.nextInt(2, 11)
+
                 val expression = "$a × $b - $c + $d"
                 val answer = a * b - c + d
                 Question(expression, answer)
             }
 
             1 -> {
+                val a = Random.nextInt(2, 31)
+                val b = Random.nextInt(2, 13)
+                val c = Random.nextInt(2, 13)
+
                 val expression = "$a + ($b × $c)"
                 val answer = a + (b * c)
                 Question(expression, answer)
             }
 
+            2 -> {
+                val a = Random.nextInt(2, 31)
+                val divisor = Random.nextInt(2, 13)
+                val quotient = Random.nextInt(2, 13)
+                val dividend = divisor * quotient
+
+                val expression = "$a + ($dividend ÷ $divisor)"
+                val answer = a + (dividend / divisor)
+                Question(expression, answer)
+            }
+
+            3 -> {
+                val a = Random.nextInt(2, 21)
+                val b = Random.nextInt(2, 13)
+                val c = Random.nextInt(2, 21)
+
+                val expression = "($a + $b) × $c"
+                val answer = (a + b) * c
+                Question(expression, answer)
+            }
+
             else -> {
-                val dividend = b * c
-                val expression = "$a + ($dividend ÷ $b)"
-                val answer = a + (dividend / b)
+                val a = Random.nextInt(5, 31)
+                val b = Random.nextInt(2, 21)
+                val c = Random.nextInt(2, 21)
+                val d = Random.nextInt(2, 16)
+
+                val expression = "$a - $b + ($c × $d)"
+                val answer = a - b + (c * d)
                 Question(expression, answer)
             }
         }
@@ -125,13 +172,5 @@ object QuestionGenerator {
         val divisor = divisorRange.random()
         val dividend = quotient * divisor
         return Question("$dividend ÷ $divisor", quotient)
-    }
-
-    private fun extractRightValue(expression: String): String {
-        return expression.substringAfterLast(" ")
-    }
-
-    private fun extractQuestionValue(question: Question): Int {
-        return question.correctAnswer
     }
 }

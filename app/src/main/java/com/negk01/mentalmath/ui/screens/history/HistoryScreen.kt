@@ -24,6 +24,7 @@ import com.negk01.mentalmath.ui.theme.Background
 import com.negk01.mentalmath.ui.theme.TextPrimary
 import com.negk01.mentalmath.ui.theme.TextSecondary
 import com.negk01.mentalmath.presentation.history.HistoryViewModel
+import com.negk01.mentalmath.ui.screens.history.components.HistorySummaryCard
 
 @Composable
 fun HistoryScreen(
@@ -54,6 +55,15 @@ fun HistoryScreen(
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(18.dp)
             ) {
+                item {
+                    HistorySummaryCard(
+                        totalGames = uiState.totalGames,
+                        averageAccuracy = uiState.averageAccuracy,
+                        averageTime = uiState.averageTimeSeconds,
+                        //bestStreak = uiState.bestStreak
+                    )
+                }
+
                 item {
                     Text(
                         text = "Historial",
