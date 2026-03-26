@@ -9,43 +9,29 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.negk01.mentalmath.R
 import com.negk01.mentalmath.domain.model.GameRecord
-import com.negk01.mentalmath.ui.theme.EasyBadge
-import com.negk01.mentalmath.ui.theme.EasyText
-import com.negk01.mentalmath.ui.theme.HardBadge
-import com.negk01.mentalmath.ui.theme.HardText
-import com.negk01.mentalmath.ui.theme.MediumBadge
-import com.negk01.mentalmath.ui.theme.MediumText
-import com.negk01.mentalmath.ui.theme.SurfaceMuted
-import com.negk01.mentalmath.ui.theme.TextMuted
-import com.negk01.mentalmath.ui.theme.TextPrimary
+import com.negk01.mentalmath.ui.utils.badgeColors
+import com.negk01.mentalmath.ui.utils.toLabelResId
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import androidx.compose.ui.text.font.FontWeight
 
 @Composable
 fun RecentScoreItem(
     record: GameRecord
 ) {
-    val badgeColor = when (record.difficulty.lowercase()) {
-        "fácil" -> EasyBadge
-        "medio" -> MediumBadge
-        else -> HardBadge
-    }
-
-    val badgeTextColor = when (record.difficulty.lowercase()) {
-        "fácil" -> EasyText
-        "medio" -> MediumText
-        else -> HardText
-    }
+    val badgeColors = record.difficulty.badgeColors()
 
     val formattedDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         .format(Date(record.playedAt))
@@ -55,22 +41,22 @@ fun RecentScoreItem(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(10.dp))
-            .background(SurfaceMuted)
-            .padding(horizontal = 12.dp, vertical = 12.dp),
+            .clip(RoundedCornerShape(16.dp))
+            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
+            .padding(horizontal = 14.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
             modifier = Modifier
                 .clip(CircleShape)
-                .background(badgeColor)
+                .background(badgeColors.container)
                 .padding(horizontal = 12.dp, vertical = 6.dp),
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = record.difficulty,
+                text = stringResource(record.difficulty.toLabelResId()),
                 fontSize = 13.sp,
-                color = badgeTextColor,
+                color = badgeColors.content,
                 fontWeight = FontWeight.Medium
             )
         }
@@ -81,13 +67,18 @@ fun RecentScoreItem(
             text = formattedDate,
             modifier = Modifier.weight(1f),
             fontSize = 14.sp,
-            color = TextMuted
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
 
         Text(
-            text = "${record.correctAnswers}/${record.totalRounds} (${String.format("%.1fs", averageSeconds)})",
+            text = stringResource(
+                R.string.home_recent_score_summary,
+                record.correctAnswers,
+                record.totalRounds,
+                averageSeconds
+            ),
             fontSize = 14.sp,
-            color = TextPrimary,
+            color = MaterialTheme.colorScheme.onSurface,
             fontWeight = FontWeight.Medium
         )
     }

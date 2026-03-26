@@ -4,18 +4,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.negk01.mentalmath.ui.theme.Primary
-import androidx.compose.ui.graphics.Color
+import com.negk01.mentalmath.R
 
 @Composable
 fun ResultsActions(
@@ -32,20 +28,16 @@ fun ResultsActions(
                 .weight(1f)
                 .height(52.dp)
         ) {
-            Text("Volver al inicio")
+            Text(stringResource(R.string.results_go_home))
         }
 
         Button(
             onClick = onPlayAgain,
             modifier = Modifier
                 .weight(1f)
-                .height(52.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Primary,
-                contentColor = Color.White
-            )
+                .height(52.dp)
         ) {
-            Text("Jugar de nuevo")
+            Text(stringResource(R.string.results_play_again))
         }
     }
 }

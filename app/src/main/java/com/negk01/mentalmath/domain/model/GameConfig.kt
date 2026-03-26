@@ -16,14 +16,14 @@ fun getGameConfig(difficulty: Difficulty): GameConfig {
 
         Difficulty.MEDIUM -> GameConfig(
             difficulty = difficulty,
-            totalRounds = 12,
-            timePerRoundSeconds = 20
+            totalRounds = 10,
+            timePerRoundSeconds = 25
         )
 
         Difficulty.HARD -> GameConfig(
             difficulty = difficulty,
-            totalRounds = 18,
-            timePerRoundSeconds = 15
+            totalRounds = 12,
+            timePerRoundSeconds = 20
         )
     }
 }

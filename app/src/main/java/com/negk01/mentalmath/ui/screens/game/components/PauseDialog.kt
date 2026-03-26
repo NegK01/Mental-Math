@@ -1,8 +1,12 @@
 package com.negk01.mentalmath.ui.screens.game.components
 
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import com.negk01.mentalmath.R
 
 @Composable
 fun PauseDialog(
@@ -10,12 +14,19 @@ fun PauseDialog(
 ) {
     AlertDialog(
         onDismissRequest = onResume,
+        containerColor = MaterialTheme.colorScheme.surface,
+        titleContentColor = MaterialTheme.colorScheme.onSurface,
+        textContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
         title = {
-            Text("Juego pausado")
+            Text(stringResource(R.string.game_pause_title))
         },
         text = {
-            Text("Toca cualquier parte para continuar.")
+            Text(stringResource(R.string.game_pause_message))
         },
-        confirmButton = {}
+        confirmButton = {
+            TextButton(onClick = onResume) {
+                Text(stringResource(R.string.game_resume))
+            }
+        }
     )
 }

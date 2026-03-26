@@ -43,8 +43,7 @@ class HistoryViewModel(
                     records = records,
                     totalGames = totalGames,
                     averageAccuracy = averageAccuracy,
-                    averageTimeSeconds = averageTimeSeconds,
-                    //bestStreak = bestStreak
+                    averageTimeSeconds = averageTimeSeconds
                 )
             }
         }

@@ -1,11 +1,15 @@
 package com.negk01.mentalmath.ui.screens.home
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -16,12 +20,11 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.negk01.mentalmath.presentation.home.HomeViewModel
 import com.negk01.mentalmath.ui.components.BottomNavBar
-import com.negk01.mentalmath.ui.screens.home.components.DailyStreakCard
 import com.negk01.mentalmath.ui.screens.home.components.HomeHeader
 import com.negk01.mentalmath.ui.screens.home.components.RecentScoresCard
 import com.negk01.mentalmath.ui.screens.home.components.StartGameButton
-import com.negk01.mentalmath.ui.theme.Background
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun HomeScreen(
     navController: NavController,
@@ -32,7 +35,7 @@ fun HomeScreen(
     val uiState by viewModel.uiState.collectAsState()
 
     Scaffold(
-        containerColor = Background,
+        containerColor = MaterialTheme.colorScheme.background,
         bottomBar = {
             BottomNavBar(
                 navController = navController,
@@ -42,36 +45,37 @@ fun HomeScreen(
     ) { innerPadding ->
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = Background
+            color = MaterialTheme.colorScheme.background
         ) {
-            LazyColumn(
+            Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(innerPadding)
-                    .statusBarsPadding(),
-                contentPadding = PaddingValues(16.dp),
-                verticalArrangement = Arrangement.spacedBy(18.dp)
+                    .statusBarsPadding()
             ) {
-                item {
-                    HomeHeader(
-                        title = uiState.title,
-                        subtitle = uiState.subtitle
-                    )
+
+                LazyColumn(
+                    modifier = Modifier.weight(1f),
+                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    item {
+                        HomeHeader(
+                            dailyStreak = uiState.dailyStreak
+                        )
+                    }
+
+                    item {
+                        RecentScoresCard(
+                            records = uiState.recentRecords
+                        )
+                    }
                 }
 
-                item {
-                    DailyStreakCard(
-                        streak = uiState.dailyStreak
-                    )
-                }
-
-                item {
-                    RecentScoresCard(
-                        records = uiState.recentRecords
-                    )
-                }
-
-                item {
+                Column(
+                    modifier = Modifier
+                        .padding(horizontal = 18.dp, vertical = 16.dp)
+                ) {
                     StartGameButton(
                         onClick = onStartGame
                     )

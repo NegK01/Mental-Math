@@ -10,7 +10,6 @@ import com.negk01.mentalmath.domain.model.Question
 import com.negk01.mentalmath.domain.model.RoundResult
 import com.negk01.mentalmath.domain.model.getGameConfig
 import com.negk01.mentalmath.domain.repository.GameRecordRepository
-import com.negk01.mentalmath.ui.utils.toDisplayName
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -222,7 +221,7 @@ class GameViewModel(
             gameRecordRepository.insert(
                 GameRecord(
                     playedAt = System.currentTimeMillis(),
-                    difficulty = currentDifficulty.toDisplayName(),
+                    difficulty = currentDifficulty,
                     correctAnswers = correctAnswers,
                     totalRounds = totalRounds,
                     averageResponseTimeMillis = (averageResponseTimeSeconds * 1000).toLong(),

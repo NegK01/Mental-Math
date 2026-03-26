@@ -7,5 +7,7 @@ import androidx.room.PrimaryKey
 data class SettingsEntity(
     @PrimaryKey val id: Int = 1,
     val selectedDifficulty: String,
-    val soundEnabled: Boolean
+    val soundEnabled: Boolean,
+    val themePreference: String,
+    val languagePreference: String
 )

@@ -1,21 +1,24 @@
 package com.negk01.mentalmath.ui.utils
 
+import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.Color
+import com.negk01.mentalmath.R
 import com.negk01.mentalmath.ui.theme.Danger
-import com.negk01.mentalmath.ui.theme.EasyBadge
-import com.negk01.mentalmath.ui.theme.EasyText
+import com.negk01.mentalmath.ui.theme.SuccessContainer
+import com.negk01.mentalmath.ui.theme.SuccessText
 
-fun completionStatusToDisplayName(status: String): String {
+@StringRes
+fun completionStatusToDisplayNameRes(status: String): Int {
     return when (status.lowercase()) {
-        "completed" -> "Completada"
-        "abandoned" -> "Abandonada"
-        else -> "Desconocido"
+        "completed" -> R.string.completion_completed
+        "abandoned" -> R.string.completion_abandoned
+        else -> R.string.completion_unknown
     }
 }
 
 fun completionStatusToBadgeColor(status: String): Color {
     return when (status.lowercase()) {
-        "completed" -> EasyBadge
+        "completed" -> SuccessContainer
         "abandoned" -> Color(0xFFF8D7DA)
         else -> Color.LightGray
     }
@@ -23,7 +26,7 @@ fun completionStatusToBadgeColor(status: String): Color {
 
 fun completionStatusToTextColor(status: String): Color {
     return when (status.lowercase()) {
-        "completed" -> EasyText
+        "completed" -> SuccessText
         "abandoned" -> Danger
         else -> Color.DarkGray
     }

@@ -7,10 +7,12 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import com.negk01.mentalmath.ui.theme.SurfaceCard
-import com.negk01.mentalmath.ui.theme.TextPrimary
+import androidx.compose.ui.res.stringResource
+import com.negk01.mentalmath.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -19,20 +21,29 @@ fun GameTopBar(
     onExitClick: () -> Unit
 ) {
     CenterAlignedTopAppBar(
+        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+            containerColor = MaterialTheme.colorScheme.background.copy(alpha = 0.96f),
+            titleContentColor = MaterialTheme.colorScheme.onBackground,
+            navigationIconContentColor = MaterialTheme.colorScheme.onBackground,
+            actionIconContentColor = MaterialTheme.colorScheme.onBackground
+        ),
         title = {
-            Text(
-                text = "Mental Math",
-                color = TextPrimary
-            )
+            Text(text = stringResource(R.string.app_name))
         },
         navigationIcon = {
             IconButton(onClick = onExitClick) {
-                Icon(Icons.Default.Close, contentDescription = "Salir")
+                Icon(
+                    imageVector = Icons.Default.Close,
+                    contentDescription = stringResource(R.string.game_exit)
+                )
             }
         },
         actions = {
             IconButton(onClick = onPauseClick) {
-                Icon(Icons.Default.Pause, contentDescription = "Pausar")
+                Icon(
+                    imageVector = Icons.Default.Pause,
+                    contentDescription = stringResource(R.string.game_pause)
+                )
             }
         }
     )

@@ -7,5 +7,4 @@ data class HistoryUiState(
     val totalGames: Int = 0,
     val averageAccuracy: Double = 0.0,
     val averageTimeSeconds: Double = 0.0,
-    val bestStreak: Int = 0
 )

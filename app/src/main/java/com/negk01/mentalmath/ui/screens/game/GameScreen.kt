@@ -1,17 +1,20 @@
 package com.negk01.mentalmath.ui.screens.game
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -23,9 +26,7 @@ import com.negk01.mentalmath.ui.screens.game.components.GameTopBar
 import com.negk01.mentalmath.ui.screens.game.components.MathQuestionCard
 import com.negk01.mentalmath.ui.screens.game.components.NumberPad
 import com.negk01.mentalmath.ui.screens.game.components.PauseDialog
-import com.negk01.mentalmath.ui.theme.Background
-import com.negk01.mentalmath.ui.utils.toDisplayName
-import androidx.compose.runtime.LaunchedEffect
+import com.negk01.mentalmath.ui.utils.toLabelResId
 
 @Composable
 fun GameScreen(
@@ -43,7 +44,7 @@ fun GameScreen(
     }
 
     Scaffold(
-        containerColor = Background,
+        containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             GameTopBar(
                 onPauseClick = viewModel::pauseGame,
@@ -59,47 +60,45 @@ fun GameScreen(
             )
         }
     ) { innerPadding ->
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = Background
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
         ) {
-            LazyColumn(
+            Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(innerPadding)
-                    .statusBarsPadding(),
-                contentPadding = PaddingValues(16.dp),
-                verticalArrangement = Arrangement.spacedBy(18.dp)
+                    .padding(horizontal = 16.dp, vertical = 12.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                item {
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .verticalScroll(rememberScrollState()),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
                     GameProgressCard(
-                        difficulty = uiState.difficulty.toDisplayName(),
+                        difficulty = stringResource(uiState.difficulty.toLabelResId()),
                         currentRound = uiState.currentRound,
                         totalRounds = uiState.totalRounds,
                         timeLeftSeconds = uiState.timeLeftSeconds
                     )
-                }
 
-                item {
                     MathQuestionCard(
                         questionText = uiState.questionText
                     )
-                }
 
-                item {
                     AnswerDisplay(
                         value = uiState.answerInput
                     )
                 }
 
-                item {
-                    NumberPad(
-                        onDigitClick = viewModel::onDigitPressed,
-                        onClearClick = viewModel::onClearDigit,
-                        onSubmitClick = viewModel::onSubmitAnswer,
-                        isSubmitEnabled = uiState.answerInput.isNotBlank()
-                    )
-                }
+                NumberPad(
+                    onDigitClick = viewModel::onDigitPressed,
+                    onClearClick = viewModel::onClearDigit,
+                    onSubmitClick = viewModel::onSubmitAnswer,
+                    isSubmitEnabled = uiState.answerInput.isNotBlank()
+                )
             }
 
             if (uiState.isPaused) {

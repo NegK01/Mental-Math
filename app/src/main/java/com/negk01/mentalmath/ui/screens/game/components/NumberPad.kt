@@ -4,25 +4,24 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.negk01.mentalmath.ui.theme.Danger
-import com.negk01.mentalmath.ui.theme.Primary
-import com.negk01.mentalmath.ui.theme.SurfaceCard
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
+import com.negk01.mentalmath.R
 
 @Composable
 fun NumberPad(
@@ -33,8 +32,8 @@ fun NumberPad(
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = SurfaceCard),
-        elevation = CardDefaults.cardElevation(defaultElevation = 5.dp)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column(
             modifier = Modifier.padding(16.dp),
@@ -48,24 +47,23 @@ fun NumberPad(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                KeyButton(
-                    text = "C",
+                ActionButton(
                     modifier = Modifier.weight(1f),
-                    containerColor = Danger,
+                    text = stringResource(R.string.game_clear_short),
+                    containerColor = MaterialTheme.colorScheme.errorContainer,
+                    contentColor = MaterialTheme.colorScheme.onErrorContainer,
                     onClick = onClearClick
                 )
 
                 KeyButton(
                     text = "0",
                     modifier = Modifier.weight(1f),
-                    containerColor = Primary,
                     onClick = { onDigitClick("0") }
                 )
 
-                KeyButton(
-                    text = "✓",
+                SubmitButton(
                     modifier = Modifier.weight(1f),
-                    containerColor = if (isSubmitEnabled) Primary else Color.LightGray,
+                    isEnabled = isSubmitEnabled,
                     onClick = onSubmitClick
                 )
             }
@@ -86,7 +84,6 @@ private fun NumberPadRow(
             KeyButton(
                 text = digit,
                 modifier = Modifier.weight(1f),
-                containerColor = Primary,
                 onClick = { onDigitClick(digit) }
             )
         }
@@ -97,19 +94,68 @@ private fun NumberPadRow(
 private fun KeyButton(
     text: String,
     modifier: Modifier = Modifier,
-    containerColor: Color,
     onClick: () -> Unit
 ) {
     Button(
         onClick = onClick,
-        modifier = modifier.height(56.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = containerColor)
+        modifier = modifier.heightIn(min = 58.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+            contentColor = MaterialTheme.colorScheme.onSurface
+        )
     ) {
         Text(
             text = text,
             fontSize = 22.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.White
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+
+@Composable
+private fun ActionButton(
+    modifier: Modifier = Modifier,
+    text: String,
+    containerColor: androidx.compose.ui.graphics.Color,
+    contentColor: androidx.compose.ui.graphics.Color,
+    onClick: () -> Unit
+) {
+    Button(
+        onClick = onClick,
+        modifier = modifier.heightIn(min = 58.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = containerColor,
+            contentColor = contentColor
+        )
+    ) {
+        Text(
+            text = text,
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+
+@Composable
+private fun SubmitButton(
+    modifier: Modifier = Modifier,
+    isEnabled: Boolean,
+    onClick: () -> Unit
+) {
+    Button(
+        onClick = onClick,
+        enabled = isEnabled,
+        modifier = modifier.heightIn(min = 58.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary,
+            disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+            disabledContentColor = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+    ) {
+        Icon(
+            imageVector = Icons.Default.Check,
+            contentDescription = stringResource(R.string.game_submit_answer)
         )
     }
 }

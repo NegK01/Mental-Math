@@ -12,7 +12,7 @@ import com.negk01.mentalmath.data.local.entity.SettingsEntity
         SettingsEntity::class,
         GameRecordEntity::class
     ],
-    version = 1,
+    version = 3,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {

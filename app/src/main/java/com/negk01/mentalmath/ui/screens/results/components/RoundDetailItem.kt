@@ -11,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,10 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.negk01.mentalmath.domain.model.RoundDetail
 import com.negk01.mentalmath.ui.theme.Danger
-import com.negk01.mentalmath.ui.theme.EasyText
-import com.negk01.mentalmath.ui.theme.SurfaceMuted
-import com.negk01.mentalmath.ui.theme.TextPrimary
-import com.negk01.mentalmath.ui.theme.TextSecondary
+import com.negk01.mentalmath.ui.theme.SuccessText
 
 @Composable
 fun RoundDetailItem(
@@ -33,7 +31,7 @@ fun RoundDetailItem(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(10.dp))
-            .background(SurfaceMuted)
+            .background(MaterialTheme.colorScheme.surfaceVariant)
             .padding(horizontal = 12.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -41,7 +39,7 @@ fun RoundDetailItem(
             text = item.expression,
             modifier = Modifier.weight(1f),
             fontSize = 18.sp,
-            color = TextPrimary
+            color = MaterialTheme.colorScheme.onSurface
         )
 
         Spacer(modifier = Modifier.size(8.dp))
@@ -49,7 +47,7 @@ fun RoundDetailItem(
         Icon(
             imageVector = if (item.isCorrect) Icons.Default.Check else Icons.Default.Close,
             contentDescription = null,
-            tint = if (item.isCorrect) EasyText else Danger
+            tint = if (item.isCorrect) SuccessText else Danger
         )
 
         Spacer(modifier = Modifier.size(6.dp))
@@ -57,7 +55,7 @@ fun RoundDetailItem(
         Text(
             text = item.time,
             fontSize = 16.sp,
-            color = TextSecondary
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }

@@ -1,6 +1,8 @@
 package com.negk01.mentalmath.navigation
 
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
@@ -25,7 +27,8 @@ import com.negk01.mentalmath.ui.screens.game.GameScreen
 import com.negk01.mentalmath.ui.screens.history.HistoryScreen
 import com.negk01.mentalmath.ui.screens.home.HomeScreen
 import com.negk01.mentalmath.ui.screens.results.ResultsScreen
-import com.negk01.mentalmath.ui.utils.mapDifficultyLabelToDomain
+import com.negk01.mentalmath.ui.theme.MentalMathTheme
+import com.negk01.mentalmath.ui.utils.toLocaleListCompat
 
 @Composable
 fun AppNavigation() {
@@ -61,61 +64,65 @@ fun AppNavigation() {
 
     val configUiState by configViewModel.uiState.collectAsState()
 
-    NavHost(
-        navController = navController,
-        startDestination = Routes.HOME
-    ) {
-        composable(Routes.HOME) {
-            HomeScreen(
-                navController = navController,
-                currentRoute = currentRoute,
-                viewModel = homeViewModel,
-                onStartGame = {
-                    val selectedDifficulty =
-                        mapDifficultyLabelToDomain(configUiState.selectedDifficulty)
+    LaunchedEffect(configUiState.languagePreference) {
+        AppCompatDelegate.setApplicationLocales(
+            configUiState.languagePreference.toLocaleListCompat()
+        )
+    }
 
-                    gameViewModel.startGame(selectedDifficulty)
-
-                    navController.navigate(Routes.GAME)
-                }
-            )
-        }
-
-        composable(Routes.HISTORY) {
-            HistoryScreen(
-                navController = navController,
-                currentRoute = currentRoute,
-                viewModel = historyViewModel
-            )
-        }
-
-        composable(Routes.CONFIG) {
-            ConfigScreen(
-                navController = navController,
-                currentRoute = currentRoute,
-                viewModel = configViewModel
-            )
-        }
-
-        composable(Routes.GAME) {
-            GameScreen(
-                navController = navController,
-                viewModel = gameViewModel
-            )
-        }
-
-        composable(Routes.RESULTS) {
-            ResultsScreen(
-                navController = navController,
-                currentRoute = currentRoute,
-                sessionResult = gameViewModel.sessionResult,
-                onPlayAgain = {
-                    gameViewModel.restartGame()
-                    navController.navigate(Routes.GAME) {
-                        popUpTo(Routes.RESULTS) { inclusive = true }
+    MentalMathTheme(themePreference = configUiState.themePreference) {
+        NavHost(
+            navController = navController,
+            startDestination = Routes.HOME
+        ) {
+            composable(Routes.HOME) {
+                HomeScreen(
+                    navController = navController,
+                    currentRoute = currentRoute,
+                    viewModel = homeViewModel,
+                    onStartGame = {
+                        gameViewModel.startGame(configUiState.selectedDifficulty)
+                        navController.navigate(Routes.GAME)
                     }
-                }
-            )
+                )
+            }
+
+            composable(Routes.HISTORY) {
+                HistoryScreen(
+                    navController = navController,
+                    currentRoute = currentRoute,
+                    viewModel = historyViewModel
+                )
+            }
+
+            composable(Routes.CONFIG) {
+                ConfigScreen(
+                    navController = navController,
+                    currentRoute = currentRoute,
+                    viewModel = configViewModel
+                )
+            }
+
+            composable(Routes.GAME) {
+                GameScreen(
+                    navController = navController,
+                    viewModel = gameViewModel
+                )
+            }
+
+            composable(Routes.RESULTS) {
+                ResultsScreen(
+                    navController = navController,
+                    currentRoute = currentRoute,
+                    sessionResult = gameViewModel.sessionResult,
+                    onPlayAgain = {
+                        gameViewModel.restartGame()
+                        navController.navigate(Routes.GAME) {
+                            popUpTo(Routes.RESULTS) { inclusive = true }
+                        }
+                    }
+                )
+            }
         }
     }
 }

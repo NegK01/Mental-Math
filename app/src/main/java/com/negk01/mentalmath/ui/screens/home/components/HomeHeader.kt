@@ -1,40 +1,56 @@
 package com.negk01.mentalmath.ui.screens.home.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.LocalFireDepartment
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import com.negk01.mentalmath.R
+import com.negk01.mentalmath.ui.theme.Warning
 
 @Composable
 fun HomeHeader(
-    title: String,
-    subtitle: String
+    dailyStreak: Int
 ) {
-    Column(
+    Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            text = title,
-            fontSize = 24.sp,
+            text = stringResource(R.string.home_title),
+            fontSize = 30.sp,
             fontWeight = FontWeight.Bold,
-            color = Color(0xFF5A4FF3)
+            color = MaterialTheme.colorScheme.onSurface
         )
 
-        Spacer(modifier = Modifier.height(6.dp))
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Icon(
+                imageVector = Icons.Default.LocalFireDepartment,
+                contentDescription = stringResource(R.string.home_daily_streak_title),
+                tint = Warning,
+                modifier = Modifier.size(28.dp)
+            )
 
-        Text(
-            text = subtitle,
-            fontSize = 14.sp,
-            color = Color(0xFF6B7280)
-        )
+            Text(
+                text = stringResource(R.string.home_daily_streak_value, dailyStreak),
+                fontSize = 16.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
     }
 }
