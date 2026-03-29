@@ -1,10 +1,15 @@
 package com.negk01.mentalmath.navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
@@ -30,6 +35,7 @@ import com.negk01.mentalmath.ui.screens.results.ResultsScreen
 import com.negk01.mentalmath.ui.theme.MentalMathTheme
 import com.negk01.mentalmath.ui.utils.toLocaleListCompat
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AppNavigation() {
     val context = LocalContext.current
@@ -38,10 +44,17 @@ fun AppNavigation() {
     val navBackStackEntry = navController.currentBackStackEntryAsState().value
     val currentRoute = navBackStackEntry?.destination?.route
 
-    val database = DatabaseProvider.getDatabase(context)
+    val database = remember(context) {
+        DatabaseProvider.getDatabase(context)
+    }
 
-    val settingsRepository = SettingsRepositoryImpl(database.settingsDao())
-    val gameRecordRepository = GameRecordRepositoryImpl(database.gameRecordDao())
+    val settingsRepository = remember(database) {
+        SettingsRepositoryImpl(database.settingsDao())
+    }
+
+    val gameRecordRepository = remember(database) {
+        GameRecordRepositoryImpl(database.gameRecordDao())
+    }
 
     val configViewModel: ConfigViewModel = viewModel(
         factory = ConfigViewModelFactory(
@@ -73,7 +86,9 @@ fun AppNavigation() {
     MentalMathTheme(themePreference = configUiState.themePreference) {
         NavHost(
             navController = navController,
-            startDestination = Routes.HOME
+            startDestination = Routes.HOME,
+            enterTransition = { EnterTransition.None },
+            exitTransition = { ExitTransition.None }
         ) {
             composable(Routes.HOME) {
                 HomeScreen(

@@ -26,7 +26,7 @@ fun BottomNavBar(
     ) {
         NavigationBarItem(
             selected = currentRoute == Routes.HOME,
-            onClick = { navController.navigateSingleTopTo(Routes.HOME) },
+            onClick = { navController.navigateSingleTopTo(Routes.HOME, currentRoute) },
             icon = {
                 Icon(
                     imageVector = Icons.Default.Home,
@@ -39,7 +39,7 @@ fun BottomNavBar(
 
         NavigationBarItem(
             selected = currentRoute == Routes.HISTORY,
-            onClick = { navController.navigateSingleTopTo(Routes.HISTORY) },
+            onClick = { navController.navigateSingleTopTo(Routes.HISTORY, currentRoute) },
             icon = {
                 Icon(
                     imageVector = Icons.Default.History,
@@ -52,7 +52,7 @@ fun BottomNavBar(
 
         NavigationBarItem(
             selected = currentRoute == Routes.CONFIG,
-            onClick = { navController.navigateSingleTopTo(Routes.CONFIG) },
+            onClick = { navController.navigateSingleTopTo(Routes.CONFIG, currentRoute) },
             icon = {
                 Icon(
                     imageVector = Icons.Default.Settings,
@@ -65,7 +65,9 @@ fun BottomNavBar(
     }
 }
 
-private fun NavController.navigateSingleTopTo(route: String) {
+private fun NavController.navigateSingleTopTo(route: String, currentRoute: String?) {
+    if (currentRoute == route) return
+
     navigate(route) {
         launchSingleTop = true
         restoreState = true

@@ -76,14 +76,14 @@ fun ConfigScreen(
                     )
                 }
 
-                item {
-                    OptionSwitch(
-                        title = stringResource(R.string.config_sound_title),
-                        description = stringResource(R.string.config_sound_description),
-                        checked = uiState.soundEnabled,
-                        onCheckedChange = viewModel::onSoundEnabledChanged
-                    )
-                }
+//                item {
+//                    OptionSwitch(
+//                        title = stringResource(R.string.config_sound_title),
+//                        description = stringResource(R.string.config_sound_description),
+//                        checked = uiState.soundEnabled,
+//                        onCheckedChange = viewModel::onSoundEnabledChanged
+//                    )
+//                }
 
                 item {
                     ThemePreferenceSelector(

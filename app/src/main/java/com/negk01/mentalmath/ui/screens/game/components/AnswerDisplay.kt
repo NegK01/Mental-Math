@@ -41,7 +41,7 @@ fun AnswerDisplay(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .heightIn(min = 72.dp),
+                    .heightIn(min = 42.dp),
                 contentAlignment = Alignment.CenterStart
             ) {
                 Text(

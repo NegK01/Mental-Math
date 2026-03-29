@@ -98,7 +98,7 @@ private fun KeyButton(
 ) {
     Button(
         onClick = onClick,
-        modifier = modifier.heightIn(min = 58.dp),
+        modifier = modifier.heightIn(min = 64.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant,
             contentColor = MaterialTheme.colorScheme.onSurface
@@ -122,7 +122,7 @@ private fun ActionButton(
 ) {
     Button(
         onClick = onClick,
-        modifier = modifier.heightIn(min = 58.dp),
+        modifier = modifier.heightIn(min = 64.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = containerColor,
             contentColor = contentColor
@@ -145,7 +145,7 @@ private fun SubmitButton(
     Button(
         onClick = onClick,
         enabled = isEnabled,
-        modifier = modifier.heightIn(min = 58.dp),
+        modifier = modifier.heightIn(min = 64.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = MaterialTheme.colorScheme.onPrimary,

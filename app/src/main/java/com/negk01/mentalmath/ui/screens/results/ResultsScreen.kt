@@ -33,7 +33,11 @@ fun ResultsScreen(
 ) {
     val roundDetails = sessionResult?.roundResults?.map { round ->
         RoundDetail(
-            expression = stringResource(R.string.results_round_expression, round.question, round.userAnswer),
+            expression = stringResource(
+                R.string.results_round_expression,
+                round.question,
+                round.userAnswer
+            ),
             userAnswer = round.userAnswer.toString(),
             isCorrect = round.isCorrect,
             time = stringResource(R.string.common_seconds_int, round.timeSpentSeconds)
@@ -72,6 +76,7 @@ fun ResultsScreen(
                 )
 
                 RoundDetailsCard(
+                    modifier = Modifier.weight(1f),
                     items = roundDetails
                 )
 

@@ -55,13 +55,13 @@ fun HistorySummaryCard(
                     modifier = Modifier.weight(1f),
                     label = stringResource(R.string.history_total_games),
                     value = totalGames.toString(),
-                    valueColor = MaterialTheme.colorScheme.primary
+                    valueColor = MaterialTheme.colorScheme.onSurface
                 )
                 MetricCard(
                     modifier = Modifier.weight(1f),
                     label = stringResource(R.string.history_average_accuracy),
                     value = stringResource(R.string.history_accuracy_value, averageAccuracy),
-                    valueColor = MaterialTheme.colorScheme.tertiary
+                    valueColor = MaterialTheme.colorScheme.onSurface
                 )
             }
 
@@ -69,7 +69,7 @@ fun HistorySummaryCard(
                 modifier = Modifier.fillMaxWidth(),
                 label = stringResource(R.string.history_average_time),
                 value = stringResource(R.string.history_time_value, averageTime),
-                valueColor = MaterialTheme.colorScheme.secondary
+                valueColor = MaterialTheme.colorScheme.onSurface
             )
         }
     }

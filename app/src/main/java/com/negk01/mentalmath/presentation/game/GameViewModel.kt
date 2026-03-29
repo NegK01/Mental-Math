@@ -72,11 +72,21 @@ class GameViewModel(
     }
 
     fun onDigitPressed(digit: String) {
-        if (_uiState.value.isPaused || _uiState.value.isFinished) return
+        val state = _uiState.value
 
-        _uiState.update { currentState ->
-            currentState.copy(
-                answerInput = currentState.answerInput + digit
+        if (state.isPaused || state.isFinished) return
+
+        if (state.answerInput.length >= 5) return
+
+        val newInput = if (state.answerInput == "0") {
+            digit
+        } else {
+            state.answerInput + digit
+        }
+
+        _uiState.update {
+            it.copy(
+                answerInput = newInput
             )
         }
     }

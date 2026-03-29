@@ -68,7 +68,7 @@ fun GameScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(innerPadding)
-                    .padding(horizontal = 16.dp, vertical = 12.dp),
+                    .padding(16.dp, 8.dp, 16.dp, 12.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Column(
