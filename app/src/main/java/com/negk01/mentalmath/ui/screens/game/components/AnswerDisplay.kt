@@ -26,22 +26,24 @@ fun AnswerDisplay(
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        ),
         elevation = CardDefaults.cardElevation(defaultElevation = 3.dp)
     ) {
         Column(
-            modifier = Modifier.padding(horizontal = 18.dp, vertical = 16.dp)
+            modifier = Modifier.padding(horizontal = 18.dp, vertical = 14.dp)
         ) {
             Text(
                 text = stringResource(R.string.game_answer_title),
-                style = MaterialTheme.typography.labelLarge,
+                style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
 
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .heightIn(min = 42.dp),
+                    .heightIn(min = 38.dp),
                 contentAlignment = Alignment.CenterStart
             ) {
                 Text(
@@ -50,10 +52,10 @@ fun AnswerDisplay(
                     } else {
                         value
                     },
-                    fontSize = if (value.isBlank()) 24.sp else 30.sp,
-                    fontWeight = if (value.isBlank()) FontWeight.SemiBold else FontWeight.Bold,
+                    fontSize = if (value.isBlank()) 22.sp else 28.sp,
+                    fontWeight = if (value.isBlank()) FontWeight.Normal else FontWeight.Bold,
                     color = if (value.isBlank()) {
-                        MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.82f)
+                        MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.45f)
                     } else {
                         MaterialTheme.colorScheme.onSurface
                     }
