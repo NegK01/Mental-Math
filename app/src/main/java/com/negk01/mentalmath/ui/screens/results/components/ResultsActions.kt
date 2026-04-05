@@ -13,13 +13,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.negk01.mentalmath.R
 
+// Único cambio respecto al original: se añade el parámetro modifier
+// para que ResultsScreen pueda aplicarle padding desde afuera.
 @Composable
 fun ResultsActions(
+    modifier: Modifier = Modifier,
     onGoHome: () -> Unit,
     onPlayAgain: () -> Unit
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         OutlinedButton(

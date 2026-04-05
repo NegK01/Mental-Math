@@ -16,8 +16,16 @@ interface GameRecordDao {
     @Query("SELECT * FROM game_records ORDER BY playedAt DESC LIMIT 3")
     fun getLastThreeRecords(): Flow<List<GameRecordEntity>>
 
+    // Usado exclusivamente para calcular métricas globales en HistoryViewModel.
+    // Nunca se usa para renderizar la lista visible — eso va por getRecordsPaged.
     @Query("SELECT * FROM game_records ORDER BY playedAt DESC")
     fun getAllRecords(): Flow<List<GameRecordEntity>>
+
+    // Paginación manual — LIMIT controla el tamaño de página, OFFSET la posición.
+    // suspend (no Flow) porque la carga es imperativa: el ViewModel la llama
+    // explícitamente en loadMore(), no reactivamente.
+    @Query("SELECT * FROM game_records ORDER BY playedAt DESC LIMIT :limit OFFSET :offset")
+    suspend fun getRecordsPaged(limit: Int, offset: Int): List<GameRecordEntity>
 
     @Query("DELETE FROM game_records")
     suspend fun clearAll()

@@ -1,17 +1,25 @@
 package com.negk01.mentalmath.ui.screens.history
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -21,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.negk01.mentalmath.R
+import com.negk01.mentalmath.navigation.Routes
 import com.negk01.mentalmath.presentation.history.HistoryViewModel
 import com.negk01.mentalmath.ui.components.BottomNavBar
 import com.negk01.mentalmath.ui.screens.history.components.HistorySummaryCard
@@ -30,16 +39,29 @@ import com.negk01.mentalmath.ui.screens.home.components.RecentScoreItem
 fun HistoryScreen(
     navController: NavController,
     currentRoute: String?,
-    viewModel: HistoryViewModel
+    viewModel: HistoryViewModel,
+    onReselected: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val shouldScrollToTop by viewModel.shouldScrollToTop.collectAsState()
+    val listState = rememberLazyListState()
+
+    LaunchedEffect(shouldScrollToTop) {
+        if (shouldScrollToTop) {
+            listState.animateScrollToItem(0)
+            viewModel.consumeScrollToTop()
+        }
+    }
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         bottomBar = {
             BottomNavBar(
                 navController = navController,
-                currentRoute = currentRoute
+                currentRoute = currentRoute,
+                onReselect = { route ->
+                    if (route == Routes.HISTORY) onReselected()
+                }
             )
         }
     ) { innerPadding ->
@@ -48,12 +70,13 @@ fun HistoryScreen(
             color = MaterialTheme.colorScheme.background
         ) {
             LazyColumn(
+                state = listState,
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(innerPadding)
                     .statusBarsPadding(),
                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 item {
                     HistorySummaryCard(
@@ -72,7 +95,7 @@ fun HistoryScreen(
                     )
                 }
 
-                if (uiState.records.isEmpty()) {
+                if (uiState.displayRecords.isEmpty() && !uiState.isLoadingMore) {
                     item {
                         Text(
                             text = stringResource(R.string.history_empty),
@@ -80,9 +103,46 @@ fun HistoryScreen(
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
-                } else {
-                    items(uiState.records) { record ->
-                        RecentScoreItem(record = record)
+                }
+
+                itemsIndexed(
+                    items = uiState.displayRecords,
+                    key = { _, record -> record.playedAt }
+                ) { index, record ->
+                    Box(modifier = Modifier.animateItem()) {
+                        Column {
+                            RecentScoreItem(record = record)
+                            if ((index + 1) % 5 == 0 && index < uiState.displayRecords.lastIndex) {
+                                HorizontalDivider(
+                                    modifier = Modifier.padding(top = 12.dp),
+                                    color = MaterialTheme.colorScheme.surfaceVariant,
+                                    thickness = 3.dp
+                                )
+                            }
+                        }
+                    }
+                }
+
+                if (uiState.isLoadingMore) {
+                    item {
+                        LinearProgressIndicator(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp),
+                            color = MaterialTheme.colorScheme.primary,
+                            trackColor = MaterialTheme.colorScheme.surfaceVariant
+                        )
+                    }
+                }
+
+                if (uiState.hasMore && uiState.totalGames > 5 && !uiState.isLoadingMore) {
+                    item {
+                        OutlinedButton(
+                            onClick = viewModel::loadMore,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text(stringResource(R.string.history_load_more))
+                        }
                     }
                 }
             }

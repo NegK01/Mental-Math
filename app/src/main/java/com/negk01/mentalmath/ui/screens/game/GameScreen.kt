@@ -16,7 +16,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalView
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
@@ -36,7 +35,11 @@ import com.negk01.mentalmath.ui.screens.game.components.PauseDialog
 @Composable
 fun GameScreen(
     navController: NavController,
-    viewModel: GameViewModel = viewModel()
+    viewModel: GameViewModel = viewModel(),
+    // Callback invocado cuando el usuario abandona sin guardar resultado.
+    // Lo provee AppNavigation — GameScreen no sabe qué hace con él.
+    // Default vacío para mantener compatibilidad con previews.
+    onGameAbandoned: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -48,21 +51,19 @@ fun GameScreen(
         }
     }
 
-    val view = LocalView.current
-    DisposableEffect(Unit) {
-        val window = (view.context as Activity).window
-        val controller = WindowCompat.getInsetsController(window, view)
-
-        // Oculta nav bar — swipe desde abajo la muestra temporalmente
-        controller.hide(WindowInsetsCompat.Type.navigationBars())
-        controller.systemBarsBehavior =
-            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-
-        // Al salir de GameScreen, restaura la nav bar para el resto de la app
-        onDispose {
-            controller.show(WindowInsetsCompat.Type.navigationBars())
-        }
-    }
+//    val view = LocalView.current
+//    DisposableEffect(Unit) {
+//        val window = (view.context as Activity).window
+//        val controller = WindowCompat.getInsetsController(window, view)
+//
+//        controller.hide(WindowInsetsCompat.Type.navigationBars())
+//        controller.systemBarsBehavior =
+//            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+//
+//        onDispose {
+//            controller.show(WindowInsetsCompat.Type.navigationBars())
+//        }
+//    }
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
@@ -74,6 +75,9 @@ fun GameScreen(
                     if (shouldShowResults) {
                         navController.navigate(Routes.RESULTS)
                     } else {
+                        // Juego abandonado sin resultado — notificar para que
+                        // History resetee su vista al top.
+                        onGameAbandoned()
                         navController.popBackStack()
                     }
                 }
@@ -86,14 +90,8 @@ fun GameScreen(
                 .padding(innerPadding)
                 .padding(horizontal = 16.dp)
         ) {
-            // ── Valores adaptativos derivados de la altura disponible ──────────
-            // buttonHeight: 8.5% de la pantalla, entre 44dp (mínimo legible) y 66dp (máximo cómodo)
             val buttonHeight = (maxHeight * 0.085f).coerceIn(44.dp, 66.dp)
-
-            // questionFontSize: 4.8% de la altura, entre 26sp y 42sp
             val questionFontSize = (maxHeight.value * 0.048f).coerceIn(26f, 42f).sp
-
-            // Espaciado vertical entre secciones: 1.5% de la pantalla, entre 6dp y 14dp
             val sectionSpacing = (maxHeight * 0.015f).coerceIn(6.dp, 14.dp)
 
             Column(
@@ -101,33 +99,27 @@ fun GameScreen(
                     .fillMaxSize()
                     .padding(bottom = 12.dp)
             ) {
-                // ── Sección de progreso (flat, sin Card) ──────────────────────
                 GameProgressCard(
                     currentRound = uiState.currentRound,
                     totalRounds = uiState.totalRounds,
                     timeLeftSeconds = uiState.timeLeftSeconds
                 )
 
-                // Espacio flexible superior — empuja el contenido hacia el centro
                 Spacer(modifier = Modifier.weight(1f))
 
-                // ── Pregunta matemática ───────────────────────────────────────
                 MathQuestionCard(
                     questionText = uiState.questionText,
                     questionFontSize = questionFontSize
                 )
 
-                // Espacio flexible entre pregunta y respuesta (60% del superior)
                 Spacer(modifier = Modifier.weight(1f))
 
-                // ── Display de respuesta ──────────────────────────────────────
                 AnswerDisplay(
                     value = uiState.answerInput
                 )
 
                 Spacer(modifier = Modifier.height(sectionSpacing))
 
-                // ── Teclado numérico ──────────────────────────────────────────
                 NumberPad(
                     onDigitClick = viewModel::onDigitPressed,
                     onClearClick = viewModel::onClearDigit,
@@ -137,7 +129,6 @@ fun GameScreen(
                 )
             }
 
-            // ── Diálogo de pausa (overlay) ────────────────────────────────────
             if (uiState.isPaused) {
                 PauseDialog(onResume = viewModel::resumeGame)
             }

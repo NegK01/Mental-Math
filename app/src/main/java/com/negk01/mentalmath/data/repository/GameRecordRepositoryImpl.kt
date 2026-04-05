@@ -28,6 +28,10 @@ class GameRecordRepositoryImpl(
         }
     }
 
+    override suspend fun getRecordsPaged(limit: Int, offset: Int): List<GameRecord> {
+        return gameRecordDao.getRecordsPaged(limit, offset).map { it.toDomain() }
+    }
+
     override suspend fun clearAll() {
         gameRecordDao.clearAll()
     }

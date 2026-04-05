@@ -44,33 +44,19 @@ fun AppNavigation() {
     val navBackStackEntry = navController.currentBackStackEntryAsState().value
     val currentRoute = navBackStackEntry?.destination?.route
 
-    val database = remember(context) {
-        DatabaseProvider.getDatabase(context)
-    }
-
-    val settingsRepository = remember(database) {
-        SettingsRepositoryImpl(database.settingsDao())
-    }
-
-    val gameRecordRepository = remember(database) {
-        GameRecordRepositoryImpl(database.gameRecordDao())
-    }
+    val database = remember(context) { DatabaseProvider.getDatabase(context) }
+    val settingsRepository = remember(database) { SettingsRepositoryImpl(database.settingsDao()) }
+    val gameRecordRepository = remember(database) { GameRecordRepositoryImpl(database.gameRecordDao()) }
 
     val configViewModel: ConfigViewModel = viewModel(
-        factory = ConfigViewModelFactory(
-            settingsRepository = settingsRepository,
-            gameRecordRepository = gameRecordRepository
-        )
+        factory = ConfigViewModelFactory(settingsRepository, gameRecordRepository)
     )
-
     val homeViewModel: HomeViewModel = viewModel(
         factory = HomeViewModelFactory(gameRecordRepository)
     )
-
     val historyViewModel: HistoryViewModel = viewModel(
         factory = HistoryViewModelFactory(gameRecordRepository)
     )
-
     val gameViewModel: GameViewModel = viewModel(
         factory = GameViewModelFactory(gameRecordRepository)
     )
@@ -106,7 +92,8 @@ fun AppNavigation() {
                 HistoryScreen(
                     navController = navController,
                     currentRoute = currentRoute,
-                    viewModel = historyViewModel
+                    viewModel = historyViewModel,
+                    onReselected = { historyViewModel.onTabReselected() }
                 )
             }
 
