@@ -36,9 +36,6 @@ import com.negk01.mentalmath.ui.screens.game.components.PauseDialog
 fun GameScreen(
     navController: NavController,
     viewModel: GameViewModel = viewModel(),
-    // Callback invocado cuando el usuario abandona sin guardar resultado.
-    // Lo provee AppNavigation — GameScreen no sabe qué hace con él.
-    // Default vacío para mantener compatibilidad con previews.
     onGameAbandoned: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -55,11 +52,9 @@ fun GameScreen(
 //    DisposableEffect(Unit) {
 //        val window = (view.context as Activity).window
 //        val controller = WindowCompat.getInsetsController(window, view)
-//
 //        controller.hide(WindowInsetsCompat.Type.navigationBars())
 //        controller.systemBarsBehavior =
 //            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-//
 //        onDispose {
 //            controller.show(WindowInsetsCompat.Type.navigationBars())
 //        }
@@ -75,8 +70,6 @@ fun GameScreen(
                     if (shouldShowResults) {
                         navController.navigate(Routes.RESULTS)
                     } else {
-                        // Juego abandonado sin resultado — notificar para que
-                        // History resetee su vista al top.
                         onGameAbandoned()
                         navController.popBackStack()
                     }
@@ -114,8 +107,10 @@ fun GameScreen(
 
                 Spacer(modifier = Modifier.weight(1f))
 
+                // lastAnswerCorrect viene de GameUiState — activa el flash de color
                 AnswerDisplay(
-                    value = uiState.answerInput
+                    value = uiState.answerInput,
+                    lastAnswerCorrect = uiState.lastAnswerCorrect
                 )
 
                 Spacer(modifier = Modifier.height(sectionSpacing))
@@ -124,7 +119,7 @@ fun GameScreen(
                     onDigitClick = viewModel::onDigitPressed,
                     onClearClick = viewModel::onClearDigit,
                     onSubmitClick = viewModel::onSubmitAnswer,
-                    isSubmitEnabled = uiState.answerInput.isNotBlank(),
+                    isSubmitEnabled = uiState.answerInput.isNotBlank() && !uiState.isInputLocked,
                     buttonHeight = buttonHeight
                 )
             }

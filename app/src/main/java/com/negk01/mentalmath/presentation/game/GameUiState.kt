@@ -10,5 +10,7 @@ data class GameUiState(
     val questionText: String = "",
     val answerInput: String = "",
     val isPaused: Boolean = false,
-    val isFinished: Boolean = false
+    val isFinished: Boolean = false,
+    val lastAnswerCorrect: Boolean? = null,
+    val isInputLocked: Boolean = false
 )

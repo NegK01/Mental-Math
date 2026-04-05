@@ -1,17 +1,3 @@
-
-//
-//                SubmitButton(
-//                    modifier = Modifier.weight(1f),
-//                    isEnabled = isSubmitEnabled,
-//                    onClick = onSubmitClick
-//                )
-//            }
-//        }
-//    }
-//}
-
-//
-
 package com.negk01.mentalmath.ui.screens.game.components
 
 import androidx.compose.animation.core.Spring
@@ -39,8 +25,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
@@ -48,8 +32,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.negk01.mentalmath.R
 
-// buttonHeight viene de BoxWithConstraints en GameScreen — adaptativo por pantalla.
-// Default de 64.dp para previews y usos standalone.
 @Composable
 fun NumberPad(
     onDigitClick: (String) -> Unit,
@@ -58,51 +40,27 @@ fun NumberPad(
     isSubmitEnabled: Boolean,
     buttonHeight: Dp = 64.dp
 ) {
-    // Espaciado entre botones: proporcional a la altura del botón para mantener densidad visual
     val buttonSpacing = if (buttonHeight <= 50.dp) 8.dp else 10.dp
-
-    // fontSize proporcional al botón — legible en todos los tamaños
     val digitFontSize = if (buttonHeight <= 50.dp) 18.sp else 22.sp
     val actionFontSize = if (buttonHeight <= 50.dp) 16.sp else 20.sp
 
     Card(
         modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        ),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column(
             modifier = Modifier.padding(12.dp),
             verticalArrangement = Arrangement.spacedBy(buttonSpacing)
         ) {
-            NumberPadRow(
-                digits = listOf("1", "2", "3"),
-                onDigitClick = onDigitClick,
-                buttonHeight = buttonHeight,
-                fontSize = digitFontSize,
-                spacing = buttonSpacing
-            )
-            NumberPadRow(
-                digits = listOf("4", "5", "6"),
-                onDigitClick = onDigitClick,
-                buttonHeight = buttonHeight,
-                fontSize = digitFontSize,
-                spacing = buttonSpacing
-            )
-            NumberPadRow(
-                digits = listOf("7", "8", "9"),
-                onDigitClick = onDigitClick,
-                buttonHeight = buttonHeight,
-                fontSize = digitFontSize,
-                spacing = buttonSpacing
-            )
+            NumberPadRow(listOf("1", "2", "3"), onDigitClick, buttonHeight, digitFontSize, buttonSpacing)
+            NumberPadRow(listOf("4", "5", "6"), onDigitClick, buttonHeight, digitFontSize, buttonSpacing)
+            NumberPadRow(listOf("7", "8", "9"), onDigitClick, buttonHeight, digitFontSize, buttonSpacing)
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(buttonSpacing)
             ) {
-                // C — prominente en rojo, jerarquía visual clara
                 ActionButton(
                     modifier = Modifier.weight(1f),
                     text = stringResource(R.string.game_clear_short),
@@ -112,7 +70,6 @@ fun NumberPad(
                     fontSize = actionFontSize,
                     onClick = onClearClick
                 )
-
                 KeyButton(
                     text = "0",
                     modifier = Modifier.weight(1f),
@@ -120,10 +77,6 @@ fun NumberPad(
                     fontSize = digitFontSize,
                     onClick = { onDigitClick("0") }
                 )
-
-                // ✓ — mismo estilo neutro que los números.
-                // El rojo del C ya establece la jerarquía de "peligro/acción destructiva",
-                // por lo que el ✓ no necesita primary color para diferenciarse.
                 SubmitButton(
                     modifier = Modifier.weight(1f),
                     isEnabled = isSubmitEnabled,
@@ -167,39 +120,25 @@ private fun KeyButton(
     fontSize: androidx.compose.ui.unit.TextUnit,
     onClick: () -> Unit
 ) {
-    val haptic = LocalHapticFeedback.current
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
 
-    // Scale spring: comprime al presionar, rebota al soltar — feedback táctil visual
     val scale by animateFloatAsState(
         targetValue = if (isPressed) 0.93f else 1f,
-        animationSpec = spring(
-            dampingRatio = Spring.DampingRatioMediumBouncy,
-            stiffness = Spring.StiffnessHigh
-        ),
+        animationSpec = spring(dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessHigh),
         label = "keyScale"
     )
 
     Button(
-        onClick = {
-            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-            onClick()
-        },
-        modifier = modifier
-            .height(buttonHeight)
-            .graphicsLayer { scaleX = scale; scaleY = scale },
+        onClick = onClick,
+        modifier = modifier.height(buttonHeight).graphicsLayer { scaleX = scale; scaleY = scale },
         interactionSource = interactionSource,
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant,
             contentColor = MaterialTheme.colorScheme.onSurface
         )
     ) {
-        Text(
-            text = text,
-            fontSize = fontSize,
-            fontWeight = FontWeight.Bold
-        )
+        Text(text = text, fontSize = fontSize, fontWeight = FontWeight.Bold)
     }
 }
 
@@ -213,38 +152,22 @@ private fun ActionButton(
     fontSize: androidx.compose.ui.unit.TextUnit,
     onClick: () -> Unit
 ) {
-    val haptic = LocalHapticFeedback.current
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
 
     val scale by animateFloatAsState(
         targetValue = if (isPressed) 0.93f else 1f,
-        animationSpec = spring(
-            dampingRatio = Spring.DampingRatioMediumBouncy,
-            stiffness = Spring.StiffnessHigh
-        ),
+        animationSpec = spring(dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessHigh),
         label = "actionScale"
     )
 
     Button(
-        onClick = {
-            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-            onClick()
-        },
-        modifier = modifier
-            .height(buttonHeight)
-            .graphicsLayer { scaleX = scale; scaleY = scale },
+        onClick = onClick,
+        modifier = modifier.height(buttonHeight).graphicsLayer { scaleX = scale; scaleY = scale },
         interactionSource = interactionSource,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = containerColor,
-            contentColor = contentColor
-        )
+        colors = ButtonDefaults.buttonColors(containerColor = containerColor, contentColor = contentColor)
     ) {
-        Text(
-            text = text,
-            fontSize = fontSize,
-            fontWeight = FontWeight.Bold
-        )
+        Text(text = text, fontSize = fontSize, fontWeight = FontWeight.Bold)
     }
 }
 
@@ -255,28 +178,19 @@ private fun SubmitButton(
     buttonHeight: Dp,
     onClick: () -> Unit
 ) {
-    val haptic = LocalHapticFeedback.current
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
 
     val scale by animateFloatAsState(
         targetValue = if (isPressed) 0.93f else 1f,
-        animationSpec = spring(
-            dampingRatio = Spring.DampingRatioMediumBouncy,
-            stiffness = Spring.StiffnessHigh
-        ),
+        animationSpec = spring(dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessHigh),
         label = "submitScale"
     )
 
     Button(
-        onClick = {
-            if (isEnabled) haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-            onClick()
-        },
+        onClick = onClick,
         enabled = isEnabled,
-        modifier = modifier
-            .height(buttonHeight)
-            .graphicsLayer { scaleX = scale; scaleY = scale },
+        modifier = modifier.height(buttonHeight).graphicsLayer { scaleX = scale; scaleY = scale },
         interactionSource = interactionSource,
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.primary,
@@ -285,9 +199,6 @@ private fun SubmitButton(
             disabledContentColor = MaterialTheme.colorScheme.onSurfaceVariant
         )
     ) {
-        Icon(
-            imageVector = Icons.Default.Check,
-            contentDescription = stringResource(R.string.game_submit_answer)
-        )
+        Icon(imageVector = Icons.Default.Check, contentDescription = stringResource(R.string.game_submit_answer))
     }
 }

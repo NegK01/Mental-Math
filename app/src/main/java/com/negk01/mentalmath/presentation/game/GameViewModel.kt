@@ -31,6 +31,7 @@ class GameViewModel(
     private var currentStreak = 0
 
     private var timerJob: Job? = null
+    private var flashJob: Job? = null
 
     private val _uiState = MutableStateFlow(GameUiState())
     val uiState: StateFlow<GameUiState> = _uiState.asStateFlow()
@@ -41,6 +42,7 @@ class GameViewModel(
 
     fun startGame(difficulty: Difficulty) {
         timerJob?.cancel()
+        flashJob?.cancel()
 
         val config = getGameConfig(difficulty)
         currentDifficulty = difficulty
@@ -68,11 +70,15 @@ class GameViewModel(
     }
 
     fun restartGame() {
+        flashJob?.cancel()
+
         startGame(currentDifficulty)
     }
 
     fun onDigitPressed(digit: String) {
         val state = _uiState.value
+
+        if (_uiState.value.isInputLocked) return
 
         if (state.isPaused || state.isFinished) return
 
@@ -94,6 +100,8 @@ class GameViewModel(
     fun onClearDigit() {
         if (_uiState.value.isPaused || _uiState.value.isFinished) return
 
+        if (_uiState.value.isInputLocked) return
+
         _uiState.update { currentState ->
             currentState.copy(
                 answerInput = currentState.answerInput.dropLast(1)
@@ -102,15 +110,52 @@ class GameViewModel(
     }
 
     fun onSubmitAnswer() {
-        if (_uiState.value.isPaused || _uiState.value.isFinished) return
-        if (_uiState.value.answerInput.isBlank()) return
+        val state = _uiState.value
+        if (state.isPaused || state.isFinished || state.isInputLocked) return
+        if (state.answerInput.isBlank()) return
 
-        resolveCurrentRound(userRanOutOfTime = false)
+        val question = currentQuestion ?: return
+
+        val answer = state.answerInput.toIntOrNull() ?: 0
+        val isCorrect = answer == question.correctAnswer
+
+        // 1. Activar flash
+        _uiState.update {
+            it.copy(
+                lastAnswerCorrect = isCorrect,
+                isInputLocked = true
+            )
+        }
+
+        flashJob?.cancel()
+        flashJob = viewModelScope.launch {
+            delay(300L)
+
+            if (_uiState.value.isPaused) return@launch
+
+            resolveCurrentRound(userRanOutOfTime = false)
+        }
     }
 
     private fun onTimeExpired() {
-        if (_uiState.value.isPaused || _uiState.value.isFinished) return
-        resolveCurrentRound(userRanOutOfTime = true)
+        val state = _uiState.value
+        val question = currentQuestion ?: return
+
+        val answer = state.answerInput.toIntOrNull() ?: 0
+        val isCorrect = answer == question.correctAnswer
+
+        _uiState.update {
+            it.copy(
+                lastAnswerCorrect = isCorrect,
+                isInputLocked = true
+            )
+        }
+
+        flashJob?.cancel()
+        flashJob = viewModelScope.launch {
+            delay(300L)
+            resolveCurrentRound(userRanOutOfTime = true)
+        }
     }
 
     private fun resolveCurrentRound(userRanOutOfTime: Boolean) {
@@ -169,7 +214,9 @@ class GameViewModel(
                 timeLeftSeconds = currentTimePerRound,
                 questionText = nextQuestion.expression,
                 answerInput = "",
-                isPaused = false
+                //isPaused = false, // no se despausa aqui, sino daba feedback gratis
+                lastAnswerCorrect = null,
+                isInputLocked = false
             )
         }
 
@@ -178,6 +225,7 @@ class GameViewModel(
 
     fun abandonGame(): Boolean {
         timerJob?.cancel()
+        flashJob?.cancel()
 
         if (roundResults.isEmpty()) return false
 
@@ -243,11 +291,16 @@ class GameViewModel(
 
     fun pauseGame() {
         if (_uiState.value.isFinished) return
+        if (_uiState.value.isInputLocked) return
 
         timerJob?.cancel()
 
         _uiState.update { currentState ->
-            currentState.copy(isPaused = true)
+            currentState.copy(
+                isPaused = true,
+                lastAnswerCorrect = null,
+                isInputLocked = false
+            )
         }
     }
 
@@ -291,5 +344,6 @@ class GameViewModel(
     override fun onCleared() {
         super.onCleared()
         timerJob?.cancel()
+        flashJob?.cancel()
     }
 }

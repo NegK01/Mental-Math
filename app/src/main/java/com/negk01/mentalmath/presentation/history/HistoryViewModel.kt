@@ -2,7 +2,6 @@ package com.negk01.mentalmath.presentation.history
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.negk01.mentalmath.domain.model.GameRecord
 import com.negk01.mentalmath.domain.repository.GameRecordRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -24,8 +23,6 @@ class HistoryViewModel(
     val shouldScrollToTop: StateFlow<Boolean> = _shouldScrollToTop.asStateFlow()
 
     private val pageSize = 5
-    private var currentOffset = 0
-    private val displayRecords = mutableListOf<GameRecord>()
 
     init {
         viewModelScope.launch { observeStats() }
@@ -33,7 +30,6 @@ class HistoryViewModel(
         viewModelScope.launch { loadPage() }
     }
 
-    // Métricas siempre sobre el total histórico completo
     private suspend fun observeStats() {
         gameRecordRepository.getAllRecords().collect { records ->
             _uiState.update { current ->
@@ -49,8 +45,7 @@ class HistoryViewModel(
         }
     }
 
-    // drop(1) salta la emisión inicial — solo reacciona a inserts reales.
-    // Sin lastKnownTotal ni comparaciones manuales de conteos.
+    // drop(1) salta la emisión inicial — solo reacciona a inserts reales
     private suspend fun observeNewRecords() {
         gameRecordRepository.getAllRecords()
             .map { it.size }
@@ -67,10 +62,16 @@ class HistoryViewModel(
         }
     }
 
-    // Llamado cuando el usuario toca el tab de History estando ya en History.
-    // Solo hace scroll al top — no resetea la lista paginada ni relanza queries.
+    // Toca el tab de History estando ya en él → solo scroll, sin resetear datos
     fun onTabReselected() {
         _shouldScrollToTop.value = true
+    }
+
+    // Llamado desde AppNavigation cuando el usuario abandona un juego sin guardar.
+    // En ese caso observeNewRecords() no dispara (totalGames no cambia),
+    // por lo que necesitamos reset explícito desde afuera.
+    fun resetToTop() {
+        resetDisplay()
     }
 
     fun consumeScrollToTop() {
@@ -78,23 +79,22 @@ class HistoryViewModel(
     }
 
     private fun resetDisplay() {
-        displayRecords.clear()
-        currentOffset = 0
+        _uiState.update { it.copy(displayRecords = emptyList(), hasMore = false, isLoadingMore = false) }
         _shouldScrollToTop.value = true
         viewModelScope.launch { loadPage() }
     }
 
     private suspend fun loadPage() {
+        val offset = _uiState.value.displayRecords.size
+
         val newRecords = gameRecordRepository.getRecordsPaged(
             limit = pageSize,
-            offset = currentOffset
+            offset = offset
         )
-        displayRecords.addAll(newRecords)
-        currentOffset += newRecords.size
 
         _uiState.update { current ->
             current.copy(
-                displayRecords = displayRecords.toList(),
+                displayRecords = current.displayRecords + newRecords,
                 hasMore = newRecords.size == pageSize,
                 isLoadingMore = false
             )

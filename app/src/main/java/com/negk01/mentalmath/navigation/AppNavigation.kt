@@ -108,7 +108,8 @@ fun AppNavigation() {
             composable(Routes.GAME) {
                 GameScreen(
                     navController = navController,
-                    viewModel = gameViewModel
+                    viewModel = gameViewModel,
+                    onGameAbandoned = { historyViewModel.resetToTop() }
                 )
             }
 
