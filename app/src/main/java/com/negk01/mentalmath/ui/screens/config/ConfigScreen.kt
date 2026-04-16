@@ -17,36 +17,23 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import com.negk01.mentalmath.R
 import com.negk01.mentalmath.presentation.config.ConfigViewModel
-import com.negk01.mentalmath.ui.components.BottomNavBar
 import com.negk01.mentalmath.ui.screens.config.components.DangerZone
 import com.negk01.mentalmath.ui.screens.config.components.DifficultySelector
 import com.negk01.mentalmath.ui.screens.config.components.LanguagePreferenceSelector
-import com.negk01.mentalmath.ui.screens.config.components.OptionSwitch
 import com.negk01.mentalmath.ui.screens.config.components.ThemePreferenceSelector
 
 @Composable
 fun ConfigScreen(
-    navController: NavController,
-    currentRoute: String?,
     viewModel: ConfigViewModel = viewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
     Scaffold(
-        containerColor = MaterialTheme.colorScheme.background,
-        bottomBar = {
-            BottomNavBar(
-                navController = navController,
-                currentRoute = currentRoute
-            )
-        }
+        containerColor = MaterialTheme.colorScheme.background
     ) { innerPadding ->
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -57,14 +44,13 @@ fun ConfigScreen(
                     .fillMaxSize()
                     .padding(innerPadding)
                     .statusBarsPadding(),
-                contentPadding = PaddingValues(16.dp),
+                contentPadding = PaddingValues(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 120.dp),
                 verticalArrangement = Arrangement.spacedBy(18.dp)
             ) {
                 item {
                     Text(
                         text = stringResource(R.string.config_title),
-                        fontSize = 28.sp,
-                        fontWeight = FontWeight.Bold,
+                        style = MaterialTheme.typography.headlineLarge,
                         color = MaterialTheme.colorScheme.onBackground
                     )
                 }

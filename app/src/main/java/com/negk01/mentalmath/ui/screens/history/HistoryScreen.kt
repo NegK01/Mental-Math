@@ -24,23 +24,16 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.negk01.mentalmath.R
-import com.negk01.mentalmath.navigation.Routes
 import com.negk01.mentalmath.presentation.history.HistoryViewModel
-import com.negk01.mentalmath.ui.components.BottomNavBar
 import com.negk01.mentalmath.ui.screens.history.components.HistorySummaryCard
 import com.negk01.mentalmath.ui.screens.home.components.RecentScoreItem
 
 @Composable
 fun HistoryScreen(
-    navController: NavController,
-    currentRoute: String?,
     viewModel: HistoryViewModel,
-    onReselected: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val shouldScrollToTop by viewModel.shouldScrollToTop.collectAsState()
@@ -54,16 +47,7 @@ fun HistoryScreen(
     }
 
     Scaffold(
-        containerColor = MaterialTheme.colorScheme.background,
-        bottomBar = {
-            BottomNavBar(
-                navController = navController,
-                currentRoute = currentRoute,
-                onReselect = { route ->
-                    if (route == Routes.HISTORY) onReselected()
-                }
-            )
-        }
+        containerColor = MaterialTheme.colorScheme.background
     ) { innerPadding ->
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -75,7 +59,7 @@ fun HistoryScreen(
                     .fillMaxSize()
                     .padding(innerPadding)
                     .statusBarsPadding(),
-                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
+                contentPadding = PaddingValues(start = 16.dp, top = 12.dp, end = 16.dp, bottom = 120.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 item {
@@ -89,8 +73,7 @@ fun HistoryScreen(
                 item {
                     Text(
                         text = stringResource(R.string.history_title),
-                        fontSize = 28.sp,
-                        fontWeight = FontWeight.Bold,
+                        style = MaterialTheme.typography.headlineLarge,
                         color = MaterialTheme.colorScheme.onBackground
                     )
                 }

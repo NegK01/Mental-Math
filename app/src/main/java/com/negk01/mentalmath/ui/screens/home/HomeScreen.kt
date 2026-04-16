@@ -17,9 +17,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.negk01.mentalmath.presentation.home.HomeViewModel
-import com.negk01.mentalmath.ui.components.BottomNavBar
 import com.negk01.mentalmath.ui.screens.home.components.HomeHeader
 import com.negk01.mentalmath.ui.screens.home.components.RecentScoresCard
 import com.negk01.mentalmath.ui.screens.home.components.StartGameButton
@@ -27,21 +25,13 @@ import com.negk01.mentalmath.ui.screens.home.components.StartGameButton
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun HomeScreen(
-    navController: NavController,
-    currentRoute: String?,
     onStartGame: () -> Unit,
     viewModel: HomeViewModel
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
     Scaffold(
-        containerColor = MaterialTheme.colorScheme.background,
-        bottomBar = {
-            BottomNavBar(
-                navController = navController,
-                currentRoute = currentRoute
-            )
-        }
+        containerColor = MaterialTheme.colorScheme.background
     ) { innerPadding ->
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -56,7 +46,7 @@ fun HomeScreen(
 
                 LazyColumn(
                     modifier = Modifier.weight(1f),
-                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
+                    contentPadding = PaddingValues(start = 16.dp, top = 12.dp, end = 16.dp, bottom = 24.dp),
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     item {
@@ -74,7 +64,7 @@ fun HomeScreen(
 
                 Column(
                     modifier = Modifier
-                        .padding(horizontal = 18.dp, vertical = 16.dp)
+                        .padding(start = 18.dp, top = 16.dp, end = 18.dp, bottom = 110.dp)
                 ) {
                     StartGameButton(
                         onClick = onStartGame

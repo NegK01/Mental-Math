@@ -1,7 +1,6 @@
 package com.negk01.mentalmath.ui.screens.config.components
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,16 +14,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun DifficultyItem(
     text: String,
     selected: Boolean,
-    accentColor: Color,
-    accentTextColor: Color,
     onClick: () -> Unit
 ) {
     Surface(
@@ -57,23 +52,6 @@ fun DifficultyItem(
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurface
             )
-
-            Box(
-                modifier = Modifier.padding(start = 12.dp)
-            ) {
-                Surface(
-                    shape = RoundedCornerShape(999.dp),
-                    color = accentColor
-                ) {
-                    Text(
-                        text = text,
-                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 5.dp),
-                        style = MaterialTheme.typography.labelMedium,
-                        fontWeight = FontWeight.SemiBold,
-                        color = accentTextColor
-                    )
-                }
-            }
         }
     }
 }

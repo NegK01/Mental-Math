@@ -12,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -49,7 +50,7 @@ fun HistorySummaryCard(
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                horizontalArrangement = Arrangement.spacedBy(6.dp)
             ) {
                 MetricCard(
                     modifier = Modifier.weight(1f),
@@ -63,14 +64,13 @@ fun HistorySummaryCard(
                     value = stringResource(R.string.history_accuracy_value, averageAccuracy),
                     valueColor = MaterialTheme.colorScheme.onSurface
                 )
+                MetricCard(
+                    modifier = Modifier.weight(1f),
+                    label = stringResource(R.string.history_average_time),
+                    value = stringResource(R.string.history_time_value, averageTime),
+                    valueColor = MaterialTheme.colorScheme.onSurface
+                )
             }
-
-            MetricCard(
-                modifier = Modifier.fillMaxWidth(),
-                label = stringResource(R.string.history_average_time),
-                value = stringResource(R.string.history_time_value, averageTime),
-                valueColor = MaterialTheme.colorScheme.onSurface
-            )
         }
     }
 }
@@ -80,7 +80,7 @@ private fun MetricCard(
     modifier: Modifier,
     label: String,
     value: String,
-    valueColor: androidx.compose.ui.graphics.Color
+    valueColor: Color
 ) {
     Card(
         modifier = modifier,

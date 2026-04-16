@@ -38,7 +38,7 @@ fun AnswerDisplay(
         targetValue = when (lastAnswerCorrect) {
             true  -> SuccessText.copy(alpha = 0.18f)
             false -> Danger.copy(alpha = 0.18f)
-            null  -> MaterialTheme.colorScheme.surface
+            null  -> MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f)
         },
         animationSpec = tween(durationMillis = 150),
         label = "answerFlash"
@@ -48,7 +48,7 @@ fun AnswerDisplay(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(24.dp),
         colors = CardDefaults.cardColors(containerColor = cardColor),
-        elevation = CardDefaults.cardElevation(defaultElevation = 3.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Column(
             modifier = Modifier.padding(horizontal = 18.dp, vertical = 14.dp)

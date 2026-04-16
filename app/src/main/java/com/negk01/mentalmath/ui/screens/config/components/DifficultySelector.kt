@@ -50,12 +50,9 @@ fun DifficultySelector(
             )
 
             options.forEachIndexed { index, difficulty ->
-                val badgeColors = difficulty.badgeColors(isDarkTheme = isDarkTheme)
                 DifficultyItem(
                     text = stringResource(difficulty.toLabelResId()),
                     selected = selected == difficulty,
-                    accentColor = badgeColors.container,
-                    accentTextColor = badgeColors.content,
                     onClick = { onSelect(difficulty) }
                 )
 

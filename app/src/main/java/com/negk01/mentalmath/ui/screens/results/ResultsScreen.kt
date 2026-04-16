@@ -74,8 +74,7 @@ fun ResultsScreen(
                     item {
                         Text(
                             text = stringResource(R.string.results_title),
-                            fontSize = 28.sp,
-                            fontWeight = FontWeight.Bold,
+                            style = MaterialTheme.typography.headlineLarge,
                             color = MaterialTheme.colorScheme.onBackground,
                             modifier = Modifier.padding(bottom = 18.dp)
                         )

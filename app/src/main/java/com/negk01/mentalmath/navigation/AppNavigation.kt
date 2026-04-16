@@ -3,13 +3,18 @@ package com.negk01.mentalmath.navigation
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
@@ -27,6 +32,7 @@ import com.negk01.mentalmath.presentation.history.HistoryViewModel
 import com.negk01.mentalmath.presentation.history.HistoryViewModelFactory
 import com.negk01.mentalmath.presentation.home.HomeViewModel
 import com.negk01.mentalmath.presentation.home.HomeViewModelFactory
+import com.negk01.mentalmath.ui.components.BottomNavBar
 import com.negk01.mentalmath.ui.screens.config.ConfigScreen
 import com.negk01.mentalmath.ui.screens.game.GameScreen
 import com.negk01.mentalmath.ui.screens.history.HistoryScreen
@@ -70,16 +76,18 @@ fun AppNavigation() {
     }
 
     MentalMathTheme(themePreference = configUiState.themePreference) {
-        NavHost(
-            navController = navController,
-            startDestination = Routes.HOME,
-            enterTransition = { EnterTransition.None },
-            exitTransition = { ExitTransition.None }
-        ) {
+        val showBottomBar = currentRoute in listOf(Routes.HOME, Routes.HISTORY, Routes.CONFIG)
+        
+        Box(modifier = Modifier.fillMaxSize()) {
+            NavHost(
+                navController = navController,
+                startDestination = Routes.HOME,
+                enterTransition = { EnterTransition.None },
+                exitTransition = { ExitTransition.None },
+                modifier = Modifier.fillMaxSize()
+            ) {
             composable(Routes.HOME) {
                 HomeScreen(
-                    navController = navController,
-                    currentRoute = currentRoute,
                     viewModel = homeViewModel,
                     onStartGame = {
                         gameViewModel.startGame(configUiState.selectedDifficulty)
@@ -90,17 +98,12 @@ fun AppNavigation() {
 
             composable(Routes.HISTORY) {
                 HistoryScreen(
-                    navController = navController,
-                    currentRoute = currentRoute,
-                    viewModel = historyViewModel,
-                    onReselected = { historyViewModel.onTabReselected() }
+                    viewModel = historyViewModel
                 )
             }
 
             composable(Routes.CONFIG) {
                 ConfigScreen(
-                    navController = navController,
-                    currentRoute = currentRoute,
                     viewModel = configViewModel
                 )
             }
@@ -123,6 +126,19 @@ fun AppNavigation() {
                         navController.navigate(Routes.GAME) {
                             popUpTo(Routes.RESULTS) { inclusive = true }
                         }
+                    }
+                )
+            }
+        }
+            AnimatedVisibility(
+                visible = showBottomBar,
+                modifier = Modifier.align(Alignment.BottomCenter)
+            ) {
+                BottomNavBar(
+                    navController = navController,
+                    currentRoute = currentRoute,
+                    onReselect = { route ->
+                        if (route == Routes.HISTORY) historyViewModel.onTabReselected()
                     }
                 )
             }

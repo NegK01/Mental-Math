@@ -5,6 +5,8 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,10 +26,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.negk01.mentalmath.R
@@ -93,7 +97,7 @@ private fun NumberPadRow(
     digits: List<String>,
     onDigitClick: (String) -> Unit,
     buttonHeight: Dp,
-    fontSize: androidx.compose.ui.unit.TextUnit,
+    fontSize: TextUnit,
     spacing: Dp
 ) {
     Row(
@@ -117,11 +121,12 @@ private fun KeyButton(
     text: String,
     modifier: Modifier = Modifier,
     buttonHeight: Dp,
-    fontSize: androidx.compose.ui.unit.TextUnit,
+    fontSize: TextUnit,
     onClick: () -> Unit
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
+    val haptic = LocalHapticFeedback.current
 
     val scale by animateFloatAsState(
         targetValue = if (isPressed) 0.93f else 1f,
@@ -130,7 +135,10 @@ private fun KeyButton(
     )
 
     Button(
-        onClick = onClick,
+        onClick = { 
+            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+            onClick() 
+        },
         modifier = modifier.height(buttonHeight).graphicsLayer { scaleX = scale; scaleY = scale },
         interactionSource = interactionSource,
         colors = ButtonDefaults.buttonColors(
@@ -146,14 +154,15 @@ private fun KeyButton(
 private fun ActionButton(
     modifier: Modifier = Modifier,
     text: String,
-    containerColor: androidx.compose.ui.graphics.Color,
-    contentColor: androidx.compose.ui.graphics.Color,
+    containerColor: Color,
+    contentColor: Color,
     buttonHeight: Dp,
-    fontSize: androidx.compose.ui.unit.TextUnit,
+    fontSize: TextUnit,
     onClick: () -> Unit
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
+    val haptic = LocalHapticFeedback.current
 
     val scale by animateFloatAsState(
         targetValue = if (isPressed) 0.93f else 1f,
@@ -162,7 +171,10 @@ private fun ActionButton(
     )
 
     Button(
-        onClick = onClick,
+        onClick = {
+            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+            onClick()
+        },
         modifier = modifier.height(buttonHeight).graphicsLayer { scaleX = scale; scaleY = scale },
         interactionSource = interactionSource,
         colors = ButtonDefaults.buttonColors(containerColor = containerColor, contentColor = contentColor)
@@ -180,6 +192,7 @@ private fun SubmitButton(
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
+    val haptic = LocalHapticFeedback.current
 
     val scale by animateFloatAsState(
         targetValue = if (isPressed) 0.93f else 1f,
@@ -188,8 +201,15 @@ private fun SubmitButton(
     )
 
     Button(
-        onClick = onClick,
-        enabled = isEnabled,
+        onClick = {
+            if (isEnabled) {
+                haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                onClick()
+            } else {
+                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+            }
+        },
+        enabled = true,
         modifier = modifier.height(buttonHeight).graphicsLayer { scaleX = scale; scaleY = scale },
         interactionSource = interactionSource,
         colors = ButtonDefaults.buttonColors(

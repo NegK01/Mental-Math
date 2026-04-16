@@ -52,7 +52,12 @@ fun StartGameButton(
             modifier = Modifier
                 .fillMaxSize()
                 .background(
-                    color = MaterialTheme.colorScheme.primary,
+                    brush = androidx.compose.ui.graphics.Brush.horizontalGradient(
+                        colors = listOf(
+                            MaterialTheme.colorScheme.primary,
+                            androidx.compose.ui.graphics.Color(0xFF7C3AED)
+                        )
+                    ),
                     shape = RoundedCornerShape(18.dp)
                 ),
             contentAlignment = Alignment.Center
