@@ -3,7 +3,7 @@
 
     <string name="nav_home">Inicio</string>
     <string name="nav_history">Historial</string>
-    <string name="nav_config">Configuración</string>
+    <string name="nav_config">Ajustes</string>
 
     <string name="difficulty_easy">Fácil</string>
     <string name="difficulty_medium">Medio</string>
@@ -49,7 +49,7 @@
     <string name="history_time_value">%1$.1fs</string>
     <string name="history_load_more">Cargar más</string>
 
-    <string name="config_title">Configuración</string>
+    <string name="config_title">Ajustes</string>
     <string name="config_difficulty_title">Nivel de dificultad</string>
     <string name="config_sound_title">Efectos de sonido</string>
     <string name="config_sound_description">Activa o desactiva el audio de apoyo durante la experiencia.</string>

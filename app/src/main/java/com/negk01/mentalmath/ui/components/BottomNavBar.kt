@@ -3,8 +3,10 @@ package com.negk01.mentalmath.ui.components
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -32,6 +34,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -59,7 +62,7 @@ fun BottomNavBar(
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 24.dp, vertical = 20.dp),
+            .padding(horizontal = 18.dp, vertical = 20.dp),
         shape = RoundedCornerShape(32.dp),
         color = MaterialTheme.colorScheme.surface,
         shadowElevation = 8.dp
@@ -75,10 +78,12 @@ fun BottomNavBar(
                 val isSelected = currentRoute == item.route
                 val background = animateColorAsState(
                     targetValue = if (isSelected) MaterialTheme.colorScheme.primaryContainer else Color.Transparent,
+                    animationSpec = tween(500, easing = FastOutSlowInEasing),
                     label = "backgroundColor"
                 ).value
                 val contentColor = animateColorAsState(
                     targetValue = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
+                    animationSpec = tween(500, easing = FastOutSlowInEasing),
                     label = "contentColor"
                 ).value
 
@@ -99,8 +104,8 @@ fun BottomNavBar(
                                 }
                             }
                         }
-                        .padding(horizontal = 16.dp, vertical = 10.dp)
-                        .animateContentSize(animationSpec = spring(stiffness = Spring.StiffnessMediumLow)),
+                        .padding(horizontal = 16.dp, vertical = 10.dp),
+//                        .animateContentSize(animationSpec = spring(stiffness = Spring.StiffnessMediumLow)),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {
@@ -112,8 +117,10 @@ fun BottomNavBar(
                     
                     AnimatedVisibility(
                         visible = isSelected,
-                        enter = fadeIn() + expandHorizontally(),
-                        exit = fadeOut() + shrinkHorizontally()
+                        enter = fadeIn(animationSpec = tween(500)) + expandHorizontally(animationSpec = tween(500, easing = FastOutSlowInEasing), expandFrom = Alignment.Start),
+                        exit = fadeOut(animationSpec = tween(250)) + shrinkHorizontally(animationSpec = tween(250, easing = FastOutSlowInEasing), shrinkTowards = Alignment.Start)
+//                        enter = fadeIn() + expandHorizontally(animationSpec = spring(stiffness = Spring.StiffnessMediumLow)),
+//                        exit = fadeOut() + shrinkHorizontally(animationSpec = spring(stiffness = Spring.StiffnessMediumLow))
                     ) {
                         Text(
                             text = stringResource(item.labelRes),
@@ -121,6 +128,7 @@ fun BottomNavBar(
                             fontWeight = FontWeight.Bold,
                             maxLines = 1,
                             softWrap = false,
+                            overflow = TextOverflow.Ellipsis, // Evita colapsos de layout si falta espacio
                             modifier = Modifier.padding(start = 8.dp)
                         )
                     }
