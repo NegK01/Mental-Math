@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.negk01.mentalmath.navigation.AppNavigation
+import com.negk01.mentalmath.ui.utils.ImmersiveAppContent // Importar ImmersiveAppContent
 
 class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
@@ -15,7 +16,9 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
 
         setContent {
-            AppNavigation()
+            ImmersiveAppContent { // Envolver AppNavigation con ImmersiveAppContent
+                AppNavigation()
+            }
         }
     }
 }

@@ -1,6 +1,5 @@
 package com.negk01.mentalmath.ui.screens.game
 
-import android.app.Activity
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -10,17 +9,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.negk01.mentalmath.navigation.Routes
@@ -47,18 +41,6 @@ fun GameScreen(
             }
         }
     }
-
-//    val view = LocalView.current
-//    DisposableEffect(Unit) {
-//        val window = (view.context as Activity).window
-//        val controller = WindowCompat.getInsetsController(window, view)
-//        controller.hide(WindowInsetsCompat.Type.navigationBars())
-//        controller.systemBarsBehavior =
-//            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-//        onDispose {
-//            controller.show(WindowInsetsCompat.Type.navigationBars())
-//        }
-//    }
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
