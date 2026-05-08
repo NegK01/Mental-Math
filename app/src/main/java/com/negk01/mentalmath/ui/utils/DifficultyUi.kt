@@ -7,11 +7,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import com.negk01.mentalmath.R
 import com.negk01.mentalmath.domain.model.Difficulty
-import com.negk01.mentalmath.ui.theme.EasyBadgeDark
+import com.negk01.mentalmath.ui.theme.BadgeEasy
+import com.negk01.mentalmath.ui.theme.BadgeEasyContainer
+import com.negk01.mentalmath.ui.theme.BadgeHard
+import com.negk01.mentalmath.ui.theme.BadgeHardContainer
+import com.negk01.mentalmath.ui.theme.BadgeMedium
+import com.negk01.mentalmath.ui.theme.BadgeMediumContainer
 import com.negk01.mentalmath.ui.theme.EasyBadgeLight
-import com.negk01.mentalmath.ui.theme.HardBadgeDark
 import com.negk01.mentalmath.ui.theme.HardBadgeLight
-import com.negk01.mentalmath.ui.theme.MediumBadgeDark
 import com.negk01.mentalmath.ui.theme.MediumBadgeLight
 
 data class DifficultyBadgeColors(
@@ -48,10 +51,7 @@ fun Difficulty.badgeColors(isDarkTheme: Boolean): DifficultyBadgeColors {
     return when (this) {
         Difficulty.EASY -> {
             if (isDarkTheme) {
-                DifficultyBadgeColors(
-                    container = EasyBadgeDark.copy(alpha = 0.24f),
-                    content = EasyBadgeDark
-                )
+                DifficultyBadgeColors(container = BadgeEasyContainer, content = BadgeEasy)
             } else {
                 DifficultyBadgeColors(
                     container = EasyBadgeLight.copy(alpha = 0.18f),
@@ -62,10 +62,7 @@ fun Difficulty.badgeColors(isDarkTheme: Boolean): DifficultyBadgeColors {
 
         Difficulty.MEDIUM -> {
             if (isDarkTheme) {
-                DifficultyBadgeColors(
-                    container = MediumBadgeDark.copy(alpha = 0.24f),
-                    content = MediumBadgeDark
-                )
+                DifficultyBadgeColors(container = BadgeMediumContainer, content = BadgeMedium)
             } else {
                 DifficultyBadgeColors(
                     container = MediumBadgeLight.copy(alpha = 0.18f),
@@ -76,10 +73,7 @@ fun Difficulty.badgeColors(isDarkTheme: Boolean): DifficultyBadgeColors {
 
         Difficulty.HARD -> {
             if (isDarkTheme) {
-                DifficultyBadgeColors(
-                    container = HardBadgeDark.copy(alpha = 0.24f),
-                    content = HardBadgeDark
-                )
+                DifficultyBadgeColors(container = BadgeHardContainer, content = BadgeHard)
             } else {
                 DifficultyBadgeColors(
                     container = HardBadgeLight.copy(alpha = 0.18f),

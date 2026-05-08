@@ -30,7 +30,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -76,8 +75,9 @@ fun BottomNavBar(
         ) {
             navItems.forEach { item ->
                 val isSelected = currentRoute == item.route
+                val primary = MaterialTheme.colorScheme.primary
                 val background = animateColorAsState(
-                    targetValue = if (isSelected) MaterialTheme.colorScheme.primaryContainer else Color.Transparent,
+                    targetValue = if (isSelected) primary.copy(alpha = 0.18f) else primary.copy(alpha = 0f),
                     animationSpec = tween(500, easing = FastOutSlowInEasing),
                     label = "backgroundColor"
                 ).value

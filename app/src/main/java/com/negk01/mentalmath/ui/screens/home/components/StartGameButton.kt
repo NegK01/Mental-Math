@@ -21,6 +21,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -52,10 +54,10 @@ fun StartGameButton(
             modifier = Modifier
                 .fillMaxSize()
                 .background(
-                    brush = androidx.compose.ui.graphics.Brush.horizontalGradient(
+                    brush = Brush.horizontalGradient(
                         colors = listOf(
                             MaterialTheme.colorScheme.primary,
-                            androidx.compose.ui.graphics.Color(0xFF7C3AED)
+                            lerp(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.primaryContainer, 0.28f)
                         )
                     ),
                     shape = RoundedCornerShape(18.dp)

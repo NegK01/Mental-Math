@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.negk01.mentalmath.ui.theme.SuccessText
 
 @Composable
 fun ResultStatCard(
@@ -21,10 +20,13 @@ fun ResultStatCard(
     value: String,
     isSuccess: Boolean
 ) {
+    val successColor = MaterialTheme.colorScheme.onTertiaryContainer
+    val primaryColor = MaterialTheme.colorScheme.primary
+
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(16.dp))
-            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.7f))
+            .background(MaterialTheme.colorScheme.surfaceVariant)
             .padding(horizontal = 12.dp, vertical = 13.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
@@ -37,7 +39,7 @@ fun ResultStatCard(
         Text(
             text = value,
             fontSize = 22.sp,
-            color = if (isSuccess) SuccessText else MaterialTheme.colorScheme.primary
+            color = if (isSuccess) successColor else primaryColor
         )
     }
 }

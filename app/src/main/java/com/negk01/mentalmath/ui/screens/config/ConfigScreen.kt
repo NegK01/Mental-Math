@@ -72,16 +72,16 @@ fun ConfigScreen(
 //                }
 
                 item {
-                    ThemePreferenceSelector(
-                        selected = uiState.themePreference,
-                        onSelect = viewModel::onThemePreferenceSelected
+                    LanguagePreferenceSelector(
+                        selected = uiState.languagePreference,
+                        onSelect = viewModel::onLanguagePreferenceSelected
                     )
                 }
 
                 item {
-                    LanguagePreferenceSelector(
-                        selected = uiState.languagePreference,
-                        onSelect = viewModel::onLanguagePreferenceSelected
+                    ThemePreferenceSelector(
+                        selected = uiState.themePreference,
+                        onSelect = viewModel::onThemePreferenceSelected
                     )
                 }
 
