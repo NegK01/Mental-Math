@@ -49,7 +49,7 @@ fun AppNavigation() {
     val navController = rememberNavController()
 
     val navBackStackEntry = navController.currentBackStackEntryAsState().value
-    val currentRoute = navBackStackEntry?.destination?.route
+    val currentRoute = navBackStackEntry?.destination?.route ?: Routes.HOME
 
     val database = remember(context) { DatabaseProvider.getDatabase(context) }
     val settingsRepository = remember(database) { SettingsRepositoryImpl(database.settingsDao()) }

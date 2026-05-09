@@ -35,7 +35,8 @@
     <string name="home_daily_streak_value">%1$d</string>
     <string name="home_recent_scores_title">Last 3 games</string>
     <string name="home_recent_scores_subtitle">Your recent activity at a glance</string>
-    <string name="home_recent_score_summary">%1$d/%2$d (%3$.1fs)</string>
+    <string name="home_recent_score">%1$d/%2$d</string>
+    <string name="home_recent_avg_time">(%1$.1fs)</string>
     <string name="home_start_game">Start game</string>
     <string name="home_start_game_content_description">Start game</string>
     <string name="home_current_mode">Mode: %1$s</string>

@@ -80,12 +80,12 @@ fun BottomNavBar(
                 val primary = MaterialTheme.colorScheme.primary
                 val background = animateColorAsState(
                     targetValue = if (isSelected) primary.copy(alpha = 0.18f) else primary.copy(alpha = 0f),
-                    animationSpec = tween(500, easing = FastOutSlowInEasing),
+                    animationSpec = tween(350, easing = FastOutSlowInEasing),
                     label = "backgroundColor"
                 ).value
                 val contentColor = animateColorAsState(
                     targetValue = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
-                    animationSpec = tween(500, easing = FastOutSlowInEasing),
+                    animationSpec = tween(350, easing = FastOutSlowInEasing),
                     label = "contentColor"
                 ).value
 
@@ -126,8 +126,8 @@ fun BottomNavBar(
 
                     AnimatedVisibility(
                         visible = isSelected,
-                        enter = fadeIn(animationSpec = tween(500)) + expandHorizontally(animationSpec = tween(500, easing = FastOutSlowInEasing), expandFrom = Alignment.Start),
-                        exit = fadeOut(animationSpec = tween(250)) + shrinkHorizontally(animationSpec = tween(250, easing = FastOutSlowInEasing), shrinkTowards = Alignment.Start)
+                        enter = fadeIn(animationSpec = tween(350)) + expandHorizontally(animationSpec = tween(350, easing = FastOutSlowInEasing), expandFrom = Alignment.Start),
+                        exit = fadeOut(animationSpec = tween(200)) + shrinkHorizontally(animationSpec = tween(200, easing = FastOutSlowInEasing), shrinkTowards = Alignment.Start)
                     ) {
                         Text(
                             text = stringResource(item.labelRes),

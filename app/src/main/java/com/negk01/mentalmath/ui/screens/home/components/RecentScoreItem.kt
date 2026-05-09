@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -37,12 +38,14 @@ fun RecentScoreItem(
         .format(Date(record.playedAt))
 
     val averageSeconds = record.averageResponseTimeMillis / 1000.0
+    val isDark = MaterialTheme.colorScheme.surface.luminance() < 0.5f
+    val itemAlpha = if (isDark) 0.5f else 0.8f
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(16.dp))
-            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
+            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = itemAlpha))
             .padding(horizontal = 14.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -71,15 +74,18 @@ fun RecentScoreItem(
         )
 
         Text(
-            text = stringResource(
-                R.string.home_recent_score_summary,
-                record.correctAnswers,
-                record.totalRounds,
-                averageSeconds
-            ),
+            text = stringResource(R.string.home_recent_score, record.correctAnswers, record.totalRounds),
             fontSize = 14.sp,
             color = MaterialTheme.colorScheme.onSurface,
             fontWeight = FontWeight.Medium
+        )
+
+        Spacer(modifier = Modifier.size(6.dp))
+
+        Text(
+            text = stringResource(R.string.home_recent_avg_time, averageSeconds),
+            fontSize = 14.sp,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }
