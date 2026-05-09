@@ -3,6 +3,7 @@ package com.negk01.mentalmath.ui.screens.home
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -43,32 +44,23 @@ fun HomeScreen(
                     .padding(innerPadding)
                     .statusBarsPadding()
             ) {
-
                 LazyColumn(
                     modifier = Modifier.weight(1f),
                     contentPadding = PaddingValues(start = 16.dp, top = 12.dp, end = 16.dp, bottom = 24.dp),
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     item {
-                        HomeHeader(
-                            dailyStreak = uiState.dailyStreak
-                        )
+                        HomeHeader(dailyStreak = uiState.dailyStreak)
                     }
-
                     item {
-                        RecentScoresCard(
-                            records = uiState.recentRecords
-                        )
+                        RecentScoresCard(records = uiState.recentRecords)
                     }
                 }
 
-                Column(
-                    modifier = Modifier
-                        .padding(start = 18.dp, top = 16.dp, end = 18.dp, bottom = 110.dp)
+                Box(
+                    modifier = Modifier.padding(start = 18.dp, top = 16.dp, end = 18.dp, bottom = 110.dp)
                 ) {
-                    StartGameButton(
-                        onClick = onStartGame
-                    )
+                    StartGameButton(onClick = onStartGame)
                 }
             }
         }

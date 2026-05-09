@@ -14,9 +14,9 @@
     <string name="theme_original">Original</string>
     <string name="theme_menta_profundo">Menta Profundo</string>
     <string name="theme_oled_relax">OLED Relax</string>
-    <string name="theme_nordic_frost">Nordic Frost</string>
-    <string name="theme_royal_dark">Royal Dark</string>
-    <string name="theme_graphite_lime">Graphite Lime</string>
+    <string name="theme_nordic_frost">Nórdico Glacial</string>
+    <string name="theme_royal_dark">Real Oscuro</string>
+    <string name="theme_graphite_lime">Grafito Lima</string>
     <string name="config_theme_section_auto">Auto / Claro</string>
     <string name="config_theme_section_dark">Temas Oscuros</string>
     <string name="language_system">Sistema</string>
@@ -28,13 +28,13 @@
     <string name="completion_unknown">Desconocido</string>
 
     <string name="home_title">Mental Math</string>
-    <string name="home_subtitle">Entrena tu agilidad mental con rondas rápidas y enfoque total.</string>
-    <string name="home_subtitle_compact">Sesiones rápidas para mantener ritmo, precisión y foco.</string>
-    <string name="home_header_hint">Sesiones breves. Ritmo constante. Progreso real.</string>
+    <string name="home_subtitle">Entrena tu agilidad mental con rondas rápidas y enfoque total</string>
+    <string name="home_subtitle_compact">Sesiones rápidas para mantener ritmo, precisión y foco</string>
+    <string name="home_header_hint">Sesiones breves. Ritmo constante. Progreso real</string>
     <string name="home_daily_streak_title">Racha diaria</string>
     <string name="home_daily_streak_value">%1$d</string>
     <string name="home_recent_scores_title">Últimas 3 partidas</string>
-    <string name="home_recent_scores_subtitle">Tu actividad reciente en un solo vistazo.</string>
+    <string name="home_recent_scores_subtitle">Tu actividad reciente en un solo vistazo</string>
     <string name="home_recent_score_summary">%1$d/%2$d (%3$.1fs)</string>
     <string name="home_start_game">Comenzar juego</string>
     <string name="home_start_game_content_description">Comenzar juego</string>
@@ -46,9 +46,9 @@
     </plurals>
 
     <string name="history_title">Historial</string>
-    <string name="history_empty">Aún no hay partidas guardadas.</string>
+    <string name="history_empty">Aún no hay partidas guardadas</string>
     <string name="history_summary_title">Resumen</string>
-    <string name="history_summary_subtitle">Tus estadísticas recientes para medir ritmo y precisión.</string>
+    <string name="history_summary_subtitle">Tus estadísticas recientes para medir ritmo y precisión</string>
     <string name="history_total_games">Total de partidas jugadas</string>
     <string name="history_average_accuracy">Precisión promedio</string>
     <string name="history_average_time">Tiempo promedio</string>
@@ -59,26 +59,26 @@
     <string name="config_title">Ajustes</string>
     <string name="config_difficulty_title">Nivel de dificultad</string>
     <string name="config_sound_title">Efectos de sonido</string>
-    <string name="config_sound_description">Activa o desactiva el audio de apoyo durante la experiencia.</string>
+    <string name="config_sound_description">Activa o desactiva el audio de apoyo durante la experiencia</string>
     <string name="config_theme_title">Tema de la app</string>
     <string name="config_language_title">Idioma de la app</string>
     <string name="config_delete_history_button">Borrar historial de puntuaciones</string>
     <string name="config_delete_dialog_title">Borrar historial</string>
-    <string name="config_delete_dialog_message">Esta acción eliminará todas las partidas guardadas del dispositivo.</string>
+    <string name="config_delete_dialog_message">Esta acción eliminará todas las partidas guardadas del dispositivo</string>
     <string name="config_delete_dialog_confirm">Borrar</string>
     <string name="config_delete_dialog_cancel">Cancelar</string>
 
     <string name="game_exit">Salir</string>
     <string name="game_pause">Pausar</string>
     <string name="game_pause_title">Juego pausado</string>
-    <string name="game_pause_message">Toma aire y vuelve cuando quieras continuar la ronda.</string>
+    <string name="game_pause_message">Toma aire y vuelve cuando quieras continuar la ronda</string>
     <string name="game_resume">Continuar</string>
     <string name="game_time_left">Tiempo: %1$ds</string>
     <string name="game_progress_title">Mantente en ritmo</string>
-    <string name="game_progress_subtitle">Resuelve rápido y sostiene la racha para cerrar fuerte.</string>
+    <string name="game_progress_subtitle">Resuelve rápido y sostiene la racha para cerrar fuerte</string>
     <string name="game_round_progress">Ronda %1$d de %2$d</string>
     <string name="game_question_title">Resuelve esta operación</string>
-    <string name="game_question_subtitle">Sin calculadora. Solo foco y velocidad.</string>
+    <string name="game_question_subtitle">Sin calculadora. Solo foco y velocidad</string>
     <string name="game_answer_title">Tu respuesta</string>
     <string name="game_answer_placeholder">Escribe tu respuesta</string>
     <string name="game_clear_short">C</string>
@@ -87,14 +87,14 @@
     <string name="results_title">Resultados</string>
     <string name="results_correct_answers">Respuestas correctas</string>
     <string name="results_average_time">Tiempo promedio</string>
-    <string name="results_congrats_title">Buen trabajo.</string>
-    <string name="results_congrats_subtitle">Cada ronda fortalece tu velocidad mental.</string>
-    <string name="results_feedback_title_great">Muy bien.</string>
-    <string name="results_feedback_subtitle_great">Mantuviste un ritmo alto y preciso.</string>
-    <string name="results_feedback_title_good">Buen ritmo.</string>
-    <string name="results_feedback_subtitle_good">Vas por buen camino. Sigue afinando tu precisión.</string>
-    <string name="results_feedback_title_keep">Sigue entrenando.</string>
-    <string name="results_feedback_subtitle_keep">Cada sesión suma velocidad y control.</string>
+    <string name="results_congrats_title">Buen trabajo</string>
+    <string name="results_congrats_subtitle">Cada ronda fortalece tu velocidad mental</string>
+    <string name="results_feedback_title_great">Muy bien</string>
+    <string name="results_feedback_subtitle_great">Mantuviste un ritmo alto y preciso</string>
+    <string name="results_feedback_title_good">Buen ritmo</string>
+    <string name="results_feedback_subtitle_good">Vas por buen camino. Sigue afinando tu precisión</string>
+    <string name="results_feedback_title_keep">Sigue entrenando</string>
+    <string name="results_feedback_subtitle_keep">Cada sesión suma velocidad y control</string>
     <string name="results_round_details_title">Detalles por ronda</string>
     <string name="results_go_home">Volver al inicio</string>
     <string name="results_play_again">Jugar de nuevo</string>

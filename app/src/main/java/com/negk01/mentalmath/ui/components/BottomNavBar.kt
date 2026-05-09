@@ -2,17 +2,14 @@ package com.negk01.mentalmath.ui.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,6 +28,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -56,7 +55,8 @@ private val navItems = listOf(
 fun BottomNavBar(
     navController: NavController,
     currentRoute: String?,
-    onReselect: (route: String) -> Unit = {}
+    onReselect: (route: String) -> Unit = {},
+    onReselectLong: (route: String) -> Unit = {}
 ) {
     Surface(
         modifier = Modifier
@@ -73,6 +73,8 @@ fun BottomNavBar(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
+            val haptic = LocalHapticFeedback.current
+
             navItems.forEach { item ->
                 val isSelected = currentRoute == item.route
                 val primary = MaterialTheme.colorScheme.primary
@@ -91,21 +93,28 @@ fun BottomNavBar(
                     modifier = Modifier
                         .clip(RoundedCornerShape(24.dp))
                         .background(background)
-                        .clickable {
-                            if (isSelected) {
-                                onReselect(item.route)
-                            } else {
-                                navController.navigate(item.route) {
-                                    popUpTo(navController.graph.findStartDestination().id) {
-                                        saveState = true
+                        .combinedClickable(
+                            onClick = {
+                                if (isSelected) {
+                                    onReselect(item.route)
+                                } else {
+                                    navController.navigate(item.route) {
+                                        popUpTo(navController.graph.findStartDestination().id) {
+                                            saveState = true
+                                        }
+                                        launchSingleTop = true
+                                        restoreState = true
                                     }
-                                    launchSingleTop = true
-                                    restoreState = true
+                                }
+                            },
+                            onLongClick = {
+                                if (isSelected) {
+                                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                    onReselectLong(item.route)
                                 }
                             }
-                        }
+                        )
                         .padding(horizontal = 16.dp, vertical = 10.dp),
-//                        .animateContentSize(animationSpec = spring(stiffness = Spring.StiffnessMediumLow)),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {
@@ -114,13 +123,11 @@ fun BottomNavBar(
                         contentDescription = stringResource(item.labelRes),
                         tint = contentColor
                     )
-                    
+
                     AnimatedVisibility(
                         visible = isSelected,
                         enter = fadeIn(animationSpec = tween(500)) + expandHorizontally(animationSpec = tween(500, easing = FastOutSlowInEasing), expandFrom = Alignment.Start),
                         exit = fadeOut(animationSpec = tween(250)) + shrinkHorizontally(animationSpec = tween(250, easing = FastOutSlowInEasing), shrinkTowards = Alignment.Start)
-//                        enter = fadeIn() + expandHorizontally(animationSpec = spring(stiffness = Spring.StiffnessMediumLow)),
-//                        exit = fadeOut() + shrinkHorizontally(animationSpec = spring(stiffness = Spring.StiffnessMediumLow))
                     ) {
                         Text(
                             text = stringResource(item.labelRes),
@@ -128,7 +135,7 @@ fun BottomNavBar(
                             fontWeight = FontWeight.Bold,
                             maxLines = 1,
                             softWrap = false,
-                            overflow = TextOverflow.Ellipsis, // Evita colapsos de layout si falta espacio
+                            overflow = TextOverflow.Ellipsis,
                             modifier = Modifier.padding(start = 8.dp)
                         )
                     }

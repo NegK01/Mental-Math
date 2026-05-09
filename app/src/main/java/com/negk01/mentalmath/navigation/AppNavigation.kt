@@ -139,6 +139,9 @@ fun AppNavigation() {
                     currentRoute = currentRoute,
                     onReselect = { route ->
                         if (route == Routes.HISTORY) historyViewModel.onTabReselected()
+                    },
+                    onReselectLong = { route ->
+                        if (route == Routes.HISTORY) historyViewModel.resetToTop()
                     }
                 )
             }

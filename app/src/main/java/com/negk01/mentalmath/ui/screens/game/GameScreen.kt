@@ -1,5 +1,9 @@
 package com.negk01.mentalmath.ui.screens.game
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -59,54 +63,63 @@ fun GameScreen(
             )
         }
     ) { innerPadding ->
-        BoxWithConstraints(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(horizontal = 16.dp)
         ) {
-            val buttonHeight = (maxHeight * 0.085f).coerceIn(44.dp, 66.dp)
-            val questionFontSize = (maxHeight.value * 0.048f).coerceIn(26f, 42f).sp
-            val sectionSpacing = (maxHeight * 0.015f).coerceIn(6.dp, 14.dp)
-
-            Column(
+            BoxWithConstraints(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(bottom = 12.dp)
+                    .padding(horizontal = 16.dp)
             ) {
-                GameProgressCard(
-                    currentRound = uiState.currentRound,
-                    totalRounds = uiState.totalRounds,
-                    timeLeftSeconds = uiState.timeLeftSeconds
-                )
+                val buttonHeight = (maxHeight * 0.085f).coerceIn(44.dp, 66.dp)
+                val questionFontSize = (maxHeight.value * 0.048f).coerceIn(26f, 42f).sp
+                val sectionSpacing = (maxHeight * 0.015f).coerceIn(6.dp, 14.dp)
 
-                Spacer(modifier = Modifier.weight(1f))
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(bottom = 12.dp)
+                ) {
+                    GameProgressCard(
+                        currentRound = uiState.currentRound,
+                        totalRounds = uiState.totalRounds,
+                        timeLeftSeconds = uiState.timeLeftSeconds
+                    )
 
-                MathQuestionCard(
-                    questionText = uiState.questionText,
-                    questionFontSize = questionFontSize
-                )
+                    Spacer(modifier = Modifier.weight(1f))
 
-                Spacer(modifier = Modifier.weight(1f))
+                    MathQuestionCard(
+                        questionText = uiState.questionText,
+                        questionFontSize = questionFontSize
+                    )
 
-                // lastAnswerCorrect viene de GameUiState — activa el flash de color
-                AnswerDisplay(
-                    value = uiState.answerInput,
-                    lastAnswerCorrect = uiState.lastAnswerCorrect
-                )
+                    Spacer(modifier = Modifier.weight(1f))
 
-                Spacer(modifier = Modifier.height(sectionSpacing))
+                    // lastAnswerCorrect viene de GameUiState — activa el flash de color
+                    AnswerDisplay(
+                        value = uiState.answerInput,
+                        lastAnswerCorrect = uiState.lastAnswerCorrect
+                    )
 
-                NumberPad(
-                    onDigitClick = viewModel::onDigitPressed,
-                    onClearClick = viewModel::onClearDigit,
-                    onSubmitClick = viewModel::onSubmitAnswer,
-                    isSubmitEnabled = uiState.answerInput.isNotBlank() && !uiState.isInputLocked,
-                    buttonHeight = buttonHeight
-                )
+                    Spacer(modifier = Modifier.height(sectionSpacing))
+
+                    NumberPad(
+                        onDigitClick = viewModel::onDigitPressed,
+                        onClearClick = viewModel::onClearDigit,
+                        onSubmitClick = viewModel::onSubmitAnswer,
+                        isSubmitEnabled = uiState.answerInput.isNotBlank() && !uiState.isInputLocked,
+                        buttonHeight = buttonHeight
+                    )
+                }
             }
 
-            if (uiState.isPaused) {
+            AnimatedVisibility(
+                visible = uiState.isPaused,
+                enter = fadeIn(),
+                exit = fadeOut()
+            ) {
                 PauseDialog(onResume = viewModel::resumeGame)
             }
         }

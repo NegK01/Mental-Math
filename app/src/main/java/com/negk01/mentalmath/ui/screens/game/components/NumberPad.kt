@@ -68,8 +68,8 @@ fun NumberPad(
                 ActionButton(
                     modifier = Modifier.weight(1f),
                     text = stringResource(R.string.game_clear_short),
-                    containerColor = MaterialTheme.colorScheme.errorContainer,
-                    contentColor = MaterialTheme.colorScheme.onErrorContainer,
+                    containerColor = MaterialTheme.colorScheme.error.copy(alpha = 0.18f),
+                    contentColor = MaterialTheme.colorScheme.error,
                     buttonHeight = buttonHeight,
                     fontSize = actionFontSize,
                     onClick = onClearClick

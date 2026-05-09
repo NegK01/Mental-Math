@@ -25,52 +25,45 @@ fun HistorySummaryCard(
     averageAccuracy: Double,
     averageTime: Double,
 ) {
-    Card(
+    Column(
         modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        shape = RoundedCornerShape(24.dp)
+        verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
-        Column(
-            modifier = Modifier.padding(18.dp),
-            verticalArrangement = Arrangement.spacedBy(14.dp)
+        Text(
+            text = stringResource(R.string.history_summary_title),
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+
+        Text(
+            text = stringResource(R.string.history_summary_subtitle),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(6.dp)
         ) {
-            Text(
-                text = stringResource(R.string.history_summary_title),
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface
+            MetricCard(
+                modifier = Modifier.weight(1f),
+                label = stringResource(R.string.history_total_games),
+                value = totalGames.toString(),
+                valueColor = MaterialTheme.colorScheme.onSurface
             )
-
-            Text(
-                text = stringResource(R.string.history_summary_subtitle),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+            MetricCard(
+                modifier = Modifier.weight(1f),
+                label = stringResource(R.string.history_average_accuracy),
+                value = stringResource(R.string.history_accuracy_value, averageAccuracy),
+                valueColor = MaterialTheme.colorScheme.onSurface
             )
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(6.dp)
-            ) {
-                MetricCard(
-                    modifier = Modifier.weight(1f),
-                    label = stringResource(R.string.history_total_games),
-                    value = totalGames.toString(),
-                    valueColor = MaterialTheme.colorScheme.onSurface
-                )
-                MetricCard(
-                    modifier = Modifier.weight(1f),
-                    label = stringResource(R.string.history_average_accuracy),
-                    value = stringResource(R.string.history_accuracy_value, averageAccuracy),
-                    valueColor = MaterialTheme.colorScheme.onSurface
-                )
-                MetricCard(
-                    modifier = Modifier.weight(1f),
-                    label = stringResource(R.string.history_average_time),
-                    value = stringResource(R.string.history_time_value, averageTime),
-                    valueColor = MaterialTheme.colorScheme.onSurface
-                )
-            }
+            MetricCard(
+                modifier = Modifier.weight(1f),
+                label = stringResource(R.string.history_average_time),
+                value = stringResource(R.string.history_time_value, averageTime),
+                valueColor = MaterialTheme.colorScheme.onSurface
+            )
         }
     }
 }

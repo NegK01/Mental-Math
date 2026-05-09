@@ -2,14 +2,12 @@ package com.negk01.mentalmath.ui.screens.history
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LinearProgressIndicator
@@ -88,20 +86,19 @@ fun HistoryScreen(
                     }
                 }
 
-                itemsIndexed(
-                    items = uiState.displayRecords,
-                    key = { _, record -> record.playedAt }
-                ) { index, record ->
-                    Box(modifier = Modifier.animateItem()) {
-                        Column {
+                uiState.displayRecords.forEachIndexed { index, record ->
+                    item(key = record.playedAt) {
+                        Box(modifier = Modifier.animateItem()) {
                             RecentScoreItem(record = record)
-                            if ((index + 1) % 5 == 0 && index < uiState.displayRecords.lastIndex) {
-                                HorizontalDivider(
-                                    modifier = Modifier.padding(top = 12.dp),
-                                    color = MaterialTheme.colorScheme.surfaceVariant,
-                                    thickness = 3.dp
-                                )
-                            }
+                        }
+                    }
+                    if ((index + 1) % 5 == 0 && index < uiState.displayRecords.lastIndex) {
+                        item(key = "divider_${record.playedAt}") {
+                            HorizontalDivider(
+                                modifier = Modifier.padding(horizontal = 24.dp),
+                                color = MaterialTheme.colorScheme.surfaceVariant,
+                                thickness = 1.dp
+                            )
                         }
                     }
                 }

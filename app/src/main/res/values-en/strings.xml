@@ -28,13 +28,13 @@
     <string name="completion_unknown">Unknown</string>
 
     <string name="home_title">Mental Math</string>
-    <string name="home_subtitle">Train your mental agility with fast rounds and total focus.</string>
-    <string name="home_subtitle_compact">Fast sessions to keep your pace, accuracy, and focus sharp.</string>
-    <string name="home_header_hint">Short sessions. Steady pace. Real progress.</string>
+    <string name="home_subtitle">Train your mental agility with fast rounds and total focus</string>
+    <string name="home_subtitle_compact">Fast sessions to keep your pace, accuracy, and focus sharp</string>
+    <string name="home_header_hint">Short sessions. Steady pace. Real progress</string>
     <string name="home_daily_streak_title">Daily streak</string>
     <string name="home_daily_streak_value">%1$d</string>
     <string name="home_recent_scores_title">Last 3 games</string>
-    <string name="home_recent_scores_subtitle">Your recent activity at a glance.</string>
+    <string name="home_recent_scores_subtitle">Your recent activity at a glance</string>
     <string name="home_recent_score_summary">%1$d/%2$d (%3$.1fs)</string>
     <string name="home_start_game">Start game</string>
     <string name="home_start_game_content_description">Start game</string>
@@ -46,9 +46,9 @@
     </plurals>
 
     <string name="history_title">History</string>
-    <string name="history_empty">No saved games yet.</string>
+    <string name="history_empty">No saved games yet</string>
     <string name="history_summary_title">Overview</string>
-    <string name="history_summary_subtitle">Your recent stats to measure pace and accuracy.</string>
+    <string name="history_summary_subtitle">Your recent stats to measure pace and accuracy</string>
     <string name="history_total_games">Games played</string>
     <string name="history_average_accuracy">Average accuracy</string>
     <string name="history_average_time">Average time</string>
@@ -59,26 +59,26 @@
     <string name="config_title">Settings</string>
     <string name="config_difficulty_title">Difficulty level</string>
     <string name="config_sound_title">Sound effects</string>
-    <string name="config_sound_description">Enable or disable audio feedback during the experience.</string>
+    <string name="config_sound_description">Enable or disable audio feedback during the experience</string>
     <string name="config_theme_title">App theme</string>
     <string name="config_language_title">App language</string>
     <string name="config_delete_history_button">Delete score history</string>
     <string name="config_delete_dialog_title">Delete history</string>
-    <string name="config_delete_dialog_message">This action will remove all saved games from the device.</string>
+    <string name="config_delete_dialog_message">This action will remove all saved games from the device</string>
     <string name="config_delete_dialog_confirm">Delete</string>
     <string name="config_delete_dialog_cancel">Cancel</string>
 
     <string name="game_exit">Exit</string>
     <string name="game_pause">Pause</string>
     <string name="game_pause_title">Game paused</string>
-    <string name="game_pause_message">Take a breath and jump back in when you are ready.</string>
+    <string name="game_pause_message">Take a breath and jump back in when you are ready</string>
     <string name="game_resume">Resume</string>
     <string name="game_time_left">Time: %1$ds</string>
     <string name="game_progress_title">Keep the pace</string>
-    <string name="game_progress_subtitle">Solve fast and hold your streak to finish strong.</string>
+    <string name="game_progress_subtitle">Solve fast and hold your streak to finish strong</string>
     <string name="game_round_progress">Round %1$d of %2$d</string>
     <string name="game_question_title">Solve this expression</string>
-    <string name="game_question_subtitle">No calculator. Just focus and speed.</string>
+    <string name="game_question_subtitle">No calculator. Just focus and speed</string>
     <string name="game_answer_title">Your answer</string>
     <string name="game_answer_placeholder">Type your answer</string>
     <string name="game_clear_short">C</string>
@@ -87,14 +87,14 @@
     <string name="results_title">Results</string>
     <string name="results_correct_answers">Correct answers</string>
     <string name="results_average_time">Average time</string>
-    <string name="results_congrats_title">Nice work.</string>
-    <string name="results_congrats_subtitle">Every round sharpens your mental speed.</string>
-    <string name="results_feedback_title_great">Great work.</string>
-    <string name="results_feedback_subtitle_great">You kept a sharp and accurate pace.</string>
-    <string name="results_feedback_title_good">Solid pace.</string>
-    <string name="results_feedback_subtitle_good">You are on track. Keep refining accuracy.</string>
-    <string name="results_feedback_title_keep">Keep training.</string>
-    <string name="results_feedback_subtitle_keep">Each session builds speed and control.</string>
+    <string name="results_congrats_title">Nice work</string>
+    <string name="results_congrats_subtitle">Every round sharpens your mental speed</string>
+    <string name="results_feedback_title_great">Great work</string>
+    <string name="results_feedback_subtitle_great">You kept a sharp and accurate pace</string>
+    <string name="results_feedback_title_good">Solid pace</string>
+    <string name="results_feedback_subtitle_good">You are on track. Keep refining accuracy</string>
+    <string name="results_feedback_title_keep">Keep training</string>
+    <string name="results_feedback_subtitle_keep">Each session builds speed and control</string>
     <string name="results_round_details_title">Round details</string>
     <string name="results_go_home">Back home</string>
     <string name="results_play_again">Play again</string>
