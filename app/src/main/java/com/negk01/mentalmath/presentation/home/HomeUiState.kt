@@ -4,5 +4,6 @@ import com.negk01.mentalmath.domain.model.GameRecord
 
 data class HomeUiState(
     val dailyStreak: Int = 0,
-    val recentRecords: List<GameRecord> = emptyList()
+    val recentRecords: List<GameRecord> = emptyList(),
+    val showOnboarding: Boolean = false
 )

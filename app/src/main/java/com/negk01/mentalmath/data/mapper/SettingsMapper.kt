@@ -12,7 +12,8 @@ fun SettingsEntity.toDomain(): AppSettings {
         selectedDifficulty = selectedDifficulty.toDifficulty(),
         soundEnabled = soundEnabled,
         themePreference = themePreference.toThemePreference(),
-        languagePreference = languagePreference.toLanguagePreference()
+        languagePreference = languagePreference.toLanguagePreference(),
+        hasSeenOnboarding = hasSeenOnboarding
     )
 }
 
@@ -22,6 +23,7 @@ fun AppSettings.toEntity(): SettingsEntity {
         selectedDifficulty = selectedDifficulty.toStorageKey(),
         soundEnabled = soundEnabled,
         themePreference = themePreference.toStorageKey(),
-        languagePreference = languagePreference.toStorageKey()
+        languagePreference = languagePreference.toStorageKey(),
+        hasSeenOnboarding = hasSeenOnboarding
     )
 }

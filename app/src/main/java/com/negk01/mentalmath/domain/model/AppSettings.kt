@@ -5,4 +5,5 @@ data class AppSettings(
     val soundEnabled: Boolean,
     val themePreference: ThemePreference,
     val languagePreference: LanguagePreference,
+    val hasSeenOnboarding: Boolean = false,
 )

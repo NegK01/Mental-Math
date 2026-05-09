@@ -103,4 +103,10 @@
 
     <string name="common_seconds_int">%1$ds</string>
     <string name="common_seconds_decimal">%1$.1fs</string>
+
+    <string name="onboarding_title">Bienvenido a</string>
+    <string name="onboarding_subtitle">Elige cómo quieres jugar</string>
+    <string name="onboarding_section_theme">Elige tu tema</string>
+    <string name="onboarding_section_difficulty">Elige tu dificultad</string>
+    <string name="onboarding_cta">¡Empezar a jugar!</string>
 </resources>

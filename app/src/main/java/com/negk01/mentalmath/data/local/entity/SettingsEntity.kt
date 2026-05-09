@@ -9,5 +9,6 @@ data class SettingsEntity(
     val selectedDifficulty: String,
     val soundEnabled: Boolean,
     val themePreference: String,
-    val languagePreference: String
+    val languagePreference: String,
+    val hasSeenOnboarding: Boolean = false
 )

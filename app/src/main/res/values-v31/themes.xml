@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.MentalMath" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- API 31+ introduce la Splash Screen API de Android.
+             windowSplashScreenBackground: controla el fondo de la pantalla de arranque del sistema.
+             windowBackground: se mantiene como fallback para el fondo de la Activity tras el splash.
+             Ambos atributos son necesarios en este nivel. Color definido en values/colors.xml.
+             Para API 24-30 (sin Splash Screen API) ver values/themes.xml. -->
+        <item name="android:windowBackground">@color/splash_background</item>
+        <item name="android:windowSplashScreenBackground">@color/splash_background</item>
+    </style>
+</resources>

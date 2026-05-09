@@ -67,12 +67,14 @@ class ConfigViewModel(
 
     private fun saveSettings() {
         viewModelScope.launch {
+            val hasSeenOnboarding = settingsRepository.getSettings().hasSeenOnboarding
             settingsRepository.saveSettings(
                 AppSettings(
                     selectedDifficulty = _uiState.value.selectedDifficulty,
                     soundEnabled = _uiState.value.soundEnabled,
                     themePreference = _uiState.value.themePreference,
-                    languagePreference = _uiState.value.languagePreference
+                    languagePreference = _uiState.value.languagePreference,
+                    hasSeenOnboarding = hasSeenOnboarding
                 )
             )
         }

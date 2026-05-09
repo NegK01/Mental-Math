@@ -15,6 +15,7 @@ object DatabaseProvider {
                 AppDatabase::class.java,
                 "mental_math_db"
             )
+                .addMigrations(AppDatabase.MIGRATION_3_4)
                 .fallbackToDestructiveMigration()
                 .build()
 

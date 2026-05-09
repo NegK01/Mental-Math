@@ -7,4 +7,8 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <!-- Fondo del splash/arranque. Negro porque no se puede leer el tema del usuario antes
+         de que la DB cargue. Coincide con los temas oscuros de la app (OLED, Graphite).
+         Usado en values/themes.xml (API 24-30) y values-v31/themes.xml (API 31+). -->
+    <color name="splash_background">#FF000000</color>
 </resources>

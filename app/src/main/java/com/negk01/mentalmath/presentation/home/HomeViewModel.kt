@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.negk01.mentalmath.domain.repository.GameRecordRepository
+import com.negk01.mentalmath.domain.repository.SettingsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,14 +17,32 @@ import java.time.ZoneId
 
 @RequiresApi(Build.VERSION_CODES.O)
 class HomeViewModel(
-    private val gameRecordRepository: GameRecordRepository
+    private val gameRecordRepository: GameRecordRepository,
+    private val settingsRepository: SettingsRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
     init {
+        // DEV: descomentar para ver el onboarding de nuevo en el próximo lanzamiento
+        // viewModelScope.launch { settingsRepository.saveSettings(settingsRepository.getSettings().copy(hasSeenOnboarding = false)) }
+        loadOnboardingFlag()
         observeRecentRecords()
+    }
+
+    private fun loadOnboardingFlag() {
+        viewModelScope.launch {
+            val settings = settingsRepository.getSettings()
+            _uiState.update { it.copy(showOnboarding = !settings.hasSeenOnboarding) }
+        }
+    }
+
+    fun markOnboardingShown() {
+        viewModelScope.launch {
+            settingsRepository.markOnboardingShown()
+            _uiState.update { it.copy(showOnboarding = false) }
+        }
     }
 
     private fun observeRecentRecords() {

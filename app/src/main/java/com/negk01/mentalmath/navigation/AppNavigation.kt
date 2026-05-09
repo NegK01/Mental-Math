@@ -37,6 +37,7 @@ import com.negk01.mentalmath.ui.screens.config.ConfigScreen
 import com.negk01.mentalmath.ui.screens.game.GameScreen
 import com.negk01.mentalmath.ui.screens.history.HistoryScreen
 import com.negk01.mentalmath.ui.screens.home.HomeScreen
+import com.negk01.mentalmath.ui.screens.home.components.OnboardingModal
 import com.negk01.mentalmath.ui.screens.results.ResultsScreen
 import com.negk01.mentalmath.ui.theme.MentalMathTheme
 import com.negk01.mentalmath.ui.utils.toLocaleListCompat
@@ -58,7 +59,7 @@ fun AppNavigation() {
         factory = ConfigViewModelFactory(settingsRepository, gameRecordRepository)
     )
     val homeViewModel: HomeViewModel = viewModel(
-        factory = HomeViewModelFactory(gameRecordRepository)
+        factory = HomeViewModelFactory(gameRecordRepository, settingsRepository)
     )
     val historyViewModel: HistoryViewModel = viewModel(
         factory = HistoryViewModelFactory(gameRecordRepository)
@@ -68,6 +69,7 @@ fun AppNavigation() {
     )
 
     val configUiState by configViewModel.uiState.collectAsState()
+    val homeUiState by homeViewModel.uiState.collectAsState()
 
     LaunchedEffect(configUiState.languagePreference) {
         AppCompatDelegate.setApplicationLocales(
@@ -77,7 +79,7 @@ fun AppNavigation() {
 
     MentalMathTheme(themePreference = configUiState.themePreference) {
         val showBottomBar = currentRoute in listOf(Routes.HOME, Routes.HISTORY, Routes.CONFIG)
-        
+
         Box(modifier = Modifier.fillMaxSize()) {
             NavHost(
                 navController = navController,
@@ -86,50 +88,51 @@ fun AppNavigation() {
                 exitTransition = { ExitTransition.None },
                 modifier = Modifier.fillMaxSize()
             ) {
-            composable(Routes.HOME) {
-                HomeScreen(
-                    viewModel = homeViewModel,
-                    onStartGame = {
-                        gameViewModel.startGame(configUiState.selectedDifficulty)
-                        navController.navigate(Routes.GAME)
-                    }
-                )
-            }
-
-            composable(Routes.HISTORY) {
-                HistoryScreen(
-                    viewModel = historyViewModel
-                )
-            }
-
-            composable(Routes.CONFIG) {
-                ConfigScreen(
-                    viewModel = configViewModel
-                )
-            }
-
-            composable(Routes.GAME) {
-                GameScreen(
-                    navController = navController,
-                    viewModel = gameViewModel,
-                    onGameAbandoned = { historyViewModel.resetToTop() }
-                )
-            }
-
-            composable(Routes.RESULTS) {
-                ResultsScreen(
-                    navController = navController,
-                    currentRoute = currentRoute,
-                    sessionResult = gameViewModel.sessionResult,
-                    onPlayAgain = {
-                        gameViewModel.restartGame()
-                        navController.navigate(Routes.GAME) {
-                            popUpTo(Routes.RESULTS) { inclusive = true }
+                composable(Routes.HOME) {
+                    HomeScreen(
+                        viewModel = homeViewModel,
+                        onStartGame = {
+                            gameViewModel.startGame(configUiState.selectedDifficulty)
+                            navController.navigate(Routes.GAME)
                         }
-                    }
-                )
+                    )
+                }
+
+                composable(Routes.HISTORY) {
+                    HistoryScreen(
+                        viewModel = historyViewModel
+                    )
+                }
+
+                composable(Routes.CONFIG) {
+                    ConfigScreen(
+                        viewModel = configViewModel
+                    )
+                }
+
+                composable(Routes.GAME) {
+                    GameScreen(
+                        navController = navController,
+                        viewModel = gameViewModel,
+                        onGameAbandoned = { historyViewModel.resetToTop() }
+                    )
+                }
+
+                composable(Routes.RESULTS) {
+                    ResultsScreen(
+                        navController = navController,
+                        currentRoute = currentRoute,
+                        sessionResult = gameViewModel.sessionResult,
+                        onPlayAgain = {
+                            gameViewModel.restartGame()
+                            navController.navigate(Routes.GAME) {
+                                popUpTo(Routes.RESULTS) { inclusive = true }
+                            }
+                        }
+                    )
+                }
             }
-        }
+
             AnimatedVisibility(
                 visible = showBottomBar,
                 modifier = Modifier.align(Alignment.BottomCenter)
@@ -145,6 +148,15 @@ fun AppNavigation() {
                     }
                 )
             }
+
+            OnboardingModal(
+                visible = homeUiState.showOnboarding,
+                selectedTheme = configUiState.themePreference,
+                selectedDifficulty = configUiState.selectedDifficulty,
+                onThemeChange = { configViewModel.onThemePreferenceSelected(it) },
+                onDifficultyChange = { configViewModel.onDifficultySelected(it) },
+                onDismiss = { homeViewModel.markOnboardingShown() }
+            )
         }
     }
 }

@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.MentalMath" parent="Theme.AppCompat.DayNight.NoActionBar" />
+    <style name="Theme.MentalMath" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- android:windowBackground: único atributo disponible en API 24-30 para controlar
+             el fondo previo al renderizado de la Activity (no existe Splash Screen API).
+             Para API 31+ ver values-v31/themes.xml. Color definido en values/colors.xml. -->
+        <item name="android:windowBackground">@color/splash_background</item>
+    </style>
 </resources>
