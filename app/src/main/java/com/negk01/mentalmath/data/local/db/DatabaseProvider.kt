@@ -19,7 +19,7 @@ object DatabaseProvider {
                 // No existen migraciones para v1→v2 ni v2→v3. Sin este fallback,
                 // usuarios en esas versiones crashean con IllegalStateException.
                 // Explícito por versión: v3→v4 usa MIGRATION_3_4 sin fallback.
-                .fallbackToDestructiveMigrationFrom(1, 2)
+                .fallbackToDestructiveMigrationFrom(true, 1, 2)
                 .build()
 
             INSTANCE = instance

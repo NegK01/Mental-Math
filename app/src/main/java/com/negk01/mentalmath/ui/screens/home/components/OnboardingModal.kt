@@ -1,5 +1,6 @@
 package com.negk01.mentalmath.ui.screens.home.components
 
+import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -68,6 +69,7 @@ import com.negk01.mentalmath.ui.theme.RoyalBg
 
 private val swatchSize = 44.dp
 
+@SuppressLint("ConfigurationScreenWidthHeight")
 @Composable
 fun OnboardingModal(
     visible: Boolean,
@@ -162,7 +164,7 @@ fun OnboardingModal(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Difficulty.values().forEach { difficulty ->
+                        Difficulty.entries.forEach { difficulty ->
                             val labelRes = when (difficulty) {
                                 Difficulty.EASY -> R.string.difficulty_easy
                                 Difficulty.MEDIUM -> R.string.difficulty_medium
@@ -224,7 +226,7 @@ private fun ThemeSwatchRow(
             horizontalArrangement = Arrangement.spacedBy(10.dp),
             contentPadding = PaddingValues(horizontal = 2.dp)
         ) {
-            items(ThemePreference.values().filter { it != ThemePreference.SYSTEM }) { theme ->
+            items(ThemePreference.entries.filter { it != ThemePreference.SYSTEM }) { theme ->
                 ThemeSwatch(
                     theme = theme,
                     selected = theme == selectedTheme,
