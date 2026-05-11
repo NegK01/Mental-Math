@@ -12,13 +12,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.negk01.mentalmath.R
 import com.negk01.mentalmath.domain.model.Difficulty
-import com.negk01.mentalmath.ui.utils.badgeColors
 import com.negk01.mentalmath.ui.utils.toLabelResId
 
 @Composable
@@ -26,7 +24,6 @@ fun DifficultySelector(
     selected: Difficulty,
     onSelect: (Difficulty) -> Unit
 ) {
-    val isDarkTheme = MaterialTheme.colorScheme.surface.luminance() < 0.5f
     val options = listOf(
         Difficulty.EASY,
         Difficulty.MEDIUM,

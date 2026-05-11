@@ -3,6 +3,7 @@ package com.negk01.mentalmath.ui.utils
 import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.Color
 import com.negk01.mentalmath.R
+import com.negk01.mentalmath.ui.theme.AbandonedContainer
 import com.negk01.mentalmath.ui.theme.Danger
 import com.negk01.mentalmath.ui.theme.SuccessContainer
 import com.negk01.mentalmath.ui.theme.SuccessText
@@ -19,7 +20,7 @@ fun completionStatusToDisplayNameRes(status: String): Int {
 fun completionStatusToBadgeColor(status: String): Color {
     return when (status.lowercase()) {
         "completed" -> SuccessContainer
-        "abandoned" -> Color(0xFFF8D7DA)
+        "abandoned" -> AbandonedContainer
         else -> Color.LightGray
     }
 }

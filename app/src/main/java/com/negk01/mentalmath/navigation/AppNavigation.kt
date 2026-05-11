@@ -1,7 +1,5 @@
 package com.negk01.mentalmath.navigation
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
@@ -42,7 +40,6 @@ import com.negk01.mentalmath.ui.screens.results.ResultsScreen
 import com.negk01.mentalmath.ui.theme.MentalMathTheme
 import com.negk01.mentalmath.ui.utils.toLocaleListCompat
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AppNavigation() {
     val context = LocalContext.current

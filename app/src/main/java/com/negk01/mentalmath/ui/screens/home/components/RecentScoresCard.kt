@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.negk01.mentalmath.R
 import com.negk01.mentalmath.domain.model.GameRecord
+import com.negk01.mentalmath.ui.components.GameRecordItem
 
 @Composable
 fun RecentScoresCard(
@@ -73,7 +74,7 @@ fun RecentScoresCard(
                 )
             } else {
                 records.forEach { record ->
-                    RecentScoreItem(record = record)
+                    GameRecordItem(record = record)
                 }
             }
         }

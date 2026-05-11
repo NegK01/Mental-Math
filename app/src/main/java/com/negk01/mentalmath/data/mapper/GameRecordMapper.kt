@@ -2,8 +2,6 @@ package com.negk01.mentalmath.data.mapper
 
 import com.negk01.mentalmath.data.local.entity.GameRecordEntity
 import com.negk01.mentalmath.domain.model.GameRecord
-import com.negk01.mentalmath.ui.utils.toDifficulty
-import com.negk01.mentalmath.ui.utils.toStorageKey
 
 fun GameRecordEntity.toDomain(): GameRecord {
     return GameRecord(

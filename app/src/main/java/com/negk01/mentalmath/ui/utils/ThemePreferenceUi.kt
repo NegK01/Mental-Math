@@ -4,32 +4,6 @@ import androidx.annotation.StringRes
 import com.negk01.mentalmath.R
 import com.negk01.mentalmath.domain.model.ThemePreference
 
-fun ThemePreference.toStorageKey(): String {
-    return when (this) {
-        ThemePreference.SYSTEM -> "system"
-        ThemePreference.LIGHT -> "light"
-        ThemePreference.ORIGINAL -> "original"
-        ThemePreference.MENTA_PROFUNDO -> "menta_profundo"
-        ThemePreference.OLED_RELAX -> "oled_relax"
-        ThemePreference.NORDIC_FROST -> "nordic_frost"
-        ThemePreference.ROYAL_DARK -> "royal_dark"
-        ThemePreference.GRAPHITE_LIME -> "graphite_lime"
-    }
-}
-
-fun String.toThemePreference(): ThemePreference {
-    return when (lowercase()) {
-        "light" -> ThemePreference.LIGHT
-        "dark", "original" -> ThemePreference.ORIGINAL
-        "menta_profundo" -> ThemePreference.MENTA_PROFUNDO
-        "oled_relax" -> ThemePreference.OLED_RELAX
-        "nordic_frost" -> ThemePreference.NORDIC_FROST
-        "royal_dark" -> ThemePreference.ROYAL_DARK
-        "graphite_lime" -> ThemePreference.GRAPHITE_LIME
-        else -> ThemePreference.SYSTEM
-    }
-}
-
 @StringRes
 fun ThemePreference.toLabelResId(): Int {
     return when (this) {

@@ -1,7 +1,5 @@
 package com.negk01.mentalmath.presentation.home
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.negk01.mentalmath.domain.repository.GameRecordRepository
@@ -15,7 +13,6 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
 
-@RequiresApi(Build.VERSION_CODES.O)
 class HomeViewModel(
     private val gameRecordRepository: GameRecordRepository,
     private val settingsRepository: SettingsRepository

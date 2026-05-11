@@ -1,10 +1,8 @@
 package com.negk01.mentalmath.ui.utils
 
 import androidx.annotation.StringRes
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.luminance
 import com.negk01.mentalmath.R
 import com.negk01.mentalmath.domain.model.Difficulty
 import com.negk01.mentalmath.ui.theme.BadgeEasy
@@ -22,22 +20,6 @@ data class DifficultyBadgeColors(
     val content: Color
 )
 
-fun Difficulty.toStorageKey(): String {
-    return when (this) {
-        Difficulty.EASY -> "easy"
-        Difficulty.MEDIUM -> "medium"
-        Difficulty.HARD -> "hard"
-    }
-}
-
-fun String.toDifficulty(): Difficulty {
-    return when (lowercase()) {
-        "easy" -> Difficulty.EASY
-        "hard" -> Difficulty.HARD
-        else -> Difficulty.MEDIUM
-    }
-}
-
 @StringRes
 fun Difficulty.toLabelResId(): Int {
     return when (this) {
@@ -47,7 +29,7 @@ fun Difficulty.toLabelResId(): Int {
     }
 }
 
-fun Difficulty.badgeColors(isDarkTheme: Boolean): DifficultyBadgeColors {
+fun Difficulty.badgeColorsFor(isDarkTheme: Boolean): DifficultyBadgeColors {
     return when (this) {
         Difficulty.EASY -> {
             if (isDarkTheme) {
@@ -85,7 +67,4 @@ fun Difficulty.badgeColors(isDarkTheme: Boolean): DifficultyBadgeColors {
 }
 
 @Composable
-fun Difficulty.badgeColors(): DifficultyBadgeColors {
-    val isDarkTheme = MaterialTheme.colorScheme.surface.luminance() < 0.5f
-    return badgeColors(isDarkTheme = isDarkTheme)
-}
+fun Difficulty.badgeColors(): DifficultyBadgeColors = badgeColorsFor(isDarkTheme = isDarkTheme())

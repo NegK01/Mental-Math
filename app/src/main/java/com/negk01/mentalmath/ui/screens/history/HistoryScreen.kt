@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.sp
 import com.negk01.mentalmath.R
 import com.negk01.mentalmath.presentation.history.HistoryViewModel
 import com.negk01.mentalmath.ui.screens.history.components.HistorySummaryCard
-import com.negk01.mentalmath.ui.screens.home.components.RecentScoreItem
+import com.negk01.mentalmath.ui.components.GameRecordItem
 
 @Composable
 fun HistoryScreen(
@@ -89,7 +89,7 @@ fun HistoryScreen(
                 uiState.displayRecords.forEachIndexed { index, record ->
                     item(key = record.playedAt) {
                         Box(modifier = Modifier.animateItem()) {
-                            RecentScoreItem(record = record)
+                            GameRecordItem(record = record)
                         }
                     }
                     if ((index + 1) % 5 == 0 && index < uiState.displayRecords.lastIndex) {

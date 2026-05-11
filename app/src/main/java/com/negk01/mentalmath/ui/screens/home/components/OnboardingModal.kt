@@ -51,6 +51,20 @@ import androidx.compose.ui.unit.dp
 import com.negk01.mentalmath.R
 import com.negk01.mentalmath.domain.model.Difficulty
 import com.negk01.mentalmath.domain.model.ThemePreference
+import com.negk01.mentalmath.ui.theme.BackgroundLight
+import com.negk01.mentalmath.ui.theme.BrandPrimary
+import com.negk01.mentalmath.ui.theme.GraphiteAccent
+import com.negk01.mentalmath.ui.theme.GraphiteBg
+import com.negk01.mentalmath.ui.theme.MentaAccent
+import com.negk01.mentalmath.ui.theme.MentaBg
+import com.negk01.mentalmath.ui.theme.NordicAccent
+import com.negk01.mentalmath.ui.theme.NordicBg
+import com.negk01.mentalmath.ui.theme.OledAccent
+import com.negk01.mentalmath.ui.theme.OledBg
+import com.negk01.mentalmath.ui.theme.OriginalAccent
+import com.negk01.mentalmath.ui.theme.OriginalBg
+import com.negk01.mentalmath.ui.theme.RoyalAccent
+import com.negk01.mentalmath.ui.theme.RoyalBg
 
 private val swatchSize = 44.dp
 
@@ -268,12 +282,12 @@ private fun ThemeSwatch(
 private data class SwatchColors(val bg: Color, val accent: Color)
 
 private fun swatchColorsFor(theme: ThemePreference): SwatchColors = when (theme) {
-    ThemePreference.SYSTEM        -> SwatchColors(Color(0xFF4F46E5), Color.White)
-    ThemePreference.LIGHT         -> SwatchColors(Color(0xFFF4F7FB), Color(0xFF4F46E5))
-    ThemePreference.ORIGINAL      -> SwatchColors(Color(0xFF11141E), Color(0xFF8B5CF6))
-    ThemePreference.MENTA_PROFUNDO -> SwatchColors(Color(0xFF0B191E), Color(0xFF00D0B6))
-    ThemePreference.OLED_RELAX    -> SwatchColors(Color(0xFF000000), Color(0xFF5E5CE6))
-    ThemePreference.NORDIC_FROST  -> SwatchColors(Color(0xFF1E222A), Color(0xFF56B6C2))
-    ThemePreference.ROYAL_DARK    -> SwatchColors(Color(0xFF0B1120), Color(0xFF3B82F6))
-    ThemePreference.GRAPHITE_LIME -> SwatchColors(Color(0xFF161819), Color(0xFF98EC65))
+    ThemePreference.SYSTEM        -> SwatchColors(BrandPrimary, Color.White)
+    ThemePreference.LIGHT         -> SwatchColors(BackgroundLight, BrandPrimary)
+    ThemePreference.ORIGINAL      -> SwatchColors(OriginalBg, OriginalAccent)
+    ThemePreference.MENTA_PROFUNDO -> SwatchColors(MentaBg, MentaAccent)
+    ThemePreference.OLED_RELAX    -> SwatchColors(OledBg, OledAccent)
+    ThemePreference.NORDIC_FROST  -> SwatchColors(NordicBg, NordicAccent)
+    ThemePreference.ROYAL_DARK    -> SwatchColors(RoyalBg, RoyalAccent)
+    ThemePreference.GRAPHITE_LIME -> SwatchColors(GraphiteBg, GraphiteAccent)
 }

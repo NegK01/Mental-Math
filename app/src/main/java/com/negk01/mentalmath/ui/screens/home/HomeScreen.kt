@@ -1,7 +1,5 @@
 package com.negk01.mentalmath.ui.screens.home
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,7 +21,6 @@ import com.negk01.mentalmath.ui.screens.home.components.HomeHeader
 import com.negk01.mentalmath.ui.screens.home.components.RecentScoresCard
 import com.negk01.mentalmath.ui.screens.home.components.StartGameButton
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun HomeScreen(
     onStartGame: () -> Unit,

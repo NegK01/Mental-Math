@@ -1,3 +1,4 @@
+// DEV: Este componente no está siendo usado en ninguna pantalla. HomeHeader ya renderiza el streak directamente. Evaluar eliminar o integrar en HistoryScreen.
 package com.negk01.mentalmath.ui.screens.home.components
 
 import androidx.compose.foundation.layout.Arrangement

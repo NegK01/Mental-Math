@@ -25,6 +25,7 @@ val OnSurfaceVariantDark = Color(0xFF9FB0C9)
 
 val Danger = Color(0xFFEF4444)
 val DangerContainer = Color(0xFFFDE1DD)
+val AbandonedContainer = Color(0xFFF8D7DA)
 val Warning = Color(0xFFF59E0B)
 val WarningContainer = Color(0xFFFFF0C2)
 val Success = Color(0xFF10B981)

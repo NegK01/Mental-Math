@@ -62,14 +62,15 @@ fun ConfigScreen(
                     )
                 }
 
-//                item {
-//                    OptionSwitch(
-//                        title = stringResource(R.string.config_sound_title),
-//                        description = stringResource(R.string.config_sound_description),
-//                        checked = uiState.soundEnabled,
-//                        onCheckedChange = viewModel::onSoundEnabledChanged
-//                    )
-//                }
+                // DEV: Feature de sonido deshabilitada. Descomentar y conectar cuando se implemente el audio en GameViewModel. Requiere: SoundManager, lógica en GameViewModel. SettingsRepository ya tiene soundEnabled.
+                // item {
+                //     OptionSwitch(
+                //         title = stringResource(R.string.config_sound_title),
+                //         description = stringResource(R.string.config_sound_description),
+                //         checked = uiState.soundEnabled,
+                //         onCheckedChange = viewModel::onSoundEnabledChanged
+                //     )
+                // }
 
                 item {
                     LanguagePreferenceSelector(

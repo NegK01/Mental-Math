@@ -2,10 +2,6 @@ package com.negk01.mentalmath.data.mapper
 
 import com.negk01.mentalmath.data.local.entity.SettingsEntity
 import com.negk01.mentalmath.domain.model.AppSettings
-import com.negk01.mentalmath.ui.utils.toDifficulty
-import com.negk01.mentalmath.ui.utils.toLanguagePreference
-import com.negk01.mentalmath.ui.utils.toStorageKey
-import com.negk01.mentalmath.ui.utils.toThemePreference
 
 fun SettingsEntity.toDomain(): AppSettings {
     return AppSettings(

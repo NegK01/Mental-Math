@@ -1,4 +1,4 @@
-package com.negk01.mentalmath.ui.screens.home.components
+package com.negk01.mentalmath.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -12,10 +12,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -23,23 +23,24 @@ import androidx.compose.ui.unit.sp
 import com.negk01.mentalmath.R
 import com.negk01.mentalmath.domain.model.GameRecord
 import com.negk01.mentalmath.ui.utils.badgeColors
+import com.negk01.mentalmath.ui.utils.isDarkTheme
 import com.negk01.mentalmath.ui.utils.toLabelResId
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 @Composable
-fun RecentScoreItem(
+fun GameRecordItem(
     record: GameRecord
 ) {
     val badgeColors = record.difficulty.badgeColors()
 
-    val formattedDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        .format(Date(record.playedAt))
+    val formattedDate = remember(record.playedAt) {
+        SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date(record.playedAt))
+    }
 
     val averageSeconds = record.averageResponseTimeMillis / 1000.0
-    val isDark = MaterialTheme.colorScheme.surface.luminance() < 0.5f
-    val itemAlpha = if (isDark) 0.5f else 0.8f
+    val itemAlpha = if (isDarkTheme()) 0.5f else 0.8f
 
     Row(
         modifier = Modifier
