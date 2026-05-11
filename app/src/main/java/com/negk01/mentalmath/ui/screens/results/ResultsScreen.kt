@@ -25,7 +25,7 @@ import com.negk01.mentalmath.ui.screens.results.components.ScoreHeroSection
 @Composable
 fun ResultsScreen(
     navController: NavController,
-    currentRoute: String?,
+    currentRoute: String?, // DEV, revisar otros archivos que tambien pedian este argumento y ahora ya no lo gestionan
     sessionResult: GameSessionResult?,
     onPlayAgain: () -> Unit
 ) {
