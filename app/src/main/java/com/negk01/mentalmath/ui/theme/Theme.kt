@@ -226,7 +226,7 @@ fun MentalMathTheme(
         ThemePreference.SYSTEM -> if (systemIsDark) OriginalColors else LightColors
         ThemePreference.ORIGINAL -> OriginalColors
         ThemePreference.MENTA_PROFUNDO -> MentaColors
-        ThemePreference.OLED_RELAX -> OledColors
+        ThemePreference.OLED -> OledColors
         ThemePreference.NORDIC_FROST -> NordicColors
         ThemePreference.ROYAL_DARK -> RoyalColors
         ThemePreference.GRAPHITE_LIME -> GraphiteColors

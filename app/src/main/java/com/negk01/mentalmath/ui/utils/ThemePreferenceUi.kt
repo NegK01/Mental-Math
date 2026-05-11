@@ -11,7 +11,7 @@ fun ThemePreference.toLabelResId(): Int {
         ThemePreference.LIGHT -> R.string.theme_light
         ThemePreference.ORIGINAL -> R.string.theme_original
         ThemePreference.MENTA_PROFUNDO -> R.string.theme_menta_profundo
-        ThemePreference.OLED_RELAX -> R.string.theme_oled_relax
+        ThemePreference.OLED -> R.string.theme_oled
         ThemePreference.NORDIC_FROST -> R.string.theme_nordic_frost
         ThemePreference.ROYAL_DARK -> R.string.theme_royal_dark
         ThemePreference.GRAPHITE_LIME -> R.string.theme_graphite_lime

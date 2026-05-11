@@ -79,7 +79,7 @@ private fun ThemePreference.previewColors(): ThemePreviewColors = when (this) {
     )
     ThemePreference.ORIGINAL -> ThemePreviewColors(OriginalBg, OriginalSurface, OriginalAccent)
     ThemePreference.MENTA_PROFUNDO -> ThemePreviewColors(MentaBg, MentaSurface, MentaAccent)
-    ThemePreference.OLED_RELAX -> ThemePreviewColors(OledBg, OledSurface, OledAccent)
+    ThemePreference.OLED -> ThemePreviewColors(OledBg, OledSurface, OledAccent)
     ThemePreference.NORDIC_FROST -> ThemePreviewColors(NordicBg, NordicSurface, NordicAccent)
     ThemePreference.ROYAL_DARK -> ThemePreviewColors(RoyalBg, RoyalSurface, RoyalAccent)
     ThemePreference.GRAPHITE_LIME -> ThemePreviewColors(GraphiteBg, GraphiteSurface, GraphiteAccent)
@@ -95,7 +95,7 @@ fun ThemePreferenceSelector(
         ThemePreference.LIGHT,
         ThemePreference.ORIGINAL,
         ThemePreference.MENTA_PROFUNDO,
-        ThemePreference.OLED_RELAX,
+        ThemePreference.OLED,
         ThemePreference.NORDIC_FROST,
         ThemePreference.ROYAL_DARK,
         ThemePreference.GRAPHITE_LIME
