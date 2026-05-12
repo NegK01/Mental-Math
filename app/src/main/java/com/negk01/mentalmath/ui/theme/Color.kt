@@ -2,8 +2,8 @@ package com.negk01.mentalmath.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val BrandPrimary = Color(0xFF4F46E5)
-val BrandPrimaryLight = Color(0xFFEEF0FF)
+val BrandPrimary = Color(0xFF3933A9)
+val BrandPrimaryLight = Color(0xFFCECBFF)
 val BrandSecondary = Color(0xFFF59E0B)
 val BrandSecondaryContainer = Color(0xFFFFF1CF)
 val BrandTertiary = Color(0xFF10B981)
@@ -44,10 +44,10 @@ val HardBadgeDark = Color(0xFFE4A8AE)
 val RecentAccent = Color(0xFF5C6CC9)
 val RecentAccentContainer = Color(0xFFE1E6FA)
 
-val OriginalBg = Color(0xFF11141E)
-val OriginalSurface = Color(0xFF1E2235)
-val OriginalSurfaceVariant = Color(0xFF282B40)
-val OriginalAccent = Color(0xFF8B5CF6)
+val OriginalBg = Color(0xFF0B151E)
+val OriginalSurface = Color(0xFF172132)
+val OriginalSurfaceVariant = Color(0xFF202B3D)
+val OriginalAccent = Color(0xFF673CC2)
 val OriginalOnAccent = Color.White
 val OriginalTextPrimary = Color.White
 val OriginalTextSecondary = Color(0xFF94A3B8)
@@ -65,7 +65,7 @@ val MentaOutline = Color(0xFF1F3D47)
 val OledBg = Color.Black
 val OledSurface = Color(0xFF1C1C1E)
 val OledSurfaceVariant = Color(0xFF2C2C2E)
-val OledAccent = Color(0xFF5E5CE6)
+val OledAccent = Color(0xFF4340B8)
 val OledOnAccent = Color.White
 val OledTextPrimary = Color(0xFFF2F2F7)
 val OledTextSecondary = Color(0xFF8E8E93)

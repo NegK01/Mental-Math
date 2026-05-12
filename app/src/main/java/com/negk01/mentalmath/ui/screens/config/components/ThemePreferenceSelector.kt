@@ -17,8 +17,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -101,54 +99,48 @@ fun ThemePreferenceSelector(
         ThemePreference.GRAPHITE_LIME
     )
 
-    Card(
+    Column(
         modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
-        Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(14.dp)
-        ) {
-            Text(
-                text = stringResource(R.string.config_theme_title),
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.onSurface
-            )
+        Text(
+            text = stringResource(R.string.config_theme_title),
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.SemiBold,
+            color = MaterialTheme.colorScheme.onSurface
+        )
 
-            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                allThemes.chunked(2).forEach { pair ->
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(10.dp)
-                    ) {
-                        pair.forEach { theme ->
-                            ThemePreviewCard(
-                                modifier = Modifier.weight(1f),
-                                label = stringResource(theme.toLabelResId()),
-                                colors = theme.previewColors(),
-                                isSelected = selected == theme,
-                                onClick = { onSelect(theme) },
-                                bgContent = if (theme == ThemePreference.SYSTEM) {
-                                    {
-                                        Box(
-                                            Modifier
-                                                .fillMaxHeight()
-                                                .fillMaxWidth(0.5f)
-                                                .background(BackgroundDark)
-                                        )
-                                        Box(
-                                            Modifier
-                                                .fillMaxHeight()
-                                                .fillMaxWidth(0.5f)
-                                                .align(Alignment.TopEnd)
-                                                .background(BackgroundLight)
-                                        )
-                                    }
-                                } else null
-                            )
-                        }
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            allThemes.chunked(2).forEach { pair ->
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    pair.forEach { theme ->
+                        ThemePreviewCard(
+                            modifier = Modifier.weight(1f),
+                            label = stringResource(theme.toLabelResId()),
+                            colors = theme.previewColors(),
+                            isSelected = selected == theme,
+                            onClick = { onSelect(theme) },
+                            bgContent = if (theme == ThemePreference.SYSTEM) {
+                                {
+                                    Box(
+                                        Modifier
+                                            .fillMaxHeight()
+                                            .fillMaxWidth(0.5f)
+                                            .background(BackgroundDark)
+                                    )
+                                    Box(
+                                        Modifier
+                                            .fillMaxHeight()
+                                            .fillMaxWidth(0.5f)
+                                            .align(Alignment.TopEnd)
+                                            .background(BackgroundLight)
+                                    )
+                                }
+                            } else null
+                        )
                     }
                 }
             }
@@ -171,7 +163,7 @@ private fun ThemePreviewCard(
             .clip(RoundedCornerShape(12.dp))
             .border(
                 width = if (isSelected) 2.dp else 1.dp,
-                color = if (isSelected) colors.accent else colors.surface,
+                color = if (isSelected) colors.accent else colors.accent.copy(alpha = 0.25f),
                 shape = RoundedCornerShape(12.dp)
             )
             .background(colors.bg)

@@ -51,7 +51,7 @@ class HistoryViewModel(
             .map { it.size }
             .distinctUntilChanged()
             .drop(1)
-            .collect { resetDisplay() }
+            .collect { resetDisplay(reloadFromDb = true) }
     }
 
     fun loadMore() {
@@ -78,10 +78,21 @@ class HistoryViewModel(
         _shouldScrollToTop.value = false
     }
 
-    private fun resetDisplay() {
-        _uiState.update { it.copy(displayRecords = emptyList(), hasMore = false, isLoadingMore = false) }
-        _shouldScrollToTop.value = true
-        viewModelScope.launch { loadPage() }
+    private fun resetDisplay(reloadFromDb: Boolean = false) {
+        val current = _uiState.value.displayRecords
+        if (!reloadFromDb && current.isNotEmpty()) {
+            val firstPage = current.take(pageSize)
+            _uiState.update { it.copy(
+                displayRecords = firstPage,
+                hasMore = firstPage.size == pageSize,
+                isLoadingMore = false
+            ) }
+            _shouldScrollToTop.value = true
+        } else {
+            _uiState.update { it.copy(displayRecords = emptyList(), hasMore = false, isLoadingMore = false) }
+            _shouldScrollToTop.value = true
+            viewModelScope.launch { loadPage() }
+        }
     }
 
     private suspend fun loadPage() {

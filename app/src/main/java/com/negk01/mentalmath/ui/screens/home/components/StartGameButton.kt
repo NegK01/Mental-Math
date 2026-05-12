@@ -22,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -41,7 +42,7 @@ fun StartGameButton(
         shape = RoundedCornerShape(18.dp),
         contentPadding = PaddingValues(),
         colors = ButtonDefaults.buttonColors(
-            containerColor = androidx.compose.ui.graphics.Color.Transparent
+            containerColor = Color.Transparent
         ),
         elevation = ButtonDefaults.buttonElevation(
             defaultElevation = 6.dp,
@@ -56,8 +57,8 @@ fun StartGameButton(
                 .background(
                     brush = Brush.horizontalGradient(
                         colors = listOf(
-                            MaterialTheme.colorScheme.primary,
-                            lerp(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.primaryContainer, 0.28f)
+                            lerp(MaterialTheme.colorScheme.primary, Color.White, 0.10f),
+                            MaterialTheme.colorScheme.primary
                         )
                     ),
                     shape = RoundedCornerShape(18.dp)

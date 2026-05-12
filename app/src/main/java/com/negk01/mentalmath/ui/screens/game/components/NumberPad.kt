@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Backspace
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -46,7 +47,6 @@ fun NumberPad(
 ) {
     val buttonSpacing = if (buttonHeight <= 50.dp) 8.dp else 10.dp
     val digitFontSize = if (buttonHeight <= 50.dp) 18.sp else 22.sp
-    val actionFontSize = if (buttonHeight <= 50.dp) 16.sp else 20.sp
 
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -67,11 +67,9 @@ fun NumberPad(
             ) {
                 ActionButton(
                     modifier = Modifier.weight(1f),
-                    text = stringResource(R.string.game_clear_short),
                     containerColor = MaterialTheme.colorScheme.error.copy(alpha = 0.18f),
                     contentColor = MaterialTheme.colorScheme.error,
                     buttonHeight = buttonHeight,
-                    fontSize = actionFontSize,
                     onClick = onClearClick
                 )
                 KeyButton(
@@ -153,11 +151,9 @@ private fun KeyButton(
 @Composable
 private fun ActionButton(
     modifier: Modifier = Modifier,
-    text: String,
     containerColor: Color,
     contentColor: Color,
     buttonHeight: Dp,
-    fontSize: TextUnit,
     onClick: () -> Unit
 ) {
     val interactionSource = remember { MutableInteractionSource() }
@@ -179,7 +175,10 @@ private fun ActionButton(
         interactionSource = interactionSource,
         colors = ButtonDefaults.buttonColors(containerColor = containerColor, contentColor = contentColor)
     ) {
-        Text(text = text, fontSize = fontSize, fontWeight = FontWeight.Bold)
+        Icon(
+            imageVector = Icons.AutoMirrored.Filled.Backspace,
+            contentDescription = stringResource(R.string.game_clear_short)
+        )
     }
 }
 

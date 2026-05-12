@@ -36,7 +36,7 @@ import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -170,30 +170,29 @@ fun OnboardingModal(
                                 Difficulty.MEDIUM -> R.string.difficulty_medium
                                 Difficulty.HARD -> R.string.difficulty_hard
                             }
-                            if (difficulty == selectedDifficulty) {
-                                Button(
-                                    onClick = { onDifficultyChange(difficulty) },
-                                    modifier = Modifier.weight(1f),
-                                    shape = RoundedCornerShape(20.dp),
-                                    contentPadding = PaddingValues(vertical = 10.dp)
-                                ) {
-                                    Text(
-                                        text = stringResource(labelRes),
-                                        style = MaterialTheme.typography.labelLarge
-                                    )
+                            Surface(
+                                onClick = { onDifficultyChange(difficulty) },
+                                modifier = Modifier.weight(1f),
+                                shape = RoundedCornerShape(20.dp),
+                                color = if (difficulty == selectedDifficulty) {
+                                    MaterialTheme.colorScheme.primaryContainer
+                                } else {
+                                    MaterialTheme.colorScheme.surfaceVariant
                                 }
-                            } else {
-                                OutlinedButton(
-                                    onClick = { onDifficultyChange(difficulty) },
-                                    modifier = Modifier.weight(1f),
-                                    shape = RoundedCornerShape(20.dp),
-                                    contentPadding = PaddingValues(vertical = 10.dp)
-                                ) {
-                                    Text(
-                                        text = stringResource(labelRes),
-                                        style = MaterialTheme.typography.labelLarge
-                                    )
-                                }
+                            ) {
+                                Text(
+                                    text = stringResource(labelRes),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 10.dp),
+                                    style = MaterialTheme.typography.labelLarge,
+                                    color = if (difficulty == selectedDifficulty) {
+                                        MaterialTheme.colorScheme.onPrimaryContainer
+                                    } else {
+                                        MaterialTheme.colorScheme.onSurfaceVariant
+                                    },
+                                    textAlign = TextAlign.Center
+                                )
                             }
                         }
                     }
@@ -239,7 +238,7 @@ private fun ThemeSwatchRow(
             visible = listState.canScrollForward,
             modifier = Modifier
                 .align(Alignment.CenterEnd)
-                .offset(x = 20.dp),
+                .offset(x = 22.dp),
             enter = fadeIn(),
             exit = fadeOut()
         ) {

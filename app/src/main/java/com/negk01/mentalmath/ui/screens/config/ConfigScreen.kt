@@ -45,13 +45,20 @@ fun ConfigScreen(
                     .padding(innerPadding)
                     .statusBarsPadding(),
                 contentPadding = PaddingValues(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 120.dp),
-                verticalArrangement = Arrangement.spacedBy(18.dp)
+                verticalArrangement = Arrangement.spacedBy(26.dp)
             ) {
                 item {
                     Text(
                         text = stringResource(R.string.config_title),
                         style = MaterialTheme.typography.headlineLarge,
                         color = MaterialTheme.colorScheme.onBackground
+                    )
+                }
+
+                item {
+                    LanguagePreferenceSelector(
+                        selected = uiState.languagePreference,
+                        onSelect = viewModel::onLanguagePreferenceSelected
                     )
                 }
 
@@ -71,13 +78,6 @@ fun ConfigScreen(
                 //         onCheckedChange = viewModel::onSoundEnabledChanged
                 //     )
                 // }
-
-                item {
-                    LanguagePreferenceSelector(
-                        selected = uiState.languagePreference,
-                        onSelect = viewModel::onLanguagePreferenceSelected
-                    )
-                }
 
                 item {
                     ThemePreferenceSelector(

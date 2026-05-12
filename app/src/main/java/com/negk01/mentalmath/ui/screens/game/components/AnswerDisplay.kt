@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.negk01.mentalmath.ui.theme.Danger
 import com.negk01.mentalmath.ui.theme.SuccessText
+import com.negk01.mentalmath.ui.utils.isDarkTheme
 
 @Composable
 fun AnswerDisplay(
@@ -41,7 +42,7 @@ fun AnswerDisplay(
         targetValue = when (lastAnswerCorrect) {
             true  -> SuccessText.copy(alpha = 0.18f)
             false -> Danger.copy(alpha = 0.18f)
-            null  -> MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f)
+            null  -> if (isDarkTheme()) MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f) else MaterialTheme.colorScheme.surfaceVariant
         },
         animationSpec = tween(durationMillis = 150),
         label = "answerFlash"
