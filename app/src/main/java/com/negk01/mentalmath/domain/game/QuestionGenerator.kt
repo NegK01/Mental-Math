@@ -76,7 +76,7 @@ object QuestionGenerator {
 
                 val expression = "$a × $b - $c + $d"
                 val answer = a * b - c + d
-                Question(expression, answer)
+                if (answer < 0) generateHardQuestion() else Question(expression, answer)
             }
 
             1 -> {
@@ -84,7 +84,7 @@ object QuestionGenerator {
                 val b = Random.nextInt(2, 13)
                 val c = Random.nextInt(2, 13)
 
-                val expression = "$a + ($b × $c)"
+                val expression = "$a + $b × $c"
                 val answer = a + (b * c)
                 Question(expression, answer)
             }
@@ -95,7 +95,7 @@ object QuestionGenerator {
                 val quotient = Random.nextInt(2, 13)
                 val dividend = divisor * quotient
 
-                val expression = "$a + ($dividend ÷ $divisor)"
+                val expression = "$a + $dividend ÷ $divisor"
                 val answer = a + (dividend / divisor)
                 Question(expression, answer)
             }
@@ -116,9 +116,9 @@ object QuestionGenerator {
                 val c = Random.nextInt(2, 21)
                 val d = Random.nextInt(2, 16)
 
-                val expression = "$a - $b + ($c × $d)"
+                val expression = "$a - $b + $c × $d"
                 val answer = a - b + (c * d)
-                Question(expression, answer)
+                if (answer < 0) generateHardQuestion() else Question(expression, answer)
             }
         }
     }
