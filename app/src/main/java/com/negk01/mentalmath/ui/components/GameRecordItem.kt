@@ -1,13 +1,11 @@
 package com.negk01.mentalmath.ui.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -22,9 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.negk01.mentalmath.R
 import com.negk01.mentalmath.domain.model.GameRecord
-import com.negk01.mentalmath.ui.utils.badgeColors
 import com.negk01.mentalmath.ui.utils.isDarkTheme
-import com.negk01.mentalmath.ui.utils.toLabelResId
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -33,8 +29,6 @@ import java.util.Locale
 fun GameRecordItem(
     record: GameRecord
 ) {
-    val badgeColors = record.difficulty.badgeColors()
-
     val formattedDate = remember(record.playedAt) {
         SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date(record.playedAt))
     }
@@ -50,20 +44,7 @@ fun GameRecordItem(
             .padding(horizontal = 14.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Box(
-            modifier = Modifier
-                .clip(CircleShape)
-                .background(badgeColors.container)
-                .padding(horizontal = 12.dp, vertical = 6.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = stringResource(record.difficulty.toLabelResId()),
-                fontSize = 13.sp,
-                color = badgeColors.content,
-                fontWeight = FontWeight.Medium
-            )
-        }
+        DifficultyBadge(difficulty = record.difficulty, compact = true)
 
         Spacer(modifier = Modifier.size(12.dp))
 
