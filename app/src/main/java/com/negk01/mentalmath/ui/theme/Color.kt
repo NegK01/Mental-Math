@@ -33,13 +33,10 @@ val SuccessContainer = Color(0xFFD7F7EB)
 val SuccessText = Color(0xFF0C7A5A)
 
 val EasyBadgeLight = Color(0xFF2F7D61)
-val EasyBadgeDark = Color(0xFF8CCAB0)
 
 val MediumBadgeLight = Color(0xFF9A6A21)
-val MediumBadgeDark = Color(0xFFE2C186)
 
 val HardBadgeLight = Color(0xFFB45158)
-val HardBadgeDark = Color(0xFFE4A8AE)
 
 val RecentAccent = Color(0xFF5C6CC9)
 val RecentAccentContainer = Color(0xFFE1E6FA)

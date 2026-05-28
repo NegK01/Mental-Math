@@ -5,8 +5,10 @@ import androidx.compose.ui.graphics.Color
 import com.negk01.mentalmath.R
 import com.negk01.mentalmath.ui.theme.AbandonedContainer
 import com.negk01.mentalmath.ui.theme.Danger
+import com.negk01.mentalmath.ui.theme.OnSurfaceVariantLight
 import com.negk01.mentalmath.ui.theme.SuccessContainer
 import com.negk01.mentalmath.ui.theme.SuccessText
+import com.negk01.mentalmath.ui.theme.SurfaceVariantLight
 
 @StringRes
 fun completionStatusToDisplayNameRes(status: String): Int {
@@ -21,7 +23,7 @@ fun completionStatusToBadgeColor(status: String): Color {
     return when (status.lowercase()) {
         "completed" -> SuccessContainer
         "abandoned" -> AbandonedContainer
-        else -> Color.LightGray
+        else -> SurfaceVariantLight
     }
 }
 
@@ -29,6 +31,6 @@ fun completionStatusToTextColor(status: String): Color {
     return when (status.lowercase()) {
         "completed" -> SuccessText
         "abandoned" -> Danger
-        else -> Color.DarkGray
+        else -> OnSurfaceVariantLight
     }
 }

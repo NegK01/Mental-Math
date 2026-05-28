@@ -14,6 +14,7 @@ import com.negk01.mentalmath.ui.theme.BadgeMediumContainer
 import com.negk01.mentalmath.ui.theme.EasyBadgeLight
 import com.negk01.mentalmath.ui.theme.HardBadgeLight
 import com.negk01.mentalmath.ui.theme.MediumBadgeLight
+import com.negk01.mentalmath.ui.theme.Opacity
 
 data class DifficultyBadgeColors(
     val container: Color,
@@ -36,7 +37,7 @@ fun Difficulty.badgeColorsFor(isDarkTheme: Boolean): DifficultyBadgeColors {
                 DifficultyBadgeColors(container = BadgeEasyContainer, content = BadgeEasy)
             } else {
                 DifficultyBadgeColors(
-                    container = EasyBadgeLight.copy(alpha = 0.18f),
+                    container = EasyBadgeLight.copy(alpha = Opacity.BadgeContainer),
                     content = EasyBadgeLight
                 )
             }
@@ -47,7 +48,7 @@ fun Difficulty.badgeColorsFor(isDarkTheme: Boolean): DifficultyBadgeColors {
                 DifficultyBadgeColors(container = BadgeMediumContainer, content = BadgeMedium)
             } else {
                 DifficultyBadgeColors(
-                    container = MediumBadgeLight.copy(alpha = 0.18f),
+                    container = MediumBadgeLight.copy(alpha = Opacity.BadgeContainer),
                     content = MediumBadgeLight
                 )
             }
@@ -58,7 +59,7 @@ fun Difficulty.badgeColorsFor(isDarkTheme: Boolean): DifficultyBadgeColors {
                 DifficultyBadgeColors(container = BadgeHardContainer, content = BadgeHard)
             } else {
                 DifficultyBadgeColors(
-                    container = HardBadgeLight.copy(alpha = 0.18f),
+                    container = HardBadgeLight.copy(alpha = Opacity.BadgeContainer),
                     content = HardBadgeLight
                 )
             }

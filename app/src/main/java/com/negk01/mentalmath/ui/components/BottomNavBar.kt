@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.negk01.mentalmath.R
+import com.negk01.mentalmath.ui.theme.Opacity
 import com.negk01.mentalmath.navigation.Routes
 
 private data class NavItem(
@@ -79,7 +80,7 @@ fun BottomNavBar(
                 val isSelected = currentRoute == item.route
                 val primary = MaterialTheme.colorScheme.primary
                 val background = animateColorAsState(
-                    targetValue = if (isSelected) primary.copy(alpha = 0.18f) else primary.copy(alpha = 0f),
+                    targetValue = if (isSelected) primary.copy(alpha = Opacity.BadgeContainer) else primary.copy(alpha = 0f),
                     animationSpec = tween(350, easing = FastOutSlowInEasing),
                     label = "backgroundColor"
                 ).value
