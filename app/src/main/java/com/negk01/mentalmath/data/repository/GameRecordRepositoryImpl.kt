@@ -3,6 +3,8 @@ package com.negk01.mentalmath.data.repository
 import com.negk01.mentalmath.data.local.dao.GameRecordDao
 import com.negk01.mentalmath.data.mapper.toDomain
 import com.negk01.mentalmath.data.mapper.toEntity
+import com.negk01.mentalmath.data.mapper.toStorageKey
+import com.negk01.mentalmath.domain.model.Difficulty
 import com.negk01.mentalmath.domain.model.GameRecord
 import com.negk01.mentalmath.domain.repository.GameRecordRepository
 import kotlinx.coroutines.flow.Flow
@@ -34,5 +36,9 @@ class GameRecordRepositoryImpl(
 
     override suspend fun clearAll() {
         gameRecordDao.clearAll()
+    }
+
+    override suspend fun getBestAccuracyForDifficulty(difficulty: Difficulty): Double? {
+        return gameRecordDao.getBestAccuracyForDifficulty(difficulty.toStorageKey())
     }
 }

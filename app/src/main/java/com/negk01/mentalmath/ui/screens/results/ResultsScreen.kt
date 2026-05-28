@@ -17,25 +17,23 @@ import com.negk01.mentalmath.R
 import com.negk01.mentalmath.domain.model.GameSessionResult
 import com.negk01.mentalmath.domain.model.RoundDetail
 import com.negk01.mentalmath.navigation.Routes
+import com.negk01.mentalmath.presentation.results.ResultsUiState
+import com.negk01.mentalmath.ui.screens.results.components.OperatorInsightRow
 import com.negk01.mentalmath.ui.screens.results.components.ResultsActions
-import com.negk01.mentalmath.ui.screens.results.components.ResultsSummarySection
+import com.negk01.mentalmath.ui.screens.results.components.ResultsMomentumSection
 import com.negk01.mentalmath.ui.screens.results.components.RoundDetailsSection
 import com.negk01.mentalmath.ui.screens.results.components.ScoreHeroSection
 
 @Composable
 fun ResultsScreen(
     navController: NavController,
-    currentRoute: String?, // DEV, revisar otros archivos que tambien pedian este argumento y ahora ya no lo gestionan
     sessionResult: GameSessionResult?,
+    resultsUiState: ResultsUiState,
     onPlayAgain: () -> Unit
 ) {
     val roundDetails = sessionResult?.roundResults?.map { round ->
         RoundDetail(
-            expression = stringResource(
-                R.string.results_round_expression,
-                round.question,
-                round.correctAnswer
-            ),
+            expression = stringResource(R.string.results_round_expression, round.question, round.correctAnswer),
             userAnswer = round.userAnswer.toString(),
             isCorrect = round.isCorrect,
             time = stringResource(R.string.common_seconds_int, round.timeSpentSeconds)
@@ -44,7 +42,6 @@ fun ResultsScreen(
 
     val correctAnswers = sessionResult?.correctAnswers ?: 0
     val totalRounds = sessionResult?.totalRounds ?: 0
-    val averageTime = sessionResult?.averageResponseTimeSeconds ?: 0.0
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background
@@ -57,32 +54,39 @@ fun ResultsScreen(
         ) {
             LazyColumn(
                 modifier = Modifier.weight(1f),
-                contentPadding = PaddingValues(
-                    start = 16.dp,
-                    end = 16.dp,
-                    top = 24.dp,
-                    bottom = 12.dp
-                )
+                contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 24.dp, bottom = 12.dp)
             ) {
                 item {
                     ScoreHeroSection(
                         correctAnswers = correctAnswers,
                         totalRounds = totalRounds,
                         difficulty = sessionResult?.difficulty,
-                        modifier = Modifier.padding(bottom = 24.dp)
+                        completionStatus = sessionResult?.completionStatus ?: "",
+                        nextGoal = resultsUiState.nextGoal,
+                        modifier = Modifier.padding(bottom = 20.dp)
                     )
                 }
 
                 item {
-                    ResultsSummarySection(
-                        correctAnswers = correctAnswers,
-                        averageTime = averageTime
+                    ResultsMomentumSection(
+                        maxStreak = resultsUiState.maxStreak,
+                        delta = resultsUiState.delta,
+                        modifier = Modifier.padding(bottom = 8.dp)
                     )
+                }
+
+                resultsUiState.operatorInsight?.let { insight ->
+                    item {
+                        OperatorInsightRow(
+                            insight = insight,
+                            modifier = Modifier.padding(bottom = 18.dp)
+                        )
+                    }
                 }
 
                 item {
                     RoundDetailsSection(
-                        modifier = Modifier.padding(top = 18.dp),
+                        modifier = Modifier.padding(top = if (resultsUiState.operatorInsight == null) 18.dp else 0.dp),
                         items = roundDetails
                     )
                 }

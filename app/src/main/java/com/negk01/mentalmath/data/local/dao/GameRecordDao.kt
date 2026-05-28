@@ -29,4 +29,7 @@ interface GameRecordDao {
 
     @Query("DELETE FROM game_records")
     suspend fun clearAll()
+
+    @Query("SELECT MAX(CAST(correctAnswers AS REAL) / totalRounds) FROM game_records WHERE difficulty = :difficulty")
+    suspend fun getBestAccuracyForDifficulty(difficulty: String): Double?
 }

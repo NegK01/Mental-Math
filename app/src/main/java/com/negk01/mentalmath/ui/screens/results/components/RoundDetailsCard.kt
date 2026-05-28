@@ -35,7 +35,7 @@ fun RoundDetailsSection(
 
         if (items.isEmpty()) {
             Text(
-                text = stringResource(R.string.history_empty),
+                text = stringResource(R.string.results_round_details_empty),
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         } else {

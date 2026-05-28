@@ -29,13 +29,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.negk01.mentalmath.R
 import com.negk01.mentalmath.domain.model.Difficulty
+import com.negk01.mentalmath.presentation.results.NextGoalState
 import com.negk01.mentalmath.ui.components.DifficultyBadge
+import com.negk01.mentalmath.ui.utils.toLabelResId
 
 @Composable
 fun ScoreHeroSection(
     correctAnswers: Int,
     totalRounds: Int,
     difficulty: Difficulty?,
+    completionStatus: String,
+    nextGoal: NextGoalState,
     modifier: Modifier = Modifier
 ) {
     val accuracy = if (totalRounds == 0) 0f else correctAnswers.toFloat() / totalRounds
@@ -59,10 +63,16 @@ fun ScoreHeroSection(
         accuracy >= 0.6f -> R.string.results_feedback_title_good
         else -> R.string.results_feedback_title_keep
     }
-    val subtitleRes = when {
-        accuracy >= 0.9f -> R.string.results_feedback_subtitle_great
-        accuracy >= 0.6f -> R.string.results_feedback_subtitle_good
-        else -> R.string.results_feedback_subtitle_keep
+
+    val subtitleText = when (nextGoal) {
+        is NextGoalState.LowAccuracy -> stringResource(R.string.results_goal_low,
+            stringResource(difficulty?.toLabelResId() ?: R.string.difficulty_medium))
+        is NextGoalState.StepUp -> stringResource(R.string.results_goal_next,
+            stringResource(nextGoal.nextDifficulty.toLabelResId()))
+        is NextGoalState.HardKeep -> stringResource(R.string.results_goal_hard_keep)
+        is NextGoalState.HardPerfect -> stringResource(R.string.results_goal_hard_perfect)
+        is NextGoalState.PerfectNext -> stringResource(R.string.results_goal_perfect_next,
+            stringResource(nextGoal.nextDifficulty.toLabelResId()))
     }
 
     val trackColor = MaterialTheme.colorScheme.surfaceVariant
@@ -76,28 +86,11 @@ fun ScoreHeroSection(
             Canvas(modifier = Modifier.size(120.dp)) {
                 val strokeWidth = 10.dp.toPx()
                 val stroke = Stroke(width = strokeWidth, cap = StrokeCap.Round)
-                drawArc(
-                    color = trackColor,
-                    startAngle = -90f,
-                    sweepAngle = 360f,
-                    useCenter = false,
-                    style = stroke
-                )
-                drawArc(
-                    color = scoreColor,
-                    startAngle = -90f,
-                    sweepAngle = 360f * animatedProgress.value,
-                    useCenter = false,
-                    style = stroke
-                )
+                drawArc(color = trackColor, startAngle = -90f, sweepAngle = 360f, useCenter = false, style = stroke)
+                drawArc(color = scoreColor, startAngle = -90f, sweepAngle = 360f * animatedProgress.value, useCenter = false, style = stroke)
             }
             Row(verticalAlignment = Alignment.Bottom) {
-                Text(
-                    text = "$correctAnswers",
-                    fontSize = 32.sp,
-                    fontWeight = FontWeight.ExtraBold,
-                    color = scoreColor
-                )
+                Text(text = "$correctAnswers", fontSize = 32.sp, fontWeight = FontWeight.ExtraBold, color = scoreColor)
                 Text(
                     text = "/$totalRounds",
                     fontSize = 18.sp,
@@ -110,7 +103,12 @@ fun ScoreHeroSection(
 
         if (difficulty != null) {
             Spacer(modifier = Modifier.height(12.dp))
-            DifficultyBadge(difficulty = difficulty)
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+                DifficultyBadge(difficulty = difficulty)
+                if (completionStatus == "abandoned") {
+                    CompletionStatusBadge(status = completionStatus)
+                }
+            }
         }
 
         Spacer(modifier = Modifier.height(14.dp))
@@ -126,7 +124,7 @@ fun ScoreHeroSection(
         Spacer(modifier = Modifier.height(4.dp))
 
         Text(
-            text = stringResource(subtitleRes),
+            text = subtitleText,
             fontSize = 15.sp,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center

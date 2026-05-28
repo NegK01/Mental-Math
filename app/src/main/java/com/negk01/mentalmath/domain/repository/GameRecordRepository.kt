@@ -14,4 +14,6 @@ interface GameRecordRepository {
     suspend fun getRecordsPaged(limit: Int, offset: Int): List<GameRecord>
 
     suspend fun clearAll()
+
+    suspend fun getBestAccuracyForDifficulty(difficulty: Difficulty): Double?
 }

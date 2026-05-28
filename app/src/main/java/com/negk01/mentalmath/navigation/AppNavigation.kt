@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -30,6 +31,8 @@ import com.negk01.mentalmath.presentation.history.HistoryViewModel
 import com.negk01.mentalmath.presentation.history.HistoryViewModelFactory
 import com.negk01.mentalmath.presentation.home.HomeViewModel
 import com.negk01.mentalmath.presentation.home.HomeViewModelFactory
+import com.negk01.mentalmath.presentation.results.ResultsViewModel
+import com.negk01.mentalmath.presentation.results.ResultsViewModelFactory
 import com.negk01.mentalmath.ui.components.BottomNavBar
 import com.negk01.mentalmath.ui.screens.config.ConfigScreen
 import com.negk01.mentalmath.ui.screens.game.GameScreen
@@ -63,6 +66,9 @@ fun AppNavigation() {
     )
     val gameViewModel: GameViewModel = viewModel(
         factory = GameViewModelFactory(gameRecordRepository)
+    )
+    val resultsViewModel: ResultsViewModel = viewModel(
+        factory = ResultsViewModelFactory(gameRecordRepository)
     )
 
     val configUiState by configViewModel.uiState.collectAsState()
@@ -116,10 +122,17 @@ fun AppNavigation() {
                 }
 
                 composable(Routes.RESULTS) {
+                    val resultsUiState by resultsViewModel.uiState.collectAsState()
+                    val sessionResult = gameViewModel.sessionResult
+
+                    LaunchedEffect(sessionResult) {
+                        sessionResult?.let { resultsViewModel.loadForSession(it) }
+                    }
+
                     ResultsScreen(
                         navController = navController,
-                        currentRoute = currentRoute,
-                        sessionResult = gameViewModel.sessionResult,
+                        sessionResult = sessionResult,
+                        resultsUiState = resultsUiState,
                         onPlayAgain = {
                             gameViewModel.restartGame()
                             navController.navigate(Routes.GAME) {

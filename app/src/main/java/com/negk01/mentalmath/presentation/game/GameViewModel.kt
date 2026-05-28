@@ -250,7 +250,8 @@ class GameViewModel(
             totalRounds = _uiState.value.totalRounds,
             averageResponseTimeSeconds = averageTime,
             completionStatus = completionStatus,
-            roundResults = roundResults.toList()
+            roundResults = roundResults.toList(),
+            maxStreak = currentMaxStreak
         )
 
         if (completionStatus == "completed") {

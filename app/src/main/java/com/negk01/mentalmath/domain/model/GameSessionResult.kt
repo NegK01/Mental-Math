@@ -6,5 +6,6 @@ data class GameSessionResult(
     val totalRounds: Int,
     val averageResponseTimeSeconds: Double,
     val completionStatus: String,
-    val roundResults: List<RoundResult>
+    val roundResults: List<RoundResult>,
+    val maxStreak: Int
 )
