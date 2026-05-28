@@ -207,7 +207,7 @@ private val LightColors = lightColorScheme(
     onError = Color.White,
     errorContainer = DangerContainer,
     onErrorContainer = Color(0xFF9D2F2F),
-    outline = Color(0xFFD4DBE8)
+    outline = OutlineLight
 )
 
 @Composable

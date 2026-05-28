@@ -14,7 +14,8 @@ val SurfaceLight = Color(0xFFFFFFFF)
 val SurfaceVariantLight = Color(0xFFE8EDF7)
 val OnBackgroundLight = Color(0xFF172033)
 val OnSurfaceLight = Color(0xFF172033)
-val OnSurfaceVariantLight = Color(0xFF60708B)
+val OnSurfaceVariantLight = Color(0xFF4F5E78)
+val OutlineLight = Color(0xFFB8C1D1)
 
 val BackgroundDark = Color(0xFF0F1724)
 val SurfaceDark = Color(0xFF172132)
@@ -32,11 +33,11 @@ val Success = Color(0xFF10B981)
 val SuccessContainer = Color(0xFFD7F7EB)
 val SuccessText = Color(0xFF0C7A5A)
 
-val EasyBadgeLight = Color(0xFF2F7D61)
+val EasyBadgeLight = Color(0xFF0E8A5F)
 
-val MediumBadgeLight = Color(0xFF9A6A21)
+val MediumBadgeLight = Color(0xFFA05500)
 
-val HardBadgeLight = Color(0xFFB45158)
+val HardBadgeLight = Color(0xFFC1303A)
 
 val RecentAccent = Color(0xFF5C6CC9)
 val RecentAccentContainer = Color(0xFFE1E6FA)
@@ -44,11 +45,11 @@ val RecentAccentContainer = Color(0xFFE1E6FA)
 val OriginalBg = Color(0xFF0B151E)
 val OriginalSurface = Color(0xFF172132)
 val OriginalSurfaceVariant = Color(0xFF202B3D)
-val OriginalAccent = Color(0xFF673CC2)
+val OriginalAccent = Color(0xFF7B57D4)
 val OriginalOnAccent = Color.White
 val OriginalTextPrimary = Color.White
 val OriginalTextSecondary = Color(0xFF94A3B8)
-val OriginalOutline = Color(0xFF353850)
+val OriginalOutline = Color(0xFF4A4F66)
 
 val MentaBg = Color(0xFF0B191E)
 val MentaSurface = Color(0xFF12262D)
