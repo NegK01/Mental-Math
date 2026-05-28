@@ -6,5 +6,6 @@ data class RoundResult(
     val userAnswer: Int,
     val correctAnswer: Int,
     val isCorrect: Boolean,
-    val timeSpentSeconds: Int
+    val timeSpentSeconds: Int,
+    val operator: Operator
 )

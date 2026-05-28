@@ -193,7 +193,8 @@ class GameViewModel(
             userAnswer = answer,
             correctAnswer = question.correctAnswer,
             isCorrect = isCorrect,
-            timeSpentSeconds = consumedTime
+            timeSpentSeconds = consumedTime,
+            operator = question.operator
         )
 
         roundResults.add(roundResult)
