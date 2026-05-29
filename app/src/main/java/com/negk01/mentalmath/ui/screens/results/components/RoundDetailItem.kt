@@ -20,7 +20,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -31,12 +30,13 @@ import com.negk01.mentalmath.ui.theme.DangerContainer
 import com.negk01.mentalmath.ui.theme.Success
 import com.negk01.mentalmath.ui.theme.SuccessContainer
 import com.negk01.mentalmath.ui.theme.SuccessText
+import com.negk01.mentalmath.ui.utils.isDarkTheme
 
 @Composable
 fun RoundDetailItem(
     item: RoundDetail
 ) {
-    val isDark = MaterialTheme.colorScheme.surface.luminance() < 0.5f
+    val isDark = isDarkTheme()
     val itemBg = if (item.isCorrect) {
         if (isDark) Success.copy(alpha = 0.12f) else SuccessContainer.copy(alpha = 0.6f)
     } else {

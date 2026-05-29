@@ -53,10 +53,14 @@ fun ScoreHeroSection(
     val motion = motionEnabled()
 
     LaunchedEffect(Unit) {
-        animatedProgress.animateTo(
-            targetValue = accuracy,
-            animationSpec = tween(durationMillis = 800, easing = FastOutSlowInEasing)
-        )
+        if (motion) {
+            animatedProgress.animateTo(
+                targetValue = accuracy,
+                animationSpec = tween(durationMillis = 800, easing = FastOutSlowInEasing)
+            )
+        } else {
+            animatedProgress.snapTo(accuracy)
+        }
     }
 
     LaunchedEffect(isNewRecord) {

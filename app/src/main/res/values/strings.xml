@@ -34,6 +34,7 @@
     <string name="home_daily_streak_title">Daily streak</string>
     <string name="home_daily_streak_value">%1$d</string>
     <string name="home_recent_scores_title">Last 3 games</string>
+    <string name="home_empty_hint">Your recent games will show up here.</string>
     <!-- DEV: home_recent_scores_subtitle está definido pero no se renderiza en RecentScoresCard. Decidir: mostrarlo bajo el título de la sección o eliminar de ambos strings.xml. -->
     <string name="home_recent_scores_subtitle">Your recent activity at a glance</string>
     <string name="home_recent_score">%1$d/%2$d</string>
@@ -49,6 +50,7 @@
 
     <string name="history_title">History</string>
     <string name="history_empty">No saved games yet</string>
+    <string name="history_empty_hint">Play a game and it will appear here</string>
     <string name="history_summary_title">Overview</string>
     <string name="history_summary_subtitle">Your recent stats to measure pace and accuracy</string>
     <string name="history_total_games">Games played</string>
@@ -96,7 +98,7 @@
     <string name="results_goal_low">Aim for %1$d/%2$d to master %3$s</string>
     <string name="results_goal_next">Step up to %1$s</string>
     <string name="results_goal_hard_keep">Keep the HARD pace</string>
-    <string name="results_goal_hard_perfect">HARD mastered. Come back for more.</string>
+    <string name="results_goal_hard_perfect">HARD mastered. Come back for more</string>
     <string name="results_goal_perfect_next">Perfect. Ready for %1$s</string>
     <string name="results_round_details_empty">No rounds to show</string>
     <string name="results_operator_insight">Suggested practice: %1$s (%2$.1fs avg)</string>

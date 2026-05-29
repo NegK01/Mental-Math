@@ -68,7 +68,7 @@ fun RecentScoresCard(
         ) {
             if (records.isEmpty()) {
                 Text(
-                    text = stringResource(R.string.history_empty),
+                    text = stringResource(R.string.home_empty_hint),
                     fontSize = 14.sp,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

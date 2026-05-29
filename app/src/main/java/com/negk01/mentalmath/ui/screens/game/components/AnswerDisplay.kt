@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import com.negk01.mentalmath.ui.theme.Danger
 import com.negk01.mentalmath.ui.theme.SuccessText
 import com.negk01.mentalmath.ui.utils.isDarkTheme
+import com.negk01.mentalmath.ui.utils.motionEnabled
 
 @Composable
 fun AnswerDisplay(
@@ -48,6 +49,7 @@ fun AnswerDisplay(
         label = "answerFlash"
     )
 
+    val motion = motionEnabled()
     val infiniteTransition = rememberInfiniteTransition(label = "cursor")
     val cursorAlpha by infiniteTransition.animateFloat(
         initialValue = 1f,
@@ -58,6 +60,7 @@ fun AnswerDisplay(
         ),
         label = "cursorAlpha"
     )
+    val effectiveCursorAlpha = if (!motion) 1f else cursorAlpha
 
     Box(
         modifier = Modifier
@@ -88,7 +91,7 @@ fun AnswerDisplay(
                     .padding(start = if (value.isNotBlank()) 3.dp else 0.dp)
                     .width(2.dp)
                     .height(32.dp)
-                    .alpha(cursorAlpha)
+                    .alpha(effectiveCursorAlpha)
                     .background(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f))
             )
         }

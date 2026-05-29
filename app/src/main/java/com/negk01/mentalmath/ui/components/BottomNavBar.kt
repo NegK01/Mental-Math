@@ -39,6 +39,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.negk01.mentalmath.R
 import com.negk01.mentalmath.ui.theme.Opacity
 import com.negk01.mentalmath.navigation.Routes
+import com.negk01.mentalmath.ui.utils.motionEnabled
 
 private data class NavItem(
     val route: String,
@@ -75,18 +76,20 @@ fun BottomNavBar(
             verticalAlignment = Alignment.CenterVertically
         ) {
             val haptic = LocalHapticFeedback.current
+            val motion = motionEnabled()
 
             navItems.forEach { item ->
                 val isSelected = currentRoute == item.route
                 val primary = MaterialTheme.colorScheme.primary
+                val animDuration = if (motion) 350 else 0
                 val background = animateColorAsState(
                     targetValue = if (isSelected) primary.copy(alpha = Opacity.BadgeContainer) else primary.copy(alpha = 0f),
-                    animationSpec = tween(350, easing = FastOutSlowInEasing),
+                    animationSpec = tween(animDuration, easing = FastOutSlowInEasing),
                     label = "backgroundColor"
                 ).value
                 val contentColor = animateColorAsState(
                     targetValue = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
-                    animationSpec = tween(350, easing = FastOutSlowInEasing),
+                    animationSpec = tween(animDuration, easing = FastOutSlowInEasing),
                     label = "contentColor"
                 ).value
 
@@ -127,8 +130,8 @@ fun BottomNavBar(
 
                     AnimatedVisibility(
                         visible = isSelected,
-                        enter = fadeIn(animationSpec = tween(350)) + expandHorizontally(animationSpec = tween(350, easing = FastOutSlowInEasing), expandFrom = Alignment.Start),
-                        exit = fadeOut(animationSpec = tween(200)) + shrinkHorizontally(animationSpec = tween(200, easing = FastOutSlowInEasing), shrinkTowards = Alignment.Start)
+                        enter = fadeIn(animationSpec = tween(if (motion) 350 else 0)) + expandHorizontally(animationSpec = tween(if (motion) 350 else 0, easing = FastOutSlowInEasing), expandFrom = Alignment.Start),
+                        exit = fadeOut(animationSpec = tween(if (motion) 200 else 0)) + shrinkHorizontally(animationSpec = tween(if (motion) 200 else 0, easing = FastOutSlowInEasing), shrinkTowards = Alignment.Start)
                     ) {
                         Text(
                             text = stringResource(item.labelRes),

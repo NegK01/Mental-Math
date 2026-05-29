@@ -9,15 +9,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.unit.dp
+import com.negk01.mentalmath.ui.utils.isDarkTheme
 
 @Composable
 fun DangerZone(
     buttonText: String,
     onDelete: () -> Unit
 ) {
-    val isDarkTheme = MaterialTheme.colorScheme.surface.luminance() < 0.5f
+    val isDarkTheme = isDarkTheme()
 
     Button(
         onClick = onDelete,

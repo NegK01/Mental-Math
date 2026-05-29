@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Inbox
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -25,10 +27,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.negk01.mentalmath.R
 import com.negk01.mentalmath.presentation.history.HistoryViewModel
 import com.negk01.mentalmath.ui.screens.history.components.HistorySummaryCard
+import com.negk01.mentalmath.ui.screens.history.components.EmptyState
 import com.negk01.mentalmath.ui.components.GameRecordItem
 
 @Composable
@@ -80,10 +82,10 @@ fun HistoryScreen(
 
                 if (uiState.displayRecords.isEmpty() && !uiState.isLoadingMore) {
                     item {
-                        Text(
-                            text = stringResource(R.string.history_empty),
-                            fontSize = 16.sp,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        EmptyState(
+                            icon = Icons.Outlined.Inbox,
+                            title = stringResource(R.string.history_empty),
+                            message = stringResource(R.string.history_empty_hint)
                         )
                     }
                 }

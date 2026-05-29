@@ -34,6 +34,7 @@
     <string name="home_daily_streak_title">Racha diaria</string>
     <string name="home_daily_streak_value">%1$d</string>
     <string name="home_recent_scores_title">Últimas 3 partidas</string>
+    <string name="home_empty_hint">Tus partidas recientes se mostrarán aquí</string>
     <!-- DEV: home_recent_scores_subtitle está definido pero no se renderiza en RecentScoresCard. Decidir: mostrarlo bajo el título de la sección o eliminar de ambos strings.xml. -->
     <string name="home_recent_scores_subtitle">Tu actividad reciente en un solo vistazo</string>
     <string name="home_recent_score">%1$d/%2$d</string>
@@ -49,6 +50,7 @@
 
     <string name="history_title">Historial</string>
     <string name="history_empty">Aún no hay partidas guardadas</string>
+    <string name="history_empty_hint">Juega una partida y aparecerá aquí</string>
     <string name="history_summary_title">Resumen</string>
     <string name="history_summary_subtitle">Tus estadísticas recientes para medir ritmo y precisión</string>
     <string name="history_total_games">Total de partidas jugadas</string>
