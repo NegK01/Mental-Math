@@ -14,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.negk01.mentalmath.R
+import com.negk01.mentalmath.domain.model.CompletionStatus
 import com.negk01.mentalmath.domain.model.GameSessionResult
 import com.negk01.mentalmath.domain.model.RoundDetail
 import com.negk01.mentalmath.navigation.Routes
@@ -62,7 +63,7 @@ fun ResultsScreen(
                         correctAnswers = correctAnswers,
                         totalRounds = totalRounds,
                         difficulty = sessionResult?.difficulty,
-                        completionStatus = sessionResult?.completionStatus ?: "",
+                        completionStatus = sessionResult?.completionStatus ?: CompletionStatus.COMPLETED,
                         nextGoal = resultsUiState.nextGoal,
                         isNewRecord = resultsUiState.delta is DeltaState.NewRecord,
                         modifier = Modifier.padding(bottom = 20.dp)

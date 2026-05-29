@@ -28,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.negk01.mentalmath.R
+import com.negk01.mentalmath.ui.theme.BottomNavContentPadding
 import com.negk01.mentalmath.presentation.history.HistoryViewModel
 import com.negk01.mentalmath.ui.screens.history.components.HistorySummaryCard
 import com.negk01.mentalmath.ui.screens.history.components.EmptyState
@@ -61,7 +62,7 @@ fun HistoryScreen(
                     .fillMaxSize()
                     .padding(innerPadding)
                     .statusBarsPadding(),
-                contentPadding = PaddingValues(start = 16.dp, top = 12.dp, end = 16.dp, bottom = 120.dp),
+                contentPadding = PaddingValues(start = 16.dp, top = 12.dp, end = 16.dp, bottom = BottomNavContentPadding),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 item {

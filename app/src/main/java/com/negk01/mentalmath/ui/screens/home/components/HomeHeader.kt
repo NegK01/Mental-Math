@@ -21,7 +21,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.negk01.mentalmath.R
 import com.negk01.mentalmath.ui.theme.Warning
 
@@ -60,7 +59,7 @@ fun HomeHeader(
 
                     Text(
                         text = stringResource(R.string.home_daily_streak_value, dailyStreak),
-                        fontSize = 16.sp,
+                        style = MaterialTheme.typography.bodyLarge,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onSurface
                     )

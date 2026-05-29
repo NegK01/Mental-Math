@@ -22,7 +22,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.negk01.mentalmath.R
 import com.negk01.mentalmath.domain.model.RoundDetail
 import com.negk01.mentalmath.ui.theme.Danger
@@ -62,7 +61,7 @@ fun RoundDetailItem(
             Text(
                 text = item.expression,
                 modifier = Modifier.weight(1f),
-                fontSize = 18.sp,
+                style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurface
             )
 
@@ -78,7 +77,7 @@ fun RoundDetailItem(
 
             Text(
                 text = item.time,
-                fontSize = 16.sp,
+                style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
@@ -86,7 +85,7 @@ fun RoundDetailItem(
         if (!item.isCorrect) {
             Text(
                 text = stringResource(R.string.results_wrong_answer_label, item.userAnswer),
-                fontSize = 12.sp,
+                style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }

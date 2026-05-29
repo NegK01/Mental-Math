@@ -28,20 +28,16 @@
     <string name="completion_unknown">Desconocido</string>
 
     <string name="home_title">Mental Math</string>
-    <string name="home_subtitle">Entrena tu agilidad mental con rondas rápidas y enfoque total</string>
     <string name="home_subtitle_compact">Sesiones rápidas para mantener ritmo, precisión y foco</string>
     <string name="home_header_hint">Sesiones breves. Ritmo constante. Progreso real</string>
     <string name="home_daily_streak_title">Racha diaria</string>
     <string name="home_daily_streak_value">%1$d</string>
     <string name="home_recent_scores_title">Últimas 3 partidas</string>
     <string name="home_empty_hint">Tus partidas recientes se mostrarán aquí</string>
-    <!-- DEV: home_recent_scores_subtitle está definido pero no se renderiza en RecentScoresCard. Decidir: mostrarlo bajo el título de la sección o eliminar de ambos strings.xml. -->
-    <string name="home_recent_scores_subtitle">Tu actividad reciente en un solo vistazo</string>
     <string name="home_recent_score">%1$d/%2$d</string>
     <string name="home_recent_avg_time">(%1$.1fs)</string>
     <string name="home_start_game">Comenzar juego</string>
     <string name="home_start_game_content_description">Comenzar juego</string>
-    <string name="home_current_mode">Modo: %1$s</string>
 
     <plurals name="daily_streak_days">
         <item quantity="one">%d día consecutivo</item>
@@ -77,13 +73,9 @@
     <string name="game_pause_title">Juego pausado</string>
     <string name="game_pause_message">Toma aire y vuelve cuando quieras continuar la ronda</string>
     <string name="game_resume">Continuar</string>
-    <string name="game_time_left">Tiempo: %1$ds</string>
-    <string name="game_progress_title">Mantente en ritmo</string>
     <string name="game_progress_subtitle">Resuelve rápido y sostiene la racha para cerrar fuerte</string>
     <string name="game_round_progress">Ronda %1$d de %2$d</string>
-    <string name="game_question_title">Resuelve esta operación</string>
     <string name="game_question_subtitle">Sin calculadora. Solo foco y velocidad</string>
-    <string name="game_answer_title">Tu respuesta</string>
     <string name="game_answer_placeholder">Escribe tu respuesta</string>
     <string name="game_clear_short">C</string>
     <string name="game_submit_answer">Enviar respuesta</string>
@@ -91,7 +83,6 @@
     <string name="results_title">Resultados</string>
     <string name="results_correct_answers">Respuestas correctas</string>
     <string name="results_average_time">Tiempo promedio</string>
-    <string name="results_congrats_title">Buen trabajo</string>
     <string name="results_max_streak">Racha máxima</string>
     <string name="results_new_record">Nuevo récord</string>
     <string name="results_first_game">Primera partida</string>

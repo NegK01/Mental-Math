@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.negk01.mentalmath.ui.theme.BottomNavContentPadding
 import com.negk01.mentalmath.R
 import com.negk01.mentalmath.presentation.config.ConfigViewModel
 import com.negk01.mentalmath.ui.screens.config.components.DangerZone
@@ -43,7 +44,7 @@ fun ConfigScreen(
                     .fillMaxSize()
                     .padding(innerPadding)
                     .statusBarsPadding(),
-                contentPadding = PaddingValues(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 120.dp),
+                contentPadding = PaddingValues(start = 16.dp, top = 16.dp, end = 16.dp, bottom = BottomNavContentPadding),
                 verticalArrangement = Arrangement.spacedBy(26.dp)
             ) {
                 item {

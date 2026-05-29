@@ -27,7 +27,6 @@ import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.negk01.mentalmath.R
 
 @Composable
@@ -81,7 +80,7 @@ fun StartGameButton(
                 Text(
                     text = stringResource(R.string.home_start_game),
                     color = MaterialTheme.colorScheme.onPrimary,
-                    fontSize = 18.sp,
+                    style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
             }

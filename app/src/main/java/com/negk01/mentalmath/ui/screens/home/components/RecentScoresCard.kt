@@ -23,7 +23,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.negk01.mentalmath.R
 import com.negk01.mentalmath.domain.model.GameRecord
 import com.negk01.mentalmath.ui.components.GameRecordItem
@@ -55,7 +54,7 @@ fun RecentScoresCard(
 
             Text(
                 text = stringResource(R.string.home_recent_scores_title),
-                fontSize = 16.sp,
+                style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.onSurface
             )
@@ -69,7 +68,7 @@ fun RecentScoresCard(
             if (records.isEmpty()) {
                 Text(
                     text = stringResource(R.string.home_empty_hint),
-                    fontSize = 14.sp,
+                    style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             } else {

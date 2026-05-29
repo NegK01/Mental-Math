@@ -28,20 +28,16 @@
     <string name="completion_unknown">Unknown</string>
 
     <string name="home_title">Mental Math</string>
-    <string name="home_subtitle">Train your mental agility with fast rounds and total focus</string>
     <string name="home_subtitle_compact">Fast sessions to keep your pace, accuracy, and focus sharp</string>
     <string name="home_header_hint">Short sessions. Steady pace. Real progress</string>
     <string name="home_daily_streak_title">Daily streak</string>
     <string name="home_daily_streak_value">%1$d</string>
     <string name="home_recent_scores_title">Last 3 games</string>
     <string name="home_empty_hint">Your recent games will show up here.</string>
-    <!-- DEV: home_recent_scores_subtitle está definido pero no se renderiza en RecentScoresCard. Decidir: mostrarlo bajo el título de la sección o eliminar de ambos strings.xml. -->
-    <string name="home_recent_scores_subtitle">Your recent activity at a glance</string>
     <string name="home_recent_score">%1$d/%2$d</string>
     <string name="home_recent_avg_time">(%1$.1fs)</string>
     <string name="home_start_game">Start game</string>
     <string name="home_start_game_content_description">Start game</string>
-    <string name="home_current_mode">Mode: %1$s</string>
 
     <plurals name="daily_streak_days">
         <item quantity="one">%d consecutive day</item>
@@ -77,13 +73,9 @@
     <string name="game_pause_title">Game paused</string>
     <string name="game_pause_message">Take a breath and jump back in when you are ready</string>
     <string name="game_resume">Resume</string>
-    <string name="game_time_left">Time: %1$ds</string>
-    <string name="game_progress_title">Keep the pace</string>
     <string name="game_progress_subtitle">Solve fast and hold your streak to finish strong</string>
     <string name="game_round_progress">Round %1$d of %2$d</string>
-    <string name="game_question_title">Solve this expression</string>
     <string name="game_question_subtitle">No calculator. Just focus and speed</string>
-    <string name="game_answer_title">Your answer</string>
     <string name="game_answer_placeholder">Type your answer</string>
     <string name="game_clear_short">C</string>
     <string name="game_submit_answer">Submit answer</string>
@@ -91,7 +83,6 @@
     <string name="results_title">Results</string>
     <string name="results_correct_answers">Correct answers</string>
     <string name="results_average_time">Average time</string>
-    <string name="results_congrats_title">Nice work</string>
     <string name="results_max_streak">Best streak</string>
     <string name="results_new_record">New record</string>
     <string name="results_first_game">First game</string>

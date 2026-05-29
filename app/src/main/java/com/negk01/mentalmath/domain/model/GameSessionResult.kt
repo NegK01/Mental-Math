@@ -5,7 +5,7 @@ data class GameSessionResult(
     val correctAnswers: Int,
     val totalRounds: Int,
     val averageResponseTimeSeconds: Double,
-    val completionStatus: String,
+    val completionStatus: CompletionStatus,
     val roundResults: List<RoundResult>,
     val maxStreak: Int
 )

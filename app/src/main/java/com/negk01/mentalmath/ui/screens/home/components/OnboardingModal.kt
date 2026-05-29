@@ -1,6 +1,5 @@
 package com.negk01.mentalmath.ui.screens.home.components
 
-import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -13,6 +12,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.PaddingValues
@@ -46,7 +46,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import com.negk01.mentalmath.ui.theme.Opacity
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -71,7 +70,6 @@ import com.negk01.mentalmath.ui.theme.RoyalBg
 
 private val swatchSize = 44.dp
 
-@SuppressLint("ConfigurationScreenWidthHeight")
 @Composable
 fun OnboardingModal(
     visible: Boolean,
@@ -88,9 +86,7 @@ fun OnboardingModal(
         enter = fadeIn() + scaleIn(initialScale = 0.96f),
         exit = fadeOut() + scaleOut(targetScale = 0.96f)
     ) {
-        val screenHeight = LocalConfiguration.current.screenHeightDp.dp
-
-        Box(
+        BoxWithConstraints(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.Black.copy(alpha = Opacity.Scrim))
@@ -100,7 +96,7 @@ fun OnboardingModal(
             Column(
                 modifier = Modifier
                     .padding(horizontal = 32.dp)
-                    .heightIn(max = screenHeight * 0.88f)
+                    .heightIn(max = maxHeight * 0.88f)
                     .clip(RoundedCornerShape(28.dp))
                     .background(MaterialTheme.colorScheme.surface)
                     .verticalScroll(rememberScrollState())

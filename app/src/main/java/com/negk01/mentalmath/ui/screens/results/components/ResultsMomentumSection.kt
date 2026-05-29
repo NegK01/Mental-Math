@@ -19,9 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.negk01.mentalmath.R
 import com.negk01.mentalmath.presentation.results.DeltaState
 
@@ -97,8 +95,7 @@ private fun MomentumChip(
             icon?.invoke()
             Text(
                 text = if (value != null) "$label $value" else label,
-                fontSize = 13.sp,
-                fontWeight = FontWeight.Medium,
+                style = MaterialTheme.typography.labelMedium,
                 color = accentColor
             )
         }

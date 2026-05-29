@@ -11,14 +11,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.negk01.mentalmath.domain.model.CompletionStatus
 import com.negk01.mentalmath.ui.utils.completionStatusToDisplayNameRes
 
 @Composable
 fun CompletionStatusBadge(
-    status: String
+    status: CompletionStatus
 ) {
     Box(
         modifier = Modifier
@@ -29,8 +28,7 @@ fun CompletionStatusBadge(
     ) {
         Text(
             text = stringResource(completionStatusToDisplayNameRes(status)),
-            fontSize = 13.sp,
-            fontWeight = FontWeight.Medium,
+            style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }

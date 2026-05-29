@@ -46,3 +46,5 @@ object Radius {
     val Lg = 20.dp
     val Pill = 999.dp
 }
+
+val BottomNavContentPadding = 120.dp

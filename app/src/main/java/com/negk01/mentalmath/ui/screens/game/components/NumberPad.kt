@@ -29,6 +29,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.semantics.disabled
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
@@ -212,7 +214,10 @@ private fun SubmitButton(
             }
         },
         enabled = true,
-        modifier = modifier.height(buttonHeight).graphicsLayer { scaleX = scale; scaleY = scale },
+        modifier = modifier
+            .height(buttonHeight)
+            .graphicsLayer { scaleX = scale; scaleY = scale }
+            .then(if (!isEnabled) Modifier.semantics { disabled() } else Modifier),
         interactionSource = interactionSource,
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.primary,

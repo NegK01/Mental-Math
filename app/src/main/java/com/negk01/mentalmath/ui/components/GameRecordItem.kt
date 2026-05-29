@@ -17,7 +17,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.negk01.mentalmath.R
 import com.negk01.mentalmath.domain.model.GameRecord
 import com.negk01.mentalmath.ui.utils.isDarkTheme
@@ -51,13 +50,13 @@ fun GameRecordItem(
         Text(
             text = formattedDate,
             modifier = Modifier.weight(1f),
-            fontSize = 14.sp,
+            style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
 
         Text(
             text = stringResource(R.string.home_recent_score, record.correctAnswers, record.totalRounds),
-            fontSize = 14.sp,
+            style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurface,
             fontWeight = FontWeight.Medium
         )
@@ -66,7 +65,7 @@ fun GameRecordItem(
 
         Text(
             text = stringResource(R.string.home_recent_avg_time, averageSeconds),
-            fontSize = 14.sp,
+            style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }

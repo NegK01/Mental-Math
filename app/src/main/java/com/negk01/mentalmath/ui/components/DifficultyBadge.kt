@@ -5,15 +5,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.negk01.mentalmath.domain.model.Difficulty
 import com.negk01.mentalmath.ui.utils.badgeColors
 import com.negk01.mentalmath.ui.utils.toLabelResId
@@ -38,8 +37,7 @@ fun DifficultyBadge(
     ) {
         Text(
             text = stringResource(difficulty.toLabelResId()),
-            fontSize = 13.sp,
-            fontWeight = FontWeight.Medium,
+            style = MaterialTheme.typography.labelMedium,
             color = colors.content
         )
     }

@@ -27,8 +27,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.negk01.mentalmath.R
+import com.negk01.mentalmath.domain.model.CompletionStatus
 import com.negk01.mentalmath.domain.model.Difficulty
 import com.negk01.mentalmath.presentation.results.NextGoalState
 import com.negk01.mentalmath.ui.components.DifficultyBadge
@@ -41,7 +41,7 @@ fun ScoreHeroSection(
     correctAnswers: Int,
     totalRounds: Int,
     difficulty: Difficulty?,
-    completionStatus: String,
+    completionStatus: CompletionStatus,
     nextGoal: NextGoalState,
     isNewRecord: Boolean = false,
     modifier: Modifier = Modifier
@@ -116,10 +116,10 @@ fun ScoreHeroSection(
                 drawArc(color = scoreColor, startAngle = -90f, sweepAngle = 360f * animatedProgress.value, useCenter = false, style = stroke)
             }
             Row(verticalAlignment = Alignment.Bottom) {
-                Text(text = "$correctAnswers", fontSize = 32.sp, fontWeight = FontWeight.ExtraBold, color = scoreColor)
+                Text(text = "$correctAnswers", style = MaterialTheme.typography.headlineLarge, color = scoreColor)
                 Text(
                     text = "/$totalRounds",
-                    fontSize = 18.sp,
+                    style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Medium,
                     color = scoreColor.copy(alpha = 0.7f),
                     modifier = Modifier.padding(bottom = 3.dp)
@@ -131,7 +131,7 @@ fun ScoreHeroSection(
             Spacer(modifier = Modifier.height(12.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
                 DifficultyBadge(difficulty = difficulty)
-                if (completionStatus == "abandoned") {
+                if (completionStatus == CompletionStatus.ABANDONED) {
                     CompletionStatusBadge(status = completionStatus)
                 }
             }
@@ -141,8 +141,7 @@ fun ScoreHeroSection(
 
         Text(
             text = stringResource(titleRes),
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center
         )
@@ -151,7 +150,7 @@ fun ScoreHeroSection(
 
         Text(
             text = subtitleText,
-            fontSize = 15.sp,
+            style = MaterialTheme.typography.titleSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center
         )

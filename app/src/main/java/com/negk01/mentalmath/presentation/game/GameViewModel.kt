@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.negk01.mentalmath.domain.game.QuestionGenerator
 import com.negk01.mentalmath.domain.model.Difficulty
 import com.negk01.mentalmath.domain.model.GameRecord
+import com.negk01.mentalmath.domain.model.CompletionStatus
 import com.negk01.mentalmath.domain.model.GameSessionResult
 import com.negk01.mentalmath.domain.model.Question
 import com.negk01.mentalmath.domain.model.RoundResult
@@ -17,6 +18,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+
+private const val ANSWER_FLASH_MILLIS = 300L
 
 class GameViewModel(
     private val gameRecordRepository: GameRecordRepository
@@ -129,7 +132,7 @@ class GameViewModel(
 
         flashJob?.cancel()
         flashJob = viewModelScope.launch {
-            delay(300L)
+            delay(ANSWER_FLASH_MILLIS)
 
             if (_uiState.value.isPaused) return@launch
 
@@ -153,7 +156,7 @@ class GameViewModel(
 
         flashJob?.cancel()
         flashJob = viewModelScope.launch {
-            delay(300L)
+            delay(ANSWER_FLASH_MILLIS)
             resolveCurrentRound(userRanOutOfTime = true)
         }
     }
@@ -202,7 +205,7 @@ class GameViewModel(
         val isLastRound = state.currentRound >= state.totalRounds
 
         if (isLastRound) {
-            finishGame(completionStatus = "completed")
+            finishGame(completionStatus = CompletionStatus.COMPLETED)
             return
         }
 
@@ -230,11 +233,11 @@ class GameViewModel(
 
         if (roundResults.isEmpty()) return false
 
-        finishGame(completionStatus = "abandoned")
+        finishGame(completionStatus = CompletionStatus.ABANDONED)
         return true
     }
 
-    private fun finishGame(completionStatus: String) {
+    private fun finishGame(completionStatus: CompletionStatus) {
         timerJob?.cancel()
 
         val correctAnswers = roundResults.count { it.isCorrect }
@@ -254,7 +257,7 @@ class GameViewModel(
             maxStreak = currentMaxStreak
         )
 
-        if (completionStatus == "completed") {
+        if (completionStatus == CompletionStatus.COMPLETED) {
             saveCompletedGame(
                 correctAnswers = correctAnswers,
                 totalRounds = _uiState.value.totalRounds,

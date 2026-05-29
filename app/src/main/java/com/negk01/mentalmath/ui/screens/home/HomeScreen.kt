@@ -17,6 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.negk01.mentalmath.presentation.home.HomeViewModel
+import com.negk01.mentalmath.ui.theme.BottomNavContentPadding
 import com.negk01.mentalmath.ui.screens.home.components.HomeHeader
 import com.negk01.mentalmath.ui.screens.home.components.RecentScoresCard
 import com.negk01.mentalmath.ui.screens.home.components.StartGameButton
@@ -55,7 +56,7 @@ fun HomeScreen(
                 }
 
                 Box(
-                    modifier = Modifier.padding(start = 18.dp, top = 16.dp, end = 18.dp, bottom = 110.dp)
+                    modifier = Modifier.padding(start = 18.dp, top = 16.dp, end = 18.dp, bottom = BottomNavContentPadding)
                 ) {
                     StartGameButton(onClick = onStartGame)
                 }
