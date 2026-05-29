@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.negk01.mentalmath.presentation.home.HomeViewModel
 import com.negk01.mentalmath.ui.theme.BottomNavContentPadding
+import com.negk01.mentalmath.ui.theme.Spacing
 import com.negk01.mentalmath.ui.screens.home.components.HomeHeader
 import com.negk01.mentalmath.ui.screens.home.components.RecentScoresCard
 import com.negk01.mentalmath.ui.screens.home.components.StartGameButton
@@ -44,8 +45,8 @@ fun HomeScreen(
             ) {
                 LazyColumn(
                     modifier = Modifier.weight(1f),
-                    contentPadding = PaddingValues(start = 16.dp, top = 12.dp, end = 16.dp, bottom = 24.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                    contentPadding = PaddingValues(start = Spacing.Lg, top = Spacing.Md, end = Spacing.Lg, bottom = Spacing.Xl),
+                    verticalArrangement = Arrangement.spacedBy(Spacing.Lg)
                 ) {
                     item {
                         HomeHeader(dailyStreak = uiState.dailyStreak)

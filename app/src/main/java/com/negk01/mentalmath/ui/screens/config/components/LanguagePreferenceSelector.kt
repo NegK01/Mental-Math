@@ -9,13 +9,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.Modifier
+import com.negk01.mentalmath.ui.theme.Radius
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.negk01.mentalmath.R
 import com.negk01.mentalmath.domain.model.LanguagePreference
+import com.negk01.mentalmath.ui.theme.Spacing
 import com.negk01.mentalmath.ui.utils.toLabelResId
 
 @Composable
@@ -31,7 +34,7 @@ fun LanguagePreferenceSelector(
 
     Column(
         modifier = Modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        verticalArrangement = Arrangement.spacedBy(Spacing.Md)
     ) {
         Text(
             text = stringResource(R.string.config_language_title),
@@ -48,7 +51,7 @@ fun LanguagePreferenceSelector(
                 Surface(
                     onClick = { onSelect(option) },
                     modifier = Modifier.weight(1f),
-                    shape = androidx.compose.foundation.shape.RoundedCornerShape(16.dp),
+                    shape = RoundedCornerShape(Radius.Card),
                     color = if (selected == option) {
                         MaterialTheme.colorScheme.primaryContainer
                     } else {

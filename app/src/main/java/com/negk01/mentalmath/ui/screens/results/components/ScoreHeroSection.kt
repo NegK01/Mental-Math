@@ -33,6 +33,7 @@ import com.negk01.mentalmath.domain.model.Difficulty
 import com.negk01.mentalmath.presentation.results.NextGoalState
 import com.negk01.mentalmath.ui.components.DifficultyBadge
 import com.negk01.mentalmath.ui.theme.Motion
+import com.negk01.mentalmath.ui.theme.Spacing
 import com.negk01.mentalmath.ui.utils.motionEnabled
 import com.negk01.mentalmath.ui.utils.toLabelResId
 
@@ -128,8 +129,8 @@ fun ScoreHeroSection(
         }
 
         if (difficulty != null) {
-            Spacer(modifier = Modifier.height(12.dp))
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+            Spacer(modifier = Modifier.height(Spacing.Md))
+            Row(horizontalArrangement = Arrangement.spacedBy(Spacing.Sm), verticalAlignment = Alignment.CenterVertically) {
                 DifficultyBadge(difficulty = difficulty)
                 if (completionStatus == CompletionStatus.ABANDONED) {
                     CompletionStatusBadge(status = completionStatus)
@@ -146,7 +147,7 @@ fun ScoreHeroSection(
             textAlign = TextAlign.Center
         )
 
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(Spacing.Xs))
 
         Text(
             text = subtitleText,

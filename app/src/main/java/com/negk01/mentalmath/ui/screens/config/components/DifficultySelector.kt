@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import com.negk01.mentalmath.ui.theme.Radius
+import com.negk01.mentalmath.ui.theme.Spacing
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -28,7 +30,7 @@ fun DifficultySelector(
 
     Column(
         modifier = Modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        verticalArrangement = Arrangement.spacedBy(Spacing.Md)
     ) {
         Text(
             text = stringResource(R.string.config_difficulty_title),
@@ -45,7 +47,7 @@ fun DifficultySelector(
                 Surface(
                     onClick = { onSelect(difficulty) },
                     modifier = Modifier.weight(1f),
-                    shape = RoundedCornerShape(16.dp),
+                    shape = RoundedCornerShape(Radius.Card),
                     color = if (selected == difficulty) {
                         MaterialTheme.colorScheme.primaryContainer
                     } else {

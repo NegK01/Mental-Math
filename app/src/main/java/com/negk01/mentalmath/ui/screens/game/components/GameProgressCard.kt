@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.negk01.mentalmath.ui.theme.Spacing
 import com.negk01.mentalmath.R
 
 // Nota: 'difficulty' eliminado — nunca se renderizó y el mockup no lo incluye.
@@ -53,7 +54,7 @@ fun GameProgressCard(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 8.dp)
+            .padding(top = Spacing.Sm)
     ) {
         // Barra de progreso delgada y plana — sin Card, sin elevación
         LinearProgressIndicator(
@@ -65,7 +66,7 @@ fun GameProgressCard(
             trackColor = MaterialTheme.colorScheme.surfaceVariant
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(Spacing.Sm))
 
         Row(
             modifier = Modifier.fillMaxWidth(),

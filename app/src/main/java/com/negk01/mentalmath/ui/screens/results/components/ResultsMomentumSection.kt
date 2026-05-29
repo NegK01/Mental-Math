@@ -21,6 +21,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.negk01.mentalmath.R
+import com.negk01.mentalmath.ui.theme.Radius
 import com.negk01.mentalmath.presentation.results.DeltaState
 
 @Composable
@@ -84,7 +85,7 @@ private fun MomentumChip(
 ) {
     Box(
         modifier = modifier
-            .clip(RoundedCornerShape(12.dp))
+            .clip(RoundedCornerShape(Radius.Md))
             .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.50f))
             .padding(horizontal = 12.dp, vertical = 10.dp)
     ) {

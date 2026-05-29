@@ -14,6 +14,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.negk01.mentalmath.domain.model.Difficulty
+import com.negk01.mentalmath.ui.theme.Radius
 import com.negk01.mentalmath.ui.utils.badgeColors
 import com.negk01.mentalmath.ui.utils.toLabelResId
 
@@ -24,7 +25,7 @@ fun DifficultyBadge(
     compact: Boolean = false
 ) {
     val colors = difficulty.badgeColors()
-    val shape = if (compact) CircleShape else RoundedCornerShape(8.dp)
+    val shape = if (compact) CircleShape else RoundedCornerShape(Radius.Sm)
     val horizontalPadding = if (compact) 12.dp else 10.dp
     val verticalPadding = if (compact) 6.dp else 4.dp
 

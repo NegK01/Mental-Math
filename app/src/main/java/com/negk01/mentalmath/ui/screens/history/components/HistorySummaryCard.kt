@@ -15,8 +15,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.negk01.mentalmath.R
+import com.negk01.mentalmath.ui.theme.Radius
 
 @Composable
 fun HistorySummaryCard(
@@ -75,7 +77,7 @@ private fun MetricCard(
 ) {
     Box(
         modifier = modifier
-            .clip(RoundedCornerShape(18.dp))
+            .clip(RoundedCornerShape(Radius.Button))
             .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.72f))
     ) {
         Column(

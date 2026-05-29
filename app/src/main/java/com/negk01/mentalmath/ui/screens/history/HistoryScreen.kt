@@ -29,6 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.negk01.mentalmath.R
 import com.negk01.mentalmath.ui.theme.BottomNavContentPadding
+import com.negk01.mentalmath.ui.theme.Spacing
 import com.negk01.mentalmath.presentation.history.HistoryViewModel
 import com.negk01.mentalmath.ui.screens.history.components.HistorySummaryCard
 import com.negk01.mentalmath.ui.screens.history.components.EmptyState
@@ -62,8 +63,8 @@ fun HistoryScreen(
                     .fillMaxSize()
                     .padding(innerPadding)
                     .statusBarsPadding(),
-                contentPadding = PaddingValues(start = 16.dp, top = 12.dp, end = 16.dp, bottom = BottomNavContentPadding),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+                contentPadding = PaddingValues(start = Spacing.Lg, top = Spacing.Md, end = Spacing.Lg, bottom = BottomNavContentPadding),
+                verticalArrangement = Arrangement.spacedBy(Spacing.Md)
             ) {
                 item {
                     HistorySummaryCard(
@@ -100,7 +101,7 @@ fun HistoryScreen(
                     if ((index + 1) % 5 == 0 && index < uiState.displayRecords.lastIndex) {
                         item(key = "divider_${record.playedAt}") {
                             HorizontalDivider(
-                                modifier = Modifier.padding(horizontal = 24.dp),
+                                modifier = Modifier.padding(horizontal = Spacing.Xl),
                                 color = MaterialTheme.colorScheme.surfaceVariant,
                                 thickness = 1.dp
                             )
@@ -113,7 +114,7 @@ fun HistoryScreen(
                         LinearProgressIndicator(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(vertical = 8.dp),
+                                .padding(vertical = Spacing.Sm),
                             color = MaterialTheme.colorScheme.primary,
                             trackColor = MaterialTheme.colorScheme.surfaceVariant
                         )

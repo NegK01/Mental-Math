@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import com.negk01.mentalmath.ui.theme.Radius
+import com.negk01.mentalmath.ui.theme.Spacing
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material3.Button
@@ -47,11 +49,11 @@ fun PauseDialog(onResume: () -> Unit) {
         Column(
             modifier = Modifier
                 .padding(horizontal = 40.dp)
-                .clip(RoundedCornerShape(28.dp))
+                .clip(RoundedCornerShape(Radius.Modal))
                 .background(MaterialTheme.colorScheme.surface)
                 .padding(horizontal = 28.dp, vertical = 32.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(Spacing.Md)
         ) {
             Box(
                 modifier = Modifier
@@ -68,7 +70,7 @@ fun PauseDialog(onResume: () -> Unit) {
                 )
             }
 
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(Spacing.Xs))
 
             Text(
                 text = stringResource(R.string.game_pause_title),
@@ -84,12 +86,12 @@ fun PauseDialog(onResume: () -> Unit) {
                 textAlign = TextAlign.Center
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(Spacing.Sm))
 
             Button(
                 onClick = onResume,
                 modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(24.dp)
+                shape = RoundedCornerShape(Radius.Xl)
             ) {
                 Text(stringResource(R.string.game_resume))
             }

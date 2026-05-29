@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import com.negk01.mentalmath.ui.theme.Radius
+import com.negk01.mentalmath.ui.theme.Spacing
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.DeleteSweep
 import androidx.compose.material3.Button
@@ -55,12 +57,12 @@ fun DeleteHistoryDialog(
         Column(
             modifier = Modifier
                 .padding(horizontal = 40.dp)
-                .clip(RoundedCornerShape(28.dp))
+                .clip(RoundedCornerShape(Radius.Modal))
                 .background(MaterialTheme.colorScheme.surface)
                 .pointerInput(Unit) { detectTapGestures { } }
                 .padding(horizontal = 28.dp, vertical = 32.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(Spacing.Md)
         ) {
             Box(
                 modifier = Modifier
@@ -77,7 +79,7 @@ fun DeleteHistoryDialog(
                 )
             }
 
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(Spacing.Xs))
 
             Text(
                 text = stringResource(R.string.config_delete_dialog_title),
@@ -93,11 +95,11 @@ fun DeleteHistoryDialog(
                 textAlign = TextAlign.Center
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(Spacing.Sm))
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(Spacing.Sm)
             ) {
                 TextButton(
                     onClick = onDismiss,
@@ -108,7 +110,7 @@ fun DeleteHistoryDialog(
                 Button(
                     onClick = onConfirm,
                     modifier = Modifier.weight(1f),
-                    shape = RoundedCornerShape(24.dp),
+                    shape = RoundedCornerShape(Radius.Xl),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = if (isDarkTheme) {
                             MaterialTheme.colorScheme.errorContainer

@@ -28,6 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.negk01.mentalmath.R
+import com.negk01.mentalmath.ui.theme.Radius
 
 @Composable
 fun StartGameButton(
@@ -38,7 +39,7 @@ fun StartGameButton(
         modifier = Modifier
             .fillMaxWidth()
             .height(60.dp),
-        shape = RoundedCornerShape(18.dp),
+        shape = RoundedCornerShape(Radius.Button),
         contentPadding = PaddingValues(),
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Transparent
@@ -60,7 +61,7 @@ fun StartGameButton(
                             MaterialTheme.colorScheme.primary
                         )
                     ),
-                    shape = RoundedCornerShape(18.dp)
+                    shape = RoundedCornerShape(Radius.Button)
                 ),
             contentAlignment = Alignment.Center
         ) {

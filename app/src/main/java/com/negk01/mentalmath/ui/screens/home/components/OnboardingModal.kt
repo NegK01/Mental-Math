@@ -46,6 +46,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import com.negk01.mentalmath.ui.theme.Opacity
+import com.negk01.mentalmath.ui.theme.Radius
+import com.negk01.mentalmath.ui.theme.Spacing
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -95,9 +97,9 @@ fun OnboardingModal(
         ) {
             Column(
                 modifier = Modifier
-                    .padding(horizontal = 32.dp)
+                    .padding(horizontal = Spacing.Xxl)
                     .heightIn(max = maxHeight * 0.88f)
-                    .clip(RoundedCornerShape(28.dp))
+                    .clip(RoundedCornerShape(Radius.Modal))
                     .background(MaterialTheme.colorScheme.surface)
                     .verticalScroll(rememberScrollState())
                     .padding(horizontal = 24.dp, vertical = 28.dp),
@@ -106,7 +108,7 @@ fun OnboardingModal(
             ) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                    verticalArrangement = Arrangement.spacedBy(Spacing.Xs)
                 ) {
                     Text(
                         text = stringResource(R.string.onboarding_title),
@@ -132,7 +134,7 @@ fun OnboardingModal(
 
                 Column(
                     horizontalAlignment = Alignment.Start,
-                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                    verticalArrangement = Arrangement.spacedBy(Spacing.Md),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
@@ -149,7 +151,7 @@ fun OnboardingModal(
 
                 Column(
                     horizontalAlignment = Alignment.Start,
-                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                    verticalArrangement = Arrangement.spacedBy(Spacing.Md),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
@@ -160,7 +162,7 @@ fun OnboardingModal(
                     )
                     Row(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        horizontalArrangement = Arrangement.spacedBy(Spacing.Sm)
                     ) {
                         Difficulty.entries.forEach { difficulty ->
                             val labelRes = when (difficulty) {
@@ -171,7 +173,7 @@ fun OnboardingModal(
                             Surface(
                                 onClick = { onDifficultyChange(difficulty) },
                                 modifier = Modifier.weight(1f),
-                                shape = RoundedCornerShape(20.dp),
+                                shape = RoundedCornerShape(Radius.Lg),
                                 color = if (difficulty == selectedDifficulty) {
                                     MaterialTheme.colorScheme.primaryContainer
                                 } else {
@@ -201,7 +203,7 @@ fun OnboardingModal(
                 Button(
                     onClick = onDismiss,
                     modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(24.dp)
+                    shape = RoundedCornerShape(Radius.Xl)
                 ) {
                     Text(stringResource(R.string.onboarding_cta))
                 }

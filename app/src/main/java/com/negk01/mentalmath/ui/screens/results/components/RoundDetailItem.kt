@@ -19,16 +19,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.negk01.mentalmath.R
+import com.negk01.mentalmath.ui.theme.Radius
+import com.negk01.mentalmath.ui.theme.Spacing
 import com.negk01.mentalmath.domain.model.RoundDetail
-import com.negk01.mentalmath.ui.theme.Danger
-import com.negk01.mentalmath.ui.theme.DangerContainer
-import com.negk01.mentalmath.ui.theme.Success
-import com.negk01.mentalmath.ui.theme.SuccessContainer
-import com.negk01.mentalmath.ui.theme.SuccessText
 import com.negk01.mentalmath.ui.utils.isDarkTheme
 
 @Composable
@@ -37,23 +33,23 @@ fun RoundDetailItem(
 ) {
     val isDark = isDarkTheme()
     val itemBg = if (item.isCorrect) {
-        if (isDark) Success.copy(alpha = 0.12f) else SuccessContainer.copy(alpha = 0.6f)
+        MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = if (isDark) 0.25f else 0.6f)
     } else {
-        if (isDark) Danger.copy(alpha = 0.12f) else DangerContainer.copy(alpha = 0.55f)
+        MaterialTheme.colorScheme.errorContainer.copy(alpha = if (isDark) 0.25f else 0.55f)
     }
     val iconTint = if (item.isCorrect) {
-        if (isDark) Success else SuccessText
+        MaterialTheme.colorScheme.tertiary
     } else {
-        Danger
+        MaterialTheme.colorScheme.error
     }
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(10.dp))
+            .clip(RoundedCornerShape(Radius.Md))
             .background(itemBg)
             .padding(horizontal = 12.dp, vertical = 10.dp),
-        verticalArrangement = Arrangement.spacedBy(4.dp)
+        verticalArrangement = Arrangement.spacedBy(Spacing.Xs)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically
@@ -65,7 +61,7 @@ fun RoundDetailItem(
                 color = MaterialTheme.colorScheme.onSurface
             )
 
-            Spacer(modifier = Modifier.size(8.dp))
+            Spacer(modifier = Modifier.size(Spacing.Sm))
 
             Icon(
                 imageVector = if (item.isCorrect) Icons.Rounded.Check else Icons.Rounded.Close,

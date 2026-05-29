@@ -18,6 +18,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.negk01.mentalmath.ui.theme.Spacing
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -71,7 +72,7 @@ fun GameScreen(
             BoxWithConstraints(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 16.dp)
+                    .padding(horizontal = Spacing.Lg)
             ) {
                 val buttonHeight = (maxHeight * 0.085f).coerceIn(44.dp, 66.dp)
                 val questionFontSize = (maxHeight.value * 0.048f).coerceIn(26f, 42f).sp
@@ -80,7 +81,7 @@ fun GameScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(bottom = 12.dp)
+                        .padding(bottom = Spacing.Md)
                 ) {
                     GameProgressCard(
                         currentRound = uiState.currentRound,

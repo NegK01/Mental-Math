@@ -18,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.negk01.mentalmath.R
+import com.negk01.mentalmath.ui.theme.Radius
 import com.negk01.mentalmath.domain.model.GameRecord
 import com.negk01.mentalmath.ui.utils.isDarkTheme
 import java.text.SimpleDateFormat
@@ -38,7 +39,7 @@ fun GameRecordItem(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(16.dp))
+            .clip(RoundedCornerShape(Radius.Card))
             .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = itemAlpha))
             .padding(horizontal = 14.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically

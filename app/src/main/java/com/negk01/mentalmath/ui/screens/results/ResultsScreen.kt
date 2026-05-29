@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.negk01.mentalmath.ui.theme.Spacing
 import androidx.navigation.NavController
 import com.negk01.mentalmath.R
 import com.negk01.mentalmath.domain.model.CompletionStatus
@@ -56,7 +57,7 @@ fun ResultsScreen(
         ) {
             LazyColumn(
                 modifier = Modifier.weight(1f),
-                contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 24.dp, bottom = 12.dp)
+                contentPadding = PaddingValues(start = Spacing.Lg, end = Spacing.Lg, top = Spacing.Xl, bottom = Spacing.Md)
             ) {
                 item {
                     ScoreHeroSection(
@@ -74,7 +75,7 @@ fun ResultsScreen(
                     ResultsMomentumSection(
                         maxStreak = resultsUiState.maxStreak,
                         delta = resultsUiState.delta,
-                        modifier = Modifier.padding(bottom = 8.dp)
+                        modifier = Modifier.padding(bottom = Spacing.Sm)
                     )
                 }
 
@@ -96,7 +97,7 @@ fun ResultsScreen(
             }
 
             ResultsActions(
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+                modifier = Modifier.padding(horizontal = Spacing.Lg, vertical = Spacing.Md),
                 onGoHome = {
                     navController.navigate(Routes.HOME) {
                         popUpTo(0) { inclusive = false }

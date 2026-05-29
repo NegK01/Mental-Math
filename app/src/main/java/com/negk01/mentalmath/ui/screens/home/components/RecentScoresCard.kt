@@ -24,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.negk01.mentalmath.R
+import com.negk01.mentalmath.ui.theme.Radius
 import com.negk01.mentalmath.domain.model.GameRecord
 import com.negk01.mentalmath.ui.components.GameRecordItem
 
@@ -38,7 +39,7 @@ fun RecentScoresCard(
             val iconTint = MaterialTheme.colorScheme.primary
             Box(
                 modifier = Modifier
-                    .clip(RoundedCornerShape(8.dp))
+                    .clip(RoundedCornerShape(Radius.Sm))
                     .background(iconTint.copy(alpha = 0.15f))
                     .padding(10.dp)
             ) {

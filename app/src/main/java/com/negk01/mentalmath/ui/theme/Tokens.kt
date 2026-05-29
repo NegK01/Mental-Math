@@ -43,7 +43,12 @@ object Spacing {
 object Radius {
     val Sm = 8.dp
     val Md = 12.dp
+    val Card = 16.dp
+    val Button = 18.dp
     val Lg = 20.dp
+    val Xl = 24.dp
+    val Modal = 28.dp
+    val NavBar = 32.dp
     val Pill = 999.dp
 }
 

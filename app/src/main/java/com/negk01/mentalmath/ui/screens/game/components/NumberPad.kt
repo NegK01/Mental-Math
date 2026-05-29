@@ -38,6 +38,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import com.negk01.mentalmath.ui.theme.Radius
 import androidx.compose.ui.unit.sp
 import com.negk01.mentalmath.R
 
@@ -55,7 +56,7 @@ fun NumberPad(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(12.dp))
+            .clip(RoundedCornerShape(Radius.Md))
             .background(MaterialTheme.colorScheme.surface)
     ) {
         Column(

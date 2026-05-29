@@ -27,8 +27,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.negk01.mentalmath.ui.theme.Danger
-import com.negk01.mentalmath.ui.theme.SuccessText
+import com.negk01.mentalmath.ui.theme.Radius
 import com.negk01.mentalmath.ui.utils.isDarkTheme
 import com.negk01.mentalmath.ui.utils.motionEnabled
 
@@ -39,8 +38,8 @@ fun AnswerDisplay(
 ) {
     val cardColor by animateColorAsState(
         targetValue = when (lastAnswerCorrect) {
-            true  -> SuccessText.copy(alpha = 0.18f)
-            false -> Danger.copy(alpha = 0.18f)
+            true  -> MaterialTheme.colorScheme.tertiary.copy(alpha = 0.18f)
+            false -> MaterialTheme.colorScheme.error.copy(alpha = 0.18f)
             null  -> if (isDarkTheme()) MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f) else MaterialTheme.colorScheme.surfaceVariant
         },
         animationSpec = tween(durationMillis = 150),
@@ -63,7 +62,7 @@ fun AnswerDisplay(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(24.dp))
+            .clip(RoundedCornerShape(Radius.Xl))
             .background(cardColor)
             .padding(horizontal = 18.dp, vertical = 18.dp),
         contentAlignment = Alignment.Center

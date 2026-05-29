@@ -35,6 +35,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.negk01.mentalmath.ui.theme.Radius
+import com.negk01.mentalmath.ui.theme.Spacing
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.negk01.mentalmath.R
 import com.negk01.mentalmath.ui.theme.Opacity
@@ -64,13 +66,13 @@ fun BottomNavBar(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 18.dp, vertical = 20.dp),
-        shape = RoundedCornerShape(32.dp),
+        shape = RoundedCornerShape(Radius.NavBar),
         color = MaterialTheme.colorScheme.surface,
         shadowElevation = 8.dp
     ) {
         Row(
             modifier = Modifier
-                .padding(horizontal = 16.dp, vertical = 12.dp)
+                .padding(horizontal = Spacing.Lg, vertical = Spacing.Md)
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
@@ -95,7 +97,7 @@ fun BottomNavBar(
 
                 Row(
                     modifier = Modifier
-                        .clip(RoundedCornerShape(24.dp))
+                        .clip(RoundedCornerShape(Radius.Xl))
                         .background(background)
                         .combinedClickable(
                             onClick = {
@@ -140,7 +142,7 @@ fun BottomNavBar(
                             maxLines = 1,
                             softWrap = false,
                             overflow = TextOverflow.Ellipsis,
-                            modifier = Modifier.padding(start = 8.dp)
+                            modifier = Modifier.padding(start = Spacing.Sm)
                         )
                     }
                 }

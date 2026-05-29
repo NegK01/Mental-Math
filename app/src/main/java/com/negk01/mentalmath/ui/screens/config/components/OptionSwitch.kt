@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.negk01.mentalmath.ui.theme.Spacing
 
 @Composable
 fun OptionSwitch(
@@ -36,7 +37,7 @@ fun OptionSwitch(
         ) {
             Column(
                 modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+                verticalArrangement = Arrangement.spacedBy(Spacing.Xs)
             ) {
                 Text(
                     text = title,

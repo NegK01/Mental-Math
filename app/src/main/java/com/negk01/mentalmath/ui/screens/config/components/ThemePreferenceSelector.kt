@@ -1,6 +1,7 @@
 package com.negk01.mentalmath.ui.screens.config.components
 
 import androidx.compose.foundation.background
+import com.negk01.mentalmath.ui.theme.Radius
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -53,6 +54,7 @@ import com.negk01.mentalmath.ui.theme.RoyalBg
 import com.negk01.mentalmath.ui.theme.RoyalSurface
 import com.negk01.mentalmath.ui.theme.OnSurfaceDark
 import com.negk01.mentalmath.ui.theme.OnSurfaceLight
+import com.negk01.mentalmath.ui.theme.Spacing
 import com.negk01.mentalmath.ui.theme.SurfaceDark
 import com.negk01.mentalmath.ui.theme.SurfaceLight
 import com.negk01.mentalmath.ui.utils.toLabelResId
@@ -162,11 +164,11 @@ private fun ThemePreviewCard(
     Box(
         modifier = modifier
             .height(68.dp)
-            .clip(RoundedCornerShape(12.dp))
+            .clip(RoundedCornerShape(Radius.Md))
             .border(
                 width = if (isSelected) 2.dp else 1.dp,
                 color = if (isSelected) colors.accent else colors.accent.copy(alpha = 0.25f),
-                shape = RoundedCornerShape(12.dp)
+                shape = RoundedCornerShape(Radius.Md)
             )
             .background(colors.bg)
             .clickable(onClick = onClick)
@@ -190,7 +192,7 @@ private fun ThemePreviewCard(
                 .height(24.dp)
                 .align(Alignment.BottomCenter)
                 .background(colors.surface)
-                .padding(horizontal = 8.dp),
+                .padding(horizontal = Spacing.Sm),
             contentAlignment = Alignment.CenterStart
         ) {
             Text(
