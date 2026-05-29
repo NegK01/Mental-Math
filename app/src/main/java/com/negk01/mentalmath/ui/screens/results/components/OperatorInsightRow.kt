@@ -1,5 +1,6 @@
 package com.negk01.mentalmath.ui.screens.results.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -26,6 +27,7 @@ fun OperatorInsightRow(
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(

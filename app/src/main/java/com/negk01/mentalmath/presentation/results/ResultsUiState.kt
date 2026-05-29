@@ -5,13 +5,12 @@ import com.negk01.mentalmath.domain.model.Operator
 
 sealed class DeltaState {
     object NewRecord : DeltaState()
-    data class Better(val percent: Int) : DeltaState()
-    data class Worse(val percent: Int) : DeltaState()
     object FirstGame : DeltaState()
+    object None : DeltaState()
 }
 
 sealed class NextGoalState {
-    object LowAccuracy : NextGoalState()
+    data class LowAccuracy(val targetCorrect: Int, val totalRounds: Int) : NextGoalState()
     data class StepUp(val nextDifficulty: Difficulty) : NextGoalState()
     object HardKeep : NextGoalState()
     object HardPerfect : NextGoalState()
@@ -25,7 +24,7 @@ data class OperatorInsight(
 
 data class ResultsUiState(
     val maxStreak: Int = 0,
-    val delta: DeltaState = DeltaState.FirstGame,
-    val nextGoal: NextGoalState = NextGoalState.LowAccuracy,
+    val delta: DeltaState = DeltaState.None,
+    val nextGoal: NextGoalState = NextGoalState.LowAccuracy(0, 0),
     val operatorInsight: OperatorInsight? = null
 )

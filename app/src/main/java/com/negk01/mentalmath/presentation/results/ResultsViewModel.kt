@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlin.math.ceil
 
 class ResultsViewModel(
     private val repository: GameRecordRepository
@@ -24,37 +25,34 @@ class ResultsViewModel(
 
         _uiState.value = ResultsUiState(
             maxStreak = sessionResult.maxStreak,
-            delta = DeltaState.FirstGame,
-            nextGoal = computeNextGoal(accuracy.toFloat(), sessionResult.difficulty),
+            delta = DeltaState.None,
+            nextGoal = computeNextGoal(accuracy.toFloat(), sessionResult.difficulty, sessionResult.totalRounds),
             operatorInsight = computeOperatorInsight(sessionResult.roundResults)
         )
 
         viewModelScope.launch {
-            val bestAccuracy = try {
-                repository.getBestAccuracyForDifficulty(sessionResult.difficulty)
+            val previousBest = try {
+                repository.getPreviousBestAccuracyForDifficulty(sessionResult.difficulty)
             } catch (e: Exception) {
                 null
             }
             _uiState.value = _uiState.value.copy(
-                delta = calculateDelta(accuracy, bestAccuracy)
+                delta = calculateDelta(accuracy, previousBest)
             )
         }
     }
 
-    private fun calculateDelta(current: Double, best: Double?): DeltaState {
-        if (best == null) return DeltaState.FirstGame
-        return when {
-            current >= best -> DeltaState.NewRecord
-            else -> {
-                val percent = ((best - current) / best * 100).toInt().coerceAtLeast(1)
-                DeltaState.Worse(percent)
-            }
-        }
+    private fun calculateDelta(current: Double, previousBest: Double?): DeltaState {
+        if (previousBest == null) return DeltaState.FirstGame
+        return if (current > previousBest) DeltaState.NewRecord else DeltaState.None
     }
 
-    private fun computeNextGoal(accuracy: Float, difficulty: Difficulty): NextGoalState {
+    private fun computeNextGoal(accuracy: Float, difficulty: Difficulty, totalRounds: Int): NextGoalState {
         return when {
-            accuracy < 0.7f -> NextGoalState.LowAccuracy
+            accuracy < 0.7f -> NextGoalState.LowAccuracy(
+                targetCorrect = ceil(totalRounds * 0.7).toInt(),
+                totalRounds = totalRounds
+            )
             difficulty == Difficulty.HARD && accuracy < 1.0f -> NextGoalState.HardKeep
             difficulty == Difficulty.HARD -> NextGoalState.HardPerfect
             accuracy >= 1.0f -> NextGoalState.PerfectNext(difficulty.next())

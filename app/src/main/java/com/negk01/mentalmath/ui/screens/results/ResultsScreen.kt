@@ -17,6 +17,7 @@ import com.negk01.mentalmath.R
 import com.negk01.mentalmath.domain.model.GameSessionResult
 import com.negk01.mentalmath.domain.model.RoundDetail
 import com.negk01.mentalmath.navigation.Routes
+import com.negk01.mentalmath.presentation.results.DeltaState
 import com.negk01.mentalmath.presentation.results.ResultsUiState
 import com.negk01.mentalmath.ui.screens.results.components.OperatorInsightRow
 import com.negk01.mentalmath.ui.screens.results.components.ResultsActions
@@ -63,6 +64,7 @@ fun ResultsScreen(
                         difficulty = sessionResult?.difficulty,
                         completionStatus = sessionResult?.completionStatus ?: "",
                         nextGoal = resultsUiState.nextGoal,
+                        isNewRecord = resultsUiState.delta is DeltaState.NewRecord,
                         modifier = Modifier.padding(bottom = 20.dp)
                     )
                 }

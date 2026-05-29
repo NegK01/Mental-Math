@@ -11,7 +11,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.EmojiEvents
 import androidx.compose.material.icons.outlined.LocalFireDepartment
-import androidx.compose.material.icons.outlined.TrendingDown
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -25,7 +24,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.negk01.mentalmath.R
 import com.negk01.mentalmath.presentation.results.DeltaState
-import com.negk01.mentalmath.ui.theme.Opacity
 
 @Composable
 fun ResultsMomentumSection(
@@ -35,10 +33,9 @@ fun ResultsMomentumSection(
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(10.dp)
+        horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterHorizontally)
     ) {
         MomentumChip(
-            modifier = Modifier.weight(1f),
             icon = {
                 Icon(
                     imageVector = Icons.Outlined.LocalFireDepartment,
@@ -54,7 +51,6 @@ fun ResultsMomentumSection(
 
         when (delta) {
             is DeltaState.NewRecord -> MomentumChip(
-                modifier = Modifier.weight(1f),
                 icon = {
                     Icon(
                         imageVector = Icons.Outlined.EmojiEvents,
@@ -68,36 +64,14 @@ fun ResultsMomentumSection(
                 accentColor = MaterialTheme.colorScheme.tertiary
             )
 
-            is DeltaState.Worse -> MomentumChip(
-                modifier = Modifier.weight(1f),
-                icon = {
-                    Icon(
-                        imageVector = Icons.Outlined.TrendingDown,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.size(16.dp)
-                    )
-                },
-                label = stringResource(R.string.results_vs_best),
-                value = "−${delta.percent}%",
-                accentColor = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-
-            is DeltaState.Better -> MomentumChip(
-                modifier = Modifier.weight(1f),
-                icon = null,
-                label = stringResource(R.string.results_vs_best),
-                value = "+${delta.percent}%",
-                accentColor = MaterialTheme.colorScheme.tertiary
-            )
-
             is DeltaState.FirstGame -> MomentumChip(
-                modifier = Modifier.weight(1f),
                 icon = null,
                 label = stringResource(R.string.results_first_game),
                 value = null,
                 accentColor = MaterialTheme.colorScheme.onSurfaceVariant
             )
+
+            is DeltaState.None -> Unit
         }
     }
 }
@@ -113,7 +87,7 @@ private fun MomentumChip(
     Box(
         modifier = modifier
             .clip(RoundedCornerShape(12.dp))
-            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = Opacity.BadgeContainer))
+            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.65f))
             .padding(horizontal = 12.dp, vertical = 10.dp)
     ) {
         Row(

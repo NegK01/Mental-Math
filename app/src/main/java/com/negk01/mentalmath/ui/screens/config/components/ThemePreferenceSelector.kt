@@ -51,6 +51,8 @@ import com.negk01.mentalmath.ui.theme.OriginalSurface
 import com.negk01.mentalmath.ui.theme.RoyalAccent
 import com.negk01.mentalmath.ui.theme.RoyalBg
 import com.negk01.mentalmath.ui.theme.RoyalSurface
+import com.negk01.mentalmath.ui.theme.OnSurfaceDark
+import com.negk01.mentalmath.ui.theme.OnSurfaceLight
 import com.negk01.mentalmath.ui.theme.SurfaceDark
 import com.negk01.mentalmath.ui.theme.SurfaceLight
 import com.negk01.mentalmath.ui.utils.toLabelResId
@@ -59,7 +61,7 @@ private data class ThemePreviewColors(
     val bg: Color,
     val surface: Color,
     val accent: Color,
-    val labelColor: Color = Color.White.copy(alpha = 0.75f)
+    val labelColor: Color = OnSurfaceDark.copy(alpha = 0.75f)
 )
 
 private fun ThemePreference.previewColors(): ThemePreviewColors = when (this) {
@@ -67,13 +69,13 @@ private fun ThemePreference.previewColors(): ThemePreviewColors = when (this) {
         bg = BackgroundDark,
         surface = SurfaceDark,
         accent = BrandPrimary,
-        labelColor = Color.White.copy(alpha = 0.75f)
+        labelColor = OnSurfaceDark.copy(alpha = 0.75f)
     )
     ThemePreference.LIGHT -> ThemePreviewColors(
         bg = BackgroundLight,
         surface = SurfaceLight,
         accent = BrandPrimary,
-        labelColor = Color.Black.copy(alpha = 0.65f)
+        labelColor = OnSurfaceLight.copy(alpha = 0.65f)
     )
     ThemePreference.ORIGINAL -> ThemePreviewColors(OriginalBg, OriginalSurface, OriginalAccent)
     ThemePreference.MENTA_PROFUNDO -> ThemePreviewColors(MentaBg, MentaSurface, MentaAccent)

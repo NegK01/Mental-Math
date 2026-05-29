@@ -32,4 +32,7 @@ interface GameRecordDao {
 
     @Query("SELECT MAX(CAST(correctAnswers AS REAL) / totalRounds) FROM game_records WHERE difficulty = :difficulty")
     suspend fun getBestAccuracyForDifficulty(difficulty: String): Double?
+
+    @Query("SELECT MAX(CAST(correctAnswers AS REAL) / totalRounds) FROM game_records WHERE difficulty = :difficulty AND id != (SELECT MAX(id) FROM game_records WHERE difficulty = :difficulty)")
+    suspend fun getPreviousBestAccuracyForDifficulty(difficulty: String): Double?
 }

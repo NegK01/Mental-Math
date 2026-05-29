@@ -41,4 +41,8 @@ class GameRecordRepositoryImpl(
     override suspend fun getBestAccuracyForDifficulty(difficulty: Difficulty): Double? {
         return gameRecordDao.getBestAccuracyForDifficulty(difficulty.toStorageKey())
     }
+
+    override suspend fun getPreviousBestAccuracyForDifficulty(difficulty: Difficulty): Double? {
+        return gameRecordDao.getPreviousBestAccuracyForDifficulty(difficulty.toStorageKey())
+    }
 }

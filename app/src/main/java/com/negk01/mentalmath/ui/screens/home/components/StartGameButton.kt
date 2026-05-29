@@ -57,7 +57,7 @@ fun StartGameButton(
                 .background(
                     brush = Brush.horizontalGradient(
                         colors = listOf(
-                            lerp(MaterialTheme.colorScheme.primary, Color.White, 0.10f),
+                            lerp(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.onPrimary, 0.10f),
                             MaterialTheme.colorScheme.primary
                         )
                     ),

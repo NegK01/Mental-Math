@@ -1,5 +1,6 @@
 package com.negk01.mentalmath.domain.repository
 
+import com.negk01.mentalmath.domain.model.Difficulty
 import com.negk01.mentalmath.domain.model.GameRecord
 import kotlinx.coroutines.flow.Flow
 
@@ -16,4 +17,6 @@ interface GameRecordRepository {
     suspend fun clearAll()
 
     suspend fun getBestAccuracyForDifficulty(difficulty: Difficulty): Double?
+
+    suspend fun getPreviousBestAccuracyForDifficulty(difficulty: Difficulty): Double?
 }

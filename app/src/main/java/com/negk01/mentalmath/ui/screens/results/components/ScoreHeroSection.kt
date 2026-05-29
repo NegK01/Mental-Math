@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -31,6 +32,8 @@ import com.negk01.mentalmath.R
 import com.negk01.mentalmath.domain.model.Difficulty
 import com.negk01.mentalmath.presentation.results.NextGoalState
 import com.negk01.mentalmath.ui.components.DifficultyBadge
+import com.negk01.mentalmath.ui.theme.Motion
+import com.negk01.mentalmath.ui.utils.motionEnabled
 import com.negk01.mentalmath.ui.utils.toLabelResId
 
 @Composable
@@ -40,16 +43,27 @@ fun ScoreHeroSection(
     difficulty: Difficulty?,
     completionStatus: String,
     nextGoal: NextGoalState,
+    isNewRecord: Boolean = false,
     modifier: Modifier = Modifier
 ) {
     val accuracy = if (totalRounds == 0) 0f else correctAnswers.toFloat() / totalRounds
 
     val animatedProgress = remember { Animatable(0f) }
+    val arcScale = remember { Animatable(1f) }
+    val motion = motionEnabled()
+
     LaunchedEffect(Unit) {
         animatedProgress.animateTo(
             targetValue = accuracy,
             animationSpec = tween(durationMillis = 800, easing = FastOutSlowInEasing)
         )
+    }
+
+    LaunchedEffect(isNewRecord) {
+        if (isNewRecord && motion) {
+            arcScale.animateTo(1.06f, tween(Motion.Celebration / 2, easing = Motion.EaseEmphasized))
+            arcScale.animateTo(1.0f, tween(Motion.Celebration / 2, easing = Motion.EaseEmphasized))
+        }
     }
 
     val scoreColor = when {
@@ -66,6 +80,8 @@ fun ScoreHeroSection(
 
     val subtitleText = when (nextGoal) {
         is NextGoalState.LowAccuracy -> stringResource(R.string.results_goal_low,
+            nextGoal.targetCorrect,
+            nextGoal.totalRounds,
             stringResource(difficulty?.toLabelResId() ?: R.string.difficulty_medium))
         is NextGoalState.StepUp -> stringResource(R.string.results_goal_next,
             stringResource(nextGoal.nextDifficulty.toLabelResId()))
@@ -82,7 +98,13 @@ fun ScoreHeroSection(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(0.dp)
     ) {
-        Box(contentAlignment = Alignment.Center) {
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.graphicsLayer {
+                scaleX = arcScale.value
+                scaleY = arcScale.value
+            }
+        ) {
             Canvas(modifier = Modifier.size(120.dp)) {
                 val strokeWidth = 10.dp.toPx()
                 val stroke = Stroke(width = strokeWidth, cap = StrokeCap.Round)

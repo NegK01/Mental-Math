@@ -14,6 +14,7 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -268,10 +269,17 @@ private fun ThemeSwatch(
             .size(swatchSize)
             .clip(CircleShape)
             .border(borderWidth, borderColor, CircleShape)
-            .background(bg)
             .clickable(onClick = onClick),
         contentAlignment = Alignment.Center
     ) {
+        if (theme == ThemePreference.SYSTEM) {
+            Row(Modifier.fillMaxSize()) {
+                Box(Modifier.weight(1f).fillMaxHeight().background(OriginalBg))
+                Box(Modifier.weight(1f).fillMaxHeight().background(BackgroundLight))
+            }
+        } else {
+            Box(Modifier.fillMaxSize().background(bg))
+        }
         Box(
             modifier = Modifier
                 .size(14.dp)
@@ -284,7 +292,7 @@ private fun ThemeSwatch(
 private data class SwatchColors(val bg: Color, val accent: Color)
 
 private fun swatchColorsFor(theme: ThemePreference): SwatchColors = when (theme) {
-    ThemePreference.SYSTEM        -> SwatchColors(BrandPrimary, Color.White)
+    ThemePreference.SYSTEM        -> SwatchColors(OriginalBg, BrandPrimary)
     ThemePreference.LIGHT         -> SwatchColors(BackgroundLight, BrandPrimary)
     ThemePreference.ORIGINAL      -> SwatchColors(OriginalBg, OriginalAccent)
     ThemePreference.MENTA_PROFUNDO -> SwatchColors(MentaBg, MentaAccent)
