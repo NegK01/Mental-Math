@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlin.math.ceil
+import kotlin.math.floor
 
 class ResultsViewModel(
     private val repository: GameRecordRepository
@@ -50,7 +50,7 @@ class ResultsViewModel(
     private fun computeNextGoal(accuracy: Float, difficulty: Difficulty, totalRounds: Int): NextGoalState {
         return when {
             accuracy < 0.7f -> NextGoalState.LowAccuracy(
-                targetCorrect = ceil(totalRounds * 0.7).toInt(),
+                targetCorrect = floor(totalRounds * 0.7).toInt(), // easy = 4 | medium = 7 | hard = 8
                 totalRounds = totalRounds
             )
             difficulty == Difficulty.HARD && accuracy < 1.0f -> NextGoalState.HardKeep

@@ -23,7 +23,7 @@ fun CompletionStatusBadge(
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(8.dp))
-            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.65f))
+            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.50f))
             .padding(horizontal = 10.dp, vertical = 4.dp),
         contentAlignment = Alignment.Center
     ) {

@@ -87,7 +87,7 @@ private fun MomentumChip(
     Box(
         modifier = modifier
             .clip(RoundedCornerShape(12.dp))
-            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.65f))
+            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.50f))
             .padding(horizontal = 12.dp, vertical = 10.dp)
     ) {
         Row(

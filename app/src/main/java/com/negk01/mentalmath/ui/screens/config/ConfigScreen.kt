@@ -6,12 +6,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -22,6 +20,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.negk01.mentalmath.R
 import com.negk01.mentalmath.presentation.config.ConfigViewModel
 import com.negk01.mentalmath.ui.screens.config.components.DangerZone
+import com.negk01.mentalmath.ui.screens.config.components.DeleteHistoryDialog
 import com.negk01.mentalmath.ui.screens.config.components.DifficultySelector
 import com.negk01.mentalmath.ui.screens.config.components.LanguagePreferenceSelector
 import com.negk01.mentalmath.ui.screens.config.components.ThemePreferenceSelector
@@ -95,30 +94,9 @@ fun ConfigScreen(
             }
 
             if (uiState.showDeleteHistoryDialog) {
-                AlertDialog(
-                    onDismissRequest = viewModel::hideDeleteHistoryDialog,
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    titleContentColor = MaterialTheme.colorScheme.onSurface,
-                    textContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    title = {
-                        Text(text = stringResource(R.string.config_delete_dialog_title))
-                    },
-                    text = {
-                        Text(text = stringResource(R.string.config_delete_dialog_message))
-                    },
-                    confirmButton = {
-                        TextButton(onClick = viewModel::clearScoresHistory) {
-                            Text(
-                                text = stringResource(R.string.config_delete_dialog_confirm),
-                                color = MaterialTheme.colorScheme.error
-                            )
-                        }
-                    },
-                    dismissButton = {
-                        TextButton(onClick = viewModel::hideDeleteHistoryDialog) {
-                            Text(text = stringResource(R.string.config_delete_dialog_cancel))
-                        }
-                    }
+                DeleteHistoryDialog(
+                    onConfirm = viewModel::clearScoresHistory,
+                    onDismiss = viewModel::hideDeleteHistoryDialog
                 )
             }
         }
