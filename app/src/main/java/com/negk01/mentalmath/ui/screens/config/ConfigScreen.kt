@@ -70,7 +70,7 @@ fun ConfigScreen(
                     )
                 }
 
-                // DEV: Feature de sonido deshabilitada. Descomentar y conectar cuando se implemente el audio en GameViewModel. Requiere: SoundManager, lógica en GameViewModel. SettingsRepository ya tiene soundEnabled.
+                // DEV 2: Feature de sonido deshabilitada. Descomentar y conectar cuando se implemente el audio en GameViewModel. Requiere: SoundManager, lógica en GameViewModel. SettingsRepository ya tiene soundEnabled.
                 // item {
                 //     OptionSwitch(
                 //         title = stringResource(R.string.config_sound_title),

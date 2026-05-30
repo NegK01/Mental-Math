@@ -44,8 +44,8 @@ fun ScoreHeroSection(
     difficulty: Difficulty?,
     completionStatus: CompletionStatus,
     nextGoal: NextGoalState,
-    isNewRecord: Boolean = false,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isNewRecord: Boolean = false
 ) {
     val accuracy = if (totalRounds == 0) 0f else correctAnswers.toFloat() / totalRounds
 

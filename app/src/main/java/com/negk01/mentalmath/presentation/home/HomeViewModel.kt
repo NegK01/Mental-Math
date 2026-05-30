@@ -22,7 +22,7 @@ class HomeViewModel(
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
     init {
-        // DEV: descomentar para ver el onboarding de nuevo en el próximo lanzamiento
+        // DEV 1: descomentar para ver el onboarding de nuevo en el próximo lanzamiento
         // viewModelScope.launch { settingsRepository.saveSettings(settingsRepository.getSettings().copy(hasSeenOnboarding = false)) }
         loadOnboardingFlag()
         observeRecentRecords()

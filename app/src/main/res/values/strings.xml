@@ -17,19 +17,14 @@
     <string name="theme_nordic_frost">Nordic Frost</string>
     <string name="theme_royal_dark">Royal Dark</string>
     <string name="theme_graphite_lime">Graphite Lime</string>
-    <string name="config_theme_section_auto">Auto / Light</string>
-    <string name="config_theme_section_dark">Dark Themes</string>
     <string name="language_system">System</string>
     <string name="language_spanish">Español</string>
     <string name="language_english">English</string>
 
     <string name="completion_completed">Completed</string>
     <string name="completion_abandoned">Abandoned</string>
-    <string name="completion_unknown">Unknown</string>
 
     <string name="home_title">Mental Math</string>
-    <string name="home_subtitle_compact">Fast sessions to keep your pace, accuracy, and focus sharp</string>
-    <string name="home_header_hint">Short sessions. Steady pace. Real progress</string>
     <string name="home_daily_streak_title">Daily streak</string>
     <string name="home_daily_streak_value">%1$d</string>
     <string name="home_recent_scores_title">Last 3 games</string>
@@ -38,11 +33,6 @@
     <string name="home_recent_avg_time">(%1$.1fs)</string>
     <string name="home_start_game">Start game</string>
     <string name="home_start_game_content_description">Start game</string>
-
-    <plurals name="daily_streak_days">
-        <item quantity="one">%d consecutive day</item>
-        <item quantity="other">%d consecutive days</item>
-    </plurals>
 
     <string name="history_title">History</string>
     <string name="history_empty">No saved games yet</string>
@@ -73,16 +63,10 @@
     <string name="game_pause_title">Game paused</string>
     <string name="game_pause_message">Take a breath and jump back in when you are ready</string>
     <string name="game_resume">Resume</string>
-    <string name="game_progress_subtitle">Solve fast and hold your streak to finish strong</string>
     <string name="game_round_progress">Round %1$d of %2$d</string>
-    <string name="game_question_subtitle">No calculator. Just focus and speed</string>
-    <string name="game_answer_placeholder">Type your answer</string>
     <string name="game_clear_short">C</string>
     <string name="game_submit_answer">Submit answer</string>
 
-    <string name="results_title">Results</string>
-    <string name="results_correct_answers">Correct answers</string>
-    <string name="results_average_time">Average time</string>
     <string name="results_max_streak">Best streak</string>
     <string name="results_new_record">New record</string>
     <string name="results_first_game">First game</string>
@@ -97,13 +81,9 @@
     <string name="operator_subtract">subtraction</string>
     <string name="operator_multiply">multiplication</string>
     <string name="operator_divide">division</string>
-    <string name="results_congrats_subtitle">Every round sharpens your mental speed</string>
     <string name="results_feedback_title_great">Great work</string>
-    <string name="results_feedback_subtitle_great">You kept a sharp and accurate pace</string>
     <string name="results_feedback_title_good">Solid pace</string>
-    <string name="results_feedback_subtitle_good">You are on track. Keep refining accuracy</string>
     <string name="results_feedback_title_keep">Keep training</string>
-    <string name="results_feedback_subtitle_keep">Each session builds speed and control</string>
     <string name="results_round_details_title">Round details</string>
     <string name="results_go_home">Back home</string>
     <string name="results_play_again">Play again</string>
@@ -111,7 +91,6 @@
     <string name="results_wrong_answer_label">Your answer: %1$s</string>
 
     <string name="common_seconds_int">%1$ds</string>
-    <string name="common_seconds_decimal">%1$.1fs</string>
 
     <string name="onboarding_title">Welcome to</string>
     <string name="onboarding_subtitle">Choose how you want to play</string>

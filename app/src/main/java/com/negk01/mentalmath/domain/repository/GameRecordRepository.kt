@@ -16,6 +16,7 @@ interface GameRecordRepository {
 
     suspend fun clearAll()
 
+    // DEV 3: usar para pantalla de "mejor partida por dificultad" — completar con filtro por averageResponseTimeMillis para desempate
     suspend fun getBestAccuracyForDifficulty(difficulty: Difficulty): Double?
 
     suspend fun getPreviousBestAccuracyForDifficulty(difficulty: Difficulty): Double?
