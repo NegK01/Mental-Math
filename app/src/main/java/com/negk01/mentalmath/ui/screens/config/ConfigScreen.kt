@@ -22,7 +22,6 @@ import com.negk01.mentalmath.ui.theme.Spacing
 import com.negk01.mentalmath.R
 import com.negk01.mentalmath.presentation.config.ConfigViewModel
 import com.negk01.mentalmath.ui.screens.config.components.DangerZone
-import com.negk01.mentalmath.ui.screens.config.components.DeleteHistoryDialog
 import com.negk01.mentalmath.ui.screens.config.components.DifficultySelector
 import com.negk01.mentalmath.ui.screens.config.components.LanguagePreferenceSelector
 import com.negk01.mentalmath.ui.screens.config.components.ThemePreferenceSelector
@@ -95,12 +94,6 @@ fun ConfigScreen(
                 }
             }
 
-            if (uiState.showDeleteHistoryDialog) {
-                DeleteHistoryDialog(
-                    onConfirm = viewModel::clearScoresHistory,
-                    onDismiss = viewModel::hideDeleteHistoryDialog
-                )
-            }
         }
     }
 }

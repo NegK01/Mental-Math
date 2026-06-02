@@ -34,6 +34,7 @@ import com.negk01.mentalmath.presentation.results.ResultsViewModel
 import com.negk01.mentalmath.presentation.results.ResultsViewModelFactory
 import com.negk01.mentalmath.ui.components.BottomNavBar
 import com.negk01.mentalmath.ui.screens.config.ConfigScreen
+import com.negk01.mentalmath.ui.screens.config.components.DeleteHistoryDialog
 import com.negk01.mentalmath.ui.screens.game.GameScreen
 import com.negk01.mentalmath.ui.screens.history.HistoryScreen
 import com.negk01.mentalmath.ui.screens.home.HomeScreen
@@ -166,6 +167,13 @@ fun AppNavigation() {
                 onDifficultyChange = { configViewModel.onDifficultySelected(it) },
                 onDismiss = { homeViewModel.markOnboardingShown() }
             )
+
+            if (configUiState.showDeleteHistoryDialog) {
+                DeleteHistoryDialog(
+                    onConfirm = configViewModel::clearScoresHistory,
+                    onDismiss = configViewModel::hideDeleteHistoryDialog
+                )
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿package com.negk01.mentalmath.domain.model
+package com.negk01.mentalmath.domain.model
 
 data class RoundDetail(
     val expression: String,

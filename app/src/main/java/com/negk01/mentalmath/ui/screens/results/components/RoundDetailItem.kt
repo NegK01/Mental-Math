@@ -57,7 +57,7 @@ fun RoundDetailItem(
             Text(
                 text = item.expression,
                 modifier = Modifier.weight(1f),
-                style = MaterialTheme.typography.titleSmall,
+                style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurface
             )
 
@@ -73,7 +73,7 @@ fun RoundDetailItem(
 
             Text(
                 text = item.time,
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
