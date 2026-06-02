@@ -8,5 +8,6 @@
              Para API 24-30 (sin Splash Screen API) ver values/themes.xml. -->
         <item name="android:windowBackground">@color/splash_background</item>
         <item name="android:windowSplashScreenBackground">@color/splash_background</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_splash</item>
     </style>
 </resources>

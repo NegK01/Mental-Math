@@ -57,7 +57,7 @@ fun RoundDetailItem(
             Text(
                 text = item.expression,
                 modifier = Modifier.weight(1f),
-                style = MaterialTheme.typography.titleMedium,
+                style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.onSurface
             )
 
@@ -80,7 +80,7 @@ fun RoundDetailItem(
 
         if (!item.isCorrect) {
             Text(
-                text = stringResource(R.string.results_wrong_answer_label, item.userAnswer),
+                text = stringResource(R.string.results_correct_answer_label, item.correctAnswer),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )

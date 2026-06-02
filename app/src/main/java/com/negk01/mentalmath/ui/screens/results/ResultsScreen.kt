@@ -36,8 +36,8 @@ fun ResultsScreen(
 ) {
     val roundDetails = sessionResult?.roundResults?.map { round ->
         RoundDetail(
-            expression = stringResource(R.string.results_round_expression, round.question, round.correctAnswer),
-            userAnswer = round.userAnswer.toString(),
+            expression = stringResource(R.string.results_round_expression, round.question, round.userAnswer),
+            correctAnswer = round.correctAnswer.toString(),
             isCorrect = round.isCorrect,
             time = stringResource(R.string.common_seconds_int, round.timeSpentSeconds)
         )

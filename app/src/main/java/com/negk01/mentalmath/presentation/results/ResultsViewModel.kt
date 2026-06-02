@@ -26,7 +26,7 @@ class ResultsViewModel(
         _uiState.value = ResultsUiState(
             maxStreak = sessionResult.maxStreak,
             delta = DeltaState.None,
-            nextGoal = computeNextGoal(accuracy.toFloat(), sessionResult.difficulty, sessionResult.totalRounds),
+            nextGoal = computeNextGoal(sessionResult.correctAnswers, sessionResult.difficulty, sessionResult.totalRounds),
             operatorInsight = computeOperatorInsight(sessionResult.roundResults)
         )
 
@@ -47,10 +47,12 @@ class ResultsViewModel(
         return if (current > previousBest) DeltaState.NewRecord else DeltaState.None
     }
 
-    private fun computeNextGoal(accuracy: Float, difficulty: Difficulty, totalRounds: Int): NextGoalState {
+    private fun computeNextGoal(correctAnswers: Int, difficulty: Difficulty, totalRounds: Int): NextGoalState {
+        val targetCorrect = floor(totalRounds * 0.7).toInt()
+        val accuracy = if (totalRounds == 0) 0f else correctAnswers.toFloat() / totalRounds
         return when {
-            accuracy < 0.7f -> NextGoalState.LowAccuracy(
-                targetCorrect = floor(totalRounds * 0.7).toInt(), // easy = 4 | medium = 7 | hard = 8
+            correctAnswers < targetCorrect -> NextGoalState.LowAccuracy(
+                targetCorrect = targetCorrect,
                 totalRounds = totalRounds
             )
             difficulty == Difficulty.HARD && accuracy < 1.0f -> NextGoalState.HardKeep
