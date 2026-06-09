@@ -39,7 +39,7 @@
     <string name="history_empty_hint">Juega una partida y aparecerá aquí</string>
     <string name="history_summary_title">Resumen</string>
     <string name="history_summary_subtitle">Tus estadísticas recientes para medir ritmo y precisión</string>
-    <string name="history_total_games">Total de partidas jugadas</string>
+    <string name="history_total_games">Total de partidas</string>
     <string name="history_average_accuracy">Precisión promedio</string>
     <string name="history_average_time">Tiempo promedio</string>
     <string name="history_accuracy_value">%1$.0f%%</string>
