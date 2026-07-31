@@ -1,0 +1,56 @@
+name: "🐛 Reporte de Error (Bug)"
+description: "Crea un informe detallado sobre un fallo o comportamiento inesperado en la app."
+title: "[BUG]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ¡Gracias por reportar un fallo en **Mental Math**! Por favor, proporciona la información necesaria para reproducir y solucionar el problema.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Descripción del Error
+      description: Explica de forma clara y concisa lo que está sucediendo.
+      placeholder: Al presionar el botón de pausa en GameScreen, la pantalla se congela...
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Pasos para Reproducir
+      description: Lista detallada de pasos para reproducir el fallo.
+      placeholder: |
+        1. Abrir la app.
+        2. Seleccionar dificultad Difícil.
+        3. Iniciar partida y presionar rápidamente 'Pausa'.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Comportamiento Esperado
+      description: Qué esperabas que sucediera normalmente.
+      placeholder: El cuadro de diálogo de pausa debería mostrarse suavemente sin congelar la animación.
+    validations:
+      required: true
+
+  - type: input
+    id: device
+    attributes:
+      label: Dispositivo y Versión de Android
+      description: Modelo del dispositivo y versión del SO.
+      placeholder: Samsung Galaxy S23 (Android 14) / Pixel 7 (Android 15)
+    validations:
+      required: false
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Capturas de Pantalla / Logcat
+      description: Arrastra o pega imágenes o trazas de error (Logcat) si están disponibles.
+    validations:
+      required: false

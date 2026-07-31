@@ -1,0 +1,43 @@
+name: "💡 Propuesta de Mejora o Función (Feature)"
+description: "Sugiere una nueva característica, cambio visual o mejora de UX para Mental Math."
+title: "[FEATURE]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ¡Gracias por sugerir mejoras para **Mental Math**! Cuéntanos tu idea.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: ¿Qué problema o necesidad resuelve esta idea?
+      description: Explica el contexto o por qué esta función sería valiosa para los usuarios.
+      placeholder: Me gustaría poder ver un gráfico de mi precisión histórica por cada operador matemático...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Descripción de la Solución Propuesta
+      description: Explica en detalle cómo te imaginas que debería funcionar la pantalla o componente.
+      placeholder: Agregar una pestaña o modal de estadísticas con gráficos interactivos usando Canvas de Compose.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternativas Consideradas
+      description: ¿Has pensado en alguna solución alternativa o enfoque diferente?
+    validations:
+      required: false
+
+  - type: textarea
+    id: visual_mockups
+    attributes:
+      label: Mockups / Referencias Visuales
+      description: Pega diseños, bocetos o capturas de referencia si las tienes.
+    validations:
+      required: false

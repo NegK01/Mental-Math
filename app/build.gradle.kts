@@ -2,7 +2,6 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
 }
@@ -15,21 +14,22 @@ kotlin {
 
 android {
     namespace = "com.negk01.mentalmath"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.negk01.mentalmath"
         minSdk = 26
-        targetSdk = 35
-        versionCode = 7
-        versionName = "1.4.0"
+        targetSdk = 37
+        versionCode = 8
+        versionName = "1.4.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"

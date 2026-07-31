@@ -8,4 +8,16 @@
 /app/release/
 .externalNativeBuild/
 .cxx/
-/app/src/main/java/com/negk01/mentalmath/README.md
+
+# Internal Markdown Documentation
+*.md
+!/README.md
+!/CONTRIBUTING.md
+!/.github/**/*.md
+
+# Android Signing & Secret Keys
+*.jks
+*.keystore
+*.pepk
+keystore.properties
+signing.properties
