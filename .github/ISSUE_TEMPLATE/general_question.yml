@@ -1,26 +1,26 @@
-name: "❓ Consulta General o Pregunta Técnica"
-description: "Haz preguntas sobre la arquitectura, cómo clonar el proyecto o consultas del desarrollo."
+name: "❓ General Question or Technical Inquiry"
+description: "Ask questions about the architecture, how to clone the project, or development inquiries."
 title: "[QUESTION]: "
 labels: ["question"]
 body:
   - type: markdown
     attributes:
       value: |
-        ¿Tienes dudas sobre la arquitectura, compilación o funcionamiento interno de **Mental Math**? Pregunta aquí.
+        Do you have questions about the architecture, compilation, or internal workings of **Mental Math**? Ask here.
 
   - type: textarea
     id: question
     attributes:
-      label: Tu Pregunta o Consulta
-      description: Describe tu duda claramente.
-      placeholder: ¿Cómo se maneja el estado de la racha diaria entre Room y el ViewModel de Home?
+      label: Your Question or Inquiry
+      description: Describe your question clearly.
+      placeholder: How is the daily streak state managed between Room and the Home ViewModel?
     validations:
       required: true
 
   - type: textarea
     id: context
     attributes:
-      label: Contexto Adicional
-      description: Si estás intentando compilar o aprender de un componente específico, indícalo.
+      label: Additional Context
+      description: If you are trying to build or learn from a specific component, please mention it.
     validations:
       required: false

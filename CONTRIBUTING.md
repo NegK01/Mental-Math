@@ -1,59 +1,58 @@
-# Guía de Contribución
+# Contribution Guide
 
-¡Gracias por tu interés en contribuir a **Mental Math**! Este es un proyecto Open Source nativo para Android diseñado para entrenar el cálculo mental con una interfaz moderna, limpia y fluida.
+Thank you for your interest in contributing to **Mental Math**! This is an open-source native Android application designed to train mental calculation skills through a modern, clean, and fast user interface.
 
-Para mantener la calidad, consistencia y simplicidad del código, te pedimos seguir las siguientes pautas.
-
----
-
-## ¿Cómo puedo contribuir?
-
-### 1. Reportar Errores o Proponer Funciones (Issues)
-* Revisa primero los [Issues existentes](https://github.com/NegK01/Mental-Math/issues) para evitar duplicados.
-* Al crear un nuevo Issue, selecciona el formulario adecuado (Bug, Nueva Función o Consulta General).
-
-### 2. Enviar Código (Pull Requests)
-* Toda contribución de código se realiza a través de un **Pull Request (PR)** hacia la rama `main`.
+To maintain code quality, consistency, and simplicity, please follow these guidelines.
 
 ---
 
-## Guía de Estilo y Arquitectura
+## How Can I Contribute?
 
-El proyecto sigue una arquitectura **Clean Architecture + MVVM** nativa en Jetpack Compose, sin frameworks pesados de inyección de dependencias.
+### 1. Reporting Bugs or Requesting Features (Issues)
+* Please check existing [Issues](https://github.com/NegK01/Mental-Math/issues) first to avoid duplicates.
+* When creating a new Issue, select the appropriate form (Bug Report, Feature Request, or General Question).
 
-* **Lenguaje:** 100% Kotlin.
-* **Interfaz de Usuario:** Jetpack Compose con Material 3.
-* **Design Tokens:** Usa únicamente las constantes de `Tokens.kt` (`Spacing.*`, `Radius.*`, `Opacity.*`, `Motion.*`) en lugar de valores literales (`16.dp`, `8.dp`).
-* **Estado de UI:** Usa `StateFlow` y Hoisting de estado para mantener los Composables puros.
-
----
-
-## Convención de Commits
-
-En este repositorio mantenemos un estilo de mensajes de commit constante, claro y descriptivo en español:
-
-* **Idioma:** Español, en minúsculas.
-* **Estructura:** Comienza con verbos reflexivos como `se agrega...`, `se corrige...`, `se ajusta...`, `se refina...`.
-
-### Ejemplos válidos:
-- `se ajusta strings de history_total_games en español`
-- `se corrige confusion visual en pantalla de resultados`
-- `se adoptan tokens Spacing en toda la ui`
-- `se agrega enum Operator al dominio`
+### 2. Submitting Code (Pull Requests)
+* All code contributions must be submitted via a **Pull Request (PR)** targeting the `main` branch.
 
 ---
 
-## Flujo de Trabajo (Git Workflow)
+## Code Style & Architecture Guidelines
 
-1. Haz un **Fork** del repositorio a tu cuenta personal.
-2. Crea una rama descriptiva para tu trabajo:
+The project follows a native **Clean Architecture + MVVM** pattern using Jetpack Compose, without heavy dependency injection frameworks.
+
+* **Language:** 100% Kotlin.
+* **User Interface:** Jetpack Compose with Material 3.
+* **Design Tokens:** Use constants from `Tokens.kt` (`Spacing.*`, `Radius.*`, `Opacity.*`, `Motion.*`) instead of hardcoded literal values (`16.dp`, `8.dp`).
+* **UI State:** Use `StateFlow` and State Hoisting to keep Composables pure and testable.
+
+---
+
+## Commit Message Convention
+
+We follow the **Conventional Commits** specification in **English** to keep our commit history clear and maintainable:
+
+* **Format:** `type(scope): concise description in English`
+* **Types:** `feat`, `fix`, `refactor`, `style`, `docs`, `chore`, `test`.
+
+### Valid Examples:
+- `feat(records): add time tie-breaker for personal bests`
+- `fix(ui): adjust history total games string formatting`
+- `refactor(theme): adopt Spacing tokens across UI components`
+
+---
+
+## Git Workflow
+
+1. **Fork** the repository to your GitHub account.
+2. Create a descriptive branch for your work:
    ```bash
-   git checkout -b feature/nombre-de-tu-mejora
-   # o para un arreglo de bug:
-   git checkout -b fix/descripcion-del-bug
+   git checkout -b feature/your-feature-name
+   # or for bug fixes:
+   git checkout -b fix/bug-description
    ```
-3. Verifica que el proyecto compile correctamente:
+3. Verify that the project compiles cleanly:
    ```bash
    ./gradlew assembleDebug
    ```
-4. Envía tu **Pull Request** detallando los cambios introducidos y completando la plantilla del PR.
+4. Submit your **Pull Request**, filling out the PR description template.

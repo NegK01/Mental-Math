@@ -1,14 +1,14 @@
-## 📌 Descripción de los Cambios
-<!-- Resumen claro de lo que aporta o soluciona este Pull Request -->
+## 📌 Description of Changes
+<!-- Clear summary of what this Pull Request adds or resolves -->
 
-## 🔗 Issue Relacionado
-<!-- Vincula el Issue relacionado si existe (ejemplo: Fixes #12, Closes #5) -->
+## 🔗 Related Issue
+<!-- Link related Issue if applicable (e.g., Fixes #12, Closes #5) -->
 
-## 🎨 Cambios en la UI / Experiencia (Si aplica)
-<!-- Agrega capturas de pantalla, GIFs o videos que demuestren los cambios en la interfaz -->
+## 🎨 UI / UX Changes (If applicable)
+<!-- Attach screenshots, GIFs, or videos demonstrating interface changes -->
 
-## 📑 Checklist de Verificación
-- [ ] El código compila correctamente sin errores (`./gradlew assembleDebug`).
-- [ ] Se respetan los tokens de diseño de `Tokens.kt` (`Spacing`, `Radius`, `Opacity`).
-- [ ] Los mensajes de commit siguen la convención del proyecto (`se ajusta...`, `se corrige...`, `se agrega...`).
-- [ ] No se incluyen archivos secretos, claves, ni documentación `.md` interna.
+## 📑 Verification Checklist
+- [ ] Code compiles cleanly without errors (`./gradlew assembleDebug`).
+- [ ] Design tokens from `Tokens.kt` are used (`Spacing`, `Radius`, `Opacity`, `Motion`).
+- [ ] Commit messages follow the Conventional Commits specification in English (`type(scope): description`).
+- [ ] No secrets, keys, or internal `.md` context files are committed.

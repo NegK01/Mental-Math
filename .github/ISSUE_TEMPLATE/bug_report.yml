@@ -1,48 +1,48 @@
-name: "🐛 Reporte de Error (Bug)"
-description: "Crea un informe detallado sobre un fallo o comportamiento inesperado en la app."
+name: "🐛 Bug Report"
+description: "Create a detailed report about a bug or unexpected behavior in the app."
 title: "[BUG]: "
 labels: ["bug"]
 body:
   - type: markdown
     attributes:
       value: |
-        ¡Gracias por reportar un fallo en **Mental Math**! Por favor, proporciona la información necesaria para reproducir y solucionar el problema.
+        Thank you for reporting a bug in **Mental Math**! Please provide the necessary information to help reproduce and fix the issue.
 
   - type: textarea
     id: description
     attributes:
-      label: Descripción del Error
-      description: Explica de forma clara y concisa lo que está sucediendo.
-      placeholder: Al presionar el botón de pausa en GameScreen, la pantalla se congela...
+      label: Bug Description
+      description: Explain clearly and concisely what is happening.
+      placeholder: When tapping the pause button on GameScreen, the screen freezes...
     validations:
       required: true
 
   - type: textarea
     id: steps
     attributes:
-      label: Pasos para Reproducir
-      description: Lista detallada de pasos para reproducir el fallo.
+      label: Steps to Reproduce
+      description: Detailed steps to reproduce the bug.
       placeholder: |
-        1. Abrir la app.
-        2. Seleccionar dificultad Difícil.
-        3. Iniciar partida y presionar rápidamente 'Pausa'.
+        1. Open the app.
+        2. Select Hard difficulty.
+        3. Start a game and quickly press 'Pause'.
     validations:
       required: true
 
   - type: textarea
     id: expected
     attributes:
-      label: Comportamiento Esperado
-      description: Qué esperabas que sucediera normalmente.
-      placeholder: El cuadro de diálogo de pausa debería mostrarse suavemente sin congelar la animación.
+      label: Expected Behavior
+      description: What you expected to happen normally.
+      placeholder: The pause dialog should display smoothly without freezing the animation.
     validations:
       required: true
 
   - type: input
     id: device
     attributes:
-      label: Dispositivo y Versión de Android
-      description: Modelo del dispositivo y versión del SO.
+      label: Device and Android Version
+      description: Device model and OS version.
       placeholder: Samsung Galaxy S23 (Android 14) / Pixel 7 (Android 15)
     validations:
       required: false
@@ -50,7 +50,7 @@ body:
   - type: textarea
     id: screenshots
     attributes:
-      label: Capturas de Pantalla / Logcat
-      description: Arrastra o pega imágenes o trazas de error (Logcat) si están disponibles.
+      label: Screenshots / Logcat
+      description: Drag or paste images or stack traces (Logcat) if available.
     validations:
       required: false

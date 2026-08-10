@@ -1,3 +1,5 @@
+<div align="center">
+
 # Mental Math
 
 [![Android SDK](https://img.shields.io/badge/API-26%2B%20(Android%208.0%2B)-brightgreen.svg)](https://developer.android.com)
@@ -6,16 +8,127 @@
 [![Compose](https://img.shields.io/badge/Jetpack%20Compose-Material%203-4285F4.svg)](https://developer.android.com/jetpack/compose)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
+🌐 **Languages:** [English](#mental-math) | [Español](#mental-math---español)
+
+<br/>
+
+**Mental Math** is a native Android mobile application designed to train mental agility through fast-paced arithmetic calculations under pressure. The app is built from scratch following native Android architecture best practices using **Jetpack Compose** and **Clean Architecture**.
+
+<br/>
+
+<a href="https://play.google.com/store/apps/details?id=com.negk01.mentalmath">
+  <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play" height="60">
+</a>
+<a href="https://github.com/NegK01/Mental-Math/releases">
+  <img src="https://user-images.githubusercontent.com/663460/26973090-f8fdc986-4d14-11e7-995a-e7c5e79ed925.png" alt="Download APK on GitHub" height="60">
+</a>
+
+</div>
+
+<hr/>
+
+## Key Features
+
+- **Fast Calculation Rounds:** Dynamic math challenges with instant feedback.
+- **3 Difficulty Levels:** Easy, Medium, and Hard (with combined operations, mathematical precedence, and positive integer validation).
+- **Statistics & History:** Local records of completed games, average response times, and accuracy streaks (*Best Streak*).
+- **Operator Insights:** Performance analysis focused on addition, subtraction, multiplication, and division.
+- **Dynamic Theme System:** Multiple native visual themes including *Light*, *Dark*, *OLED*, *Deep Teal*, *Nordic Frost*, and *Royal Dark*.
+- **Native Multilingual Support:** Full localization in Spanish and English with dynamic language switching.
+- **Immersive Edge-to-Edge Experience:** Clean, distraction-free interface taking full advantage of the device screen.
+
+---
+
+## Architecture & Tech Stack
+
+The project is designed under **Clean Architecture + MVVM** principles, prioritizing native performance, component decoupling, and modularity without over-engineering.
+
+```text
+mentalmath
+├─ data          # Room implementations (DAO, Entities), Mappers, and Repositories
+├─ domain        # Pure domain models (Question, GameRecord) and Business Logic (QuestionGenerator)
+├─ presentation  # ViewModels and UI States (StateFlow, UI State)
+├─ ui            # Compose Components, Screens, and Design System (Design Tokens)
+└─ navigation    # Centralized navigation with Navigation Compose
+```
+
+### Key Technologies
+
+| Category | Technology / Specification |
+| :--- | :--- |
+| **Language** | 100% Native Kotlin |
+| **UI Framework** | Jetpack Compose with Material 3 components |
+| **Design System** | Centralized design tokens (`Tokens.kt`) for `Spacing`, `Radius`, `Opacity`, and `Motion` |
+| **Local Persistence** | Room Database with declared migrations |
+| **Concurrency** | Kotlin Coroutines & `StateFlow` / `SharedFlow` |
+| **Navigation** | Navigation Compose with hoisted state |
+
+---
+
+## Build Requirements
+
+To build the project locally you need:
+- **Android Studio** (Panda or newer recommended).
+- **JDK:** Java 17 or Java 21.
+- **Android SDK:** `compileSdk 37`, `minSdk 26`.
+- **Gradle:** Configured via the included Gradle Wrapper (`./gradlew`).
+
+### Steps to run locally
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/NegK01/Mental-Math.git
+   ```
+2. Open the project in Android Studio.
+3. Sync Gradle and run the app on an emulator or physical device with Android 8.0 (API 26) or higher.
+
+```bash
+./gradlew assembleDebug
+```
+
+---
+
+## Contributing
+
+Contributions are welcome! If you wish to report a bug, propose an enhancement, or submit code, please review our [Contribution Guide](CONTRIBUTING.md).
+
+---
+
+## License
+
+This project is distributed under the **GNU General Public License v3.0 (GPLv3)**. See the [LICENSE](LICENSE) file for more details.
+
+---
+---
+
+<div align="center">
+
+# Mental Math - Español
+
+[![Android SDK](https://img.shields.io/badge/API-26%2B%20(Android%208.0%2B)-brightgreen.svg)](https://developer.android.com)
+[![Target SDK](https://img.shields.io/badge/Target%20SDK-37-blue.svg)](https://developer.android.com)
+[![Kotlin](https://img.shields.io/badge/Kotlin-2.3%2B-purple.svg)](https://kotlinlang.org)
+[![Compose](https://img.shields.io/badge/Jetpack%20Compose-Material%203-4285F4.svg)](https://developer.android.com/jetpack/compose)
+[![Licencia: GPL v3](https://img.shields.io/badge/Licencia-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
+🌐 **Idiomas:** [English](#mental-math) | [Español](#mental-math---español)
+
+<br/>
+
 **Mental Math** es una aplicación móvil nativa para Android diseñada para entrenar la agilidad mental mediante ejercicios de cálculo aritmético rápido bajo presión. La aplicación está construida desde cero siguiendo prácticas de la arquitectura nativa en Android con **Jetpack Compose** y **Clean Architecture**.
 
----
+<br/>
 
-## Descarga
+<a href="https://play.google.com/store/apps/details?id=com.negk01.mentalmath">
+  <img src="https://play.google.com/intl/es/badges/static/images/badges/es_badge_web_generic.png" alt="Disponible en Google Play" height="60">
+</a>
+<a href="https://github.com/NegK01/Mental-Math/releases">
+  <img src="https://user-images.githubusercontent.com/663460/26973090-f8fdc986-4d14-11e7-995a-e7c5e79ed925.png" alt="Descargar APK en GitHub" height="60">
+</a>
 
-[<img src="https://play.google.com/intl/es/badges/static/images/badges/es_badge_web_generic.png" alt="Disponible en Google Play" height="60">](https://play.google.com/store/apps/details?id=com.negk01.mentalmath)
-[<img src="https://user-images.githubusercontent.com/663460/26973090-f8fdc986-4d14-11e7-995a-e7c5e79ed925.png" alt="Descargar APK en GitHub" height="60">](https://github.com/NegK01/Mental-Math/releases)
+</div>
 
----
+<hr/>
 
 ## Características Principales
 
@@ -42,25 +155,29 @@ mentalmath
 └─ navigation    # Navegación centralizada con Navigation Compose
 ```
 
-### Tecnologías Clave:
-* **Lenguaje:** Kotlin 100% Nativo.
-* **UI Framework:** Jetpack Compose con componentes Material 3.
-* **Design System:** Sistema de tokens de diseño centralizado (`Tokens.kt`) para `Spacing`, `Radius`, `Opacity` y `Motion`.
-* **Persistencia Local:** Room Database v3 con migraciones declaradas.
-* **Concurrencia:** Kotlin Coroutines & `StateFlow` / `SharedFlow`.
-* **Navegación:** Navigation Compose con estado hoisteado.
+### Tecnologías Clave
+
+| Categoría | Tecnología / Especificación |
+| :--- | :--- |
+| **Lenguaje** | 100% Kotlin Nativo |
+| **UI Framework** | Jetpack Compose con componentes Material 3 |
+| **Design System** | Sistema de tokens de diseño centralizado (`Tokens.kt`) para `Spacing`, `Radius`, `Opacity` y `Motion` |
+| **Persistencia Local** | Room Database con migraciones declaradas |
+| **Concurrencia** | Kotlin Coroutines & `StateFlow` / `SharedFlow` |
+| **Navegación** | Navigation Compose con estado hoisteado |
 
 ---
 
 ## Requisitos de Compilación
 
 Para compilar el proyecto localmente necesitas:
-- **Android Studio** (Ladybug o superior recomendado).
+- **Android Studio** (Panda o superior recomendado).
 - **JDK:** Java 17 o Java 21.
 - **Android SDK:** `compileSdk 37`, `minSdk 26`.
 - **Gradle:** Configurado mediante el Gradle Wrapper incluido (`./gradlew`).
 
-### Pasos para ejecutar localmente:
+### Pasos para ejecutar localmente
+
 1. Clona el repositorio:
    ```bash
    git clone https://github.com/NegK01/Mental-Math.git
