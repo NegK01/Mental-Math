@@ -32,19 +32,27 @@ class ResultsViewModel(
 
         viewModelScope.launch {
             val previousBest = try {
-                repository.getPreviousBestAccuracyForDifficulty(sessionResult.difficulty)
+                repository.getPreviousBestRecordForDifficulty(sessionResult.difficulty)
             } catch (e: Exception) {
                 null
             }
             _uiState.value = _uiState.value.copy(
-                delta = calculateDelta(accuracy, previousBest)
+                delta = calculateDelta(sessionResult, previousBest)
             )
         }
     }
 
-    private fun calculateDelta(current: Double, previousBest: Double?): DeltaState {
-        if (previousBest == null) return DeltaState.FirstGame
-        return if (current > previousBest) DeltaState.NewRecord else DeltaState.None
+    private fun calculateDelta(current: GameSessionResult, previousBestRecord: com.negk01.mentalmath.domain.model.GameRecord?): DeltaState {
+        if (previousBestRecord == null) return DeltaState.FirstGame
+
+        val currentAccuracy = if (current.totalRounds == 0) 0.0 else current.correctAnswers.toDouble() / current.totalRounds
+        val previousAccuracy = if (previousBestRecord.totalRounds == 0) 0.0 else previousBestRecord.correctAnswers.toDouble() / previousBestRecord.totalRounds
+        val currentAvgTimeMillis = (current.averageResponseTimeSeconds * 1000).toLong()
+
+        val isHigherAccuracy = currentAccuracy > previousAccuracy && current.correctAnswers > 0
+        val isEqualAccuracyFasterTime = currentAccuracy == previousAccuracy && currentAvgTimeMillis < previousBestRecord.averageResponseTimeMillis  && previousBestRecord.correctAnswers > 0
+
+        return if (isHigherAccuracy || isEqualAccuracyFasterTime) DeltaState.NewRecord else DeltaState.None
     }
 
     private fun computeNextGoal(correctAnswers: Int, difficulty: Difficulty, totalRounds: Int): NextGoalState {

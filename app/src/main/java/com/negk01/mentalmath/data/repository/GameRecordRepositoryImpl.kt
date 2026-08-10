@@ -38,12 +38,11 @@ class GameRecordRepositoryImpl(
         gameRecordDao.clearAll()
     }
 
-    // DEV 3: usar para pantalla de "mejor partida por dificultad" — completar con filtro por averageResponseTimeMillis para desempate
-    override suspend fun getBestAccuracyForDifficulty(difficulty: Difficulty): Double? {
-        return gameRecordDao.getBestAccuracyForDifficulty(difficulty.toStorageKey())
+    override suspend fun getBestRecordForDifficulty(difficulty: Difficulty): GameRecord? {
+        return gameRecordDao.getBestRecordForDifficulty(difficulty.toStorageKey())?.toDomain()
     }
 
-    override suspend fun getPreviousBestAccuracyForDifficulty(difficulty: Difficulty): Double? {
-        return gameRecordDao.getPreviousBestAccuracyForDifficulty(difficulty.toStorageKey())
+    override suspend fun getPreviousBestRecordForDifficulty(difficulty: Difficulty): GameRecord? {
+        return gameRecordDao.getPreviousBestRecordForDifficulty(difficulty.toStorageKey())?.toDomain()
     }
 }

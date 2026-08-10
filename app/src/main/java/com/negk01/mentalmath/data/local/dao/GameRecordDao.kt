@@ -30,10 +30,19 @@ interface GameRecordDao {
     @Query("DELETE FROM game_records")
     suspend fun clearAll()
 
-    // DEV 3: usar para pantalla de "mejor partida por dificultad" — completar con filtro por averageResponseTimeMillis para desempate
-    @Query("SELECT MAX(CAST(correctAnswers AS REAL) / totalRounds) FROM game_records WHERE difficulty = :difficulty")
-    suspend fun getBestAccuracyForDifficulty(difficulty: String): Double?
+    @Query(
+        "SELECT * FROM game_records " +
+        "WHERE difficulty = :difficulty " +
+        "ORDER BY (CAST(correctAnswers AS REAL) / totalRounds) DESC, averageResponseTimeMillis ASC " +
+        "LIMIT 1"
+    )
+    suspend fun getBestRecordForDifficulty(difficulty: String): GameRecordEntity?
 
-    @Query("SELECT MAX(CAST(correctAnswers AS REAL) / totalRounds) FROM game_records WHERE difficulty = :difficulty AND id != (SELECT MAX(id) FROM game_records WHERE difficulty = :difficulty)")
-    suspend fun getPreviousBestAccuracyForDifficulty(difficulty: String): Double?
+    @Query(
+        "SELECT * FROM game_records " +
+        "WHERE difficulty = :difficulty AND id != (SELECT MAX(id) FROM game_records WHERE difficulty = :difficulty) " +
+        "ORDER BY (CAST(correctAnswers AS REAL) / totalRounds) DESC, averageResponseTimeMillis ASC " +
+        "LIMIT 1"
+    )
+    suspend fun getPreviousBestRecordForDifficulty(difficulty: String): GameRecordEntity?
 }
