@@ -3,6 +3,7 @@ package com.negk01.mentalmath.presentation.results
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.negk01.mentalmath.domain.model.Difficulty
+import com.negk01.mentalmath.domain.model.GameRecord
 import com.negk01.mentalmath.domain.model.GameSessionResult
 import com.negk01.mentalmath.domain.model.RoundResult
 import com.negk01.mentalmath.domain.repository.GameRecordRepository
@@ -20,9 +21,6 @@ class ResultsViewModel(
     val uiState: StateFlow<ResultsUiState> = _uiState.asStateFlow()
 
     fun loadForSession(sessionResult: GameSessionResult) {
-        val accuracy = if (sessionResult.totalRounds == 0) 0.0
-        else sessionResult.correctAnswers.toDouble() / sessionResult.totalRounds
-
         _uiState.value = ResultsUiState(
             maxStreak = sessionResult.maxStreak,
             delta = DeltaState.None,
@@ -42,17 +40,20 @@ class ResultsViewModel(
         }
     }
 
-    private fun calculateDelta(current: GameSessionResult, previousBestRecord: com.negk01.mentalmath.domain.model.GameRecord?): DeltaState {
-        if (previousBestRecord == null) return DeltaState.FirstGame
+    private fun calculateDelta(current: GameSessionResult, previousBest: GameRecord?): DeltaState {
+        if (previousBest == null) return DeltaState.FirstGame
+        if (current.correctAnswers == 0) return DeltaState.None
 
-        val currentAccuracy = if (current.totalRounds == 0) 0.0 else current.correctAnswers.toDouble() / current.totalRounds
-        val previousAccuracy = if (previousBestRecord.totalRounds == 0) 0.0 else previousBestRecord.correctAnswers.toDouble() / previousBestRecord.totalRounds
-        val currentAvgTimeMillis = (current.averageResponseTimeSeconds * 1000).toLong()
+        val currentAccuracy = current.correctAnswers.toFloat() / current.totalRounds
+        val previousAccuracy = previousBest.correctAnswers.toFloat() / previousBest.totalRounds
+        val currentTimeMs = (current.averageResponseTimeSeconds * 1000).toLong()
 
-        val isHigherAccuracy = currentAccuracy > previousAccuracy && current.correctAnswers > 0
-        val isEqualAccuracyFasterTime = currentAccuracy == previousAccuracy && currentAvgTimeMillis < previousBestRecord.averageResponseTimeMillis  && previousBestRecord.correctAnswers > 0
+        val isHigherAccuracy = currentAccuracy > previousAccuracy
+        val isFasterTime = currentAccuracy == previousAccuracy
+            && currentTimeMs < previousBest.averageResponseTimeMillis
+            && previousBest.correctAnswers > 0
 
-        return if (isHigherAccuracy || isEqualAccuracyFasterTime) DeltaState.NewRecord else DeltaState.None
+        return if (isHigherAccuracy || isFasterTime) DeltaState.NewRecord else DeltaState.None
     }
 
     private fun computeNextGoal(correctAnswers: Int, difficulty: Difficulty, totalRounds: Int): NextGoalState {
