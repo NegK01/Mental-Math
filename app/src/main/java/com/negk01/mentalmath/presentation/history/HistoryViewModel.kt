@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import com.negk01.mentalmath.domain.model.Difficulty
 
 class HistoryViewModel(
     private val gameRecordRepository: GameRecordRepository
@@ -28,6 +29,7 @@ class HistoryViewModel(
         viewModelScope.launch { observeStats() }
         viewModelScope.launch { observeNewRecords() }
         viewModelScope.launch { loadPage() }
+        viewModelScope.launch { loadBestRecords() }
     }
 
     private suspend fun observeStats() {
@@ -51,7 +53,17 @@ class HistoryViewModel(
             .map { it.size }
             .distinctUntilChanged()
             .drop(1)
-            .collect { resetDisplay(reloadFromDb = true) }
+            .collect {
+                resetDisplay(reloadFromDb = true)
+                loadBestRecords()
+            }
+    }
+
+    private suspend fun loadBestRecords() {
+        val bestEasy = try { gameRecordRepository.getBestRecordForDifficulty(Difficulty.EASY) } catch (e: Exception) { null }
+        val bestMedium = try { gameRecordRepository.getBestRecordForDifficulty(Difficulty.MEDIUM) } catch (e: Exception) { null }
+        val bestHard = try { gameRecordRepository.getBestRecordForDifficulty(Difficulty.HARD) } catch (e: Exception) { null }
+        _uiState.update { it.copy(bestEasyRecord = bestEasy, bestMediumRecord = bestMedium, bestHardRecord = bestHard) }
     }
 
     fun loadMore() {

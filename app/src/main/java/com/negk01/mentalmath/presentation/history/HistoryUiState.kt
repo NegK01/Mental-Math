@@ -8,6 +8,11 @@ data class HistoryUiState(
     val averageAccuracy: Double = 0.0,
     val averageTimeSeconds: Double = 0.0,
 
+    // Mejores marcas por dificultad — null si no hay partidas con aciertos en ese nivel
+    val bestEasyRecord: GameRecord? = null,
+    val bestMediumRecord: GameRecord? = null,
+    val bestHardRecord: GameRecord? = null,
+
     // Lista visual paginada — crece con cada loadMore()
     val displayRecords: List<GameRecord> = emptyList(),
 

@@ -71,6 +71,9 @@ fun HistoryScreen(
                         totalGames = uiState.totalGames,
                         averageAccuracy = uiState.averageAccuracy,
                         averageTime = uiState.averageTimeSeconds,
+                        bestEasy = uiState.bestEasyRecord,
+                        bestMedium = uiState.bestMediumRecord,
+                        bestHard = uiState.bestHardRecord,
                     )
                 }
 

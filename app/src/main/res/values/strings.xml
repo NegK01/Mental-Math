@@ -44,6 +44,7 @@
     <string name="history_average_time">Average time</string>
     <string name="history_accuracy_value">%1$.0f%%</string>
     <string name="history_time_value">%1$.1fs</string>
+    <string name="history_best_records_title">Personal bests</string>
     <string name="history_load_more">Load more</string>
 
     <string name="config_title">Settings</string>

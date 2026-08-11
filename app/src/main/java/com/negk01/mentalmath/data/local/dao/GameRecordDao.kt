@@ -32,7 +32,7 @@ interface GameRecordDao {
 
     @Query(
         "SELECT * FROM game_records " +
-        "WHERE difficulty = :difficulty " +
+        "WHERE difficulty = :difficulty AND correctAnswers > 0 " +
         "ORDER BY (CAST(correctAnswers AS REAL) / totalRounds) DESC, averageResponseTimeMillis ASC " +
         "LIMIT 1"
     )
@@ -40,7 +40,8 @@ interface GameRecordDao {
 
     @Query(
         "SELECT * FROM game_records " +
-        "WHERE difficulty = :difficulty AND id != (SELECT MAX(id) FROM game_records WHERE difficulty = :difficulty) " +
+        "WHERE difficulty = :difficulty " +
+        "AND id != (SELECT MAX(id) FROM game_records WHERE difficulty = :difficulty) " +
         "ORDER BY (CAST(correctAnswers AS REAL) / totalRounds) DESC, averageResponseTimeMillis ASC " +
         "LIMIT 1"
     )
