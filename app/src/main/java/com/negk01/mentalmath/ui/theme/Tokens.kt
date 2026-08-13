@@ -47,7 +47,7 @@ object Radius {
     val Button = 18.dp
     val Lg = 20.dp
     val Xl = 24.dp
-    val Modal = 28.dp
+    val Dialog = 28.dp
     val NavBar = 32.dp
     val Pill = 999.dp
 }

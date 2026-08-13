@@ -38,7 +38,8 @@ import com.negk01.mentalmath.ui.screens.config.components.DeleteHistoryDialog
 import com.negk01.mentalmath.ui.screens.game.GameScreen
 import com.negk01.mentalmath.ui.screens.history.HistoryScreen
 import com.negk01.mentalmath.ui.screens.home.HomeScreen
-import com.negk01.mentalmath.ui.screens.home.components.OnboardingModal
+import com.negk01.mentalmath.ui.screens.home.components.OnboardingDialog
+import com.negk01.mentalmath.ui.screens.home.components.StreakCalendarDialog
 import com.negk01.mentalmath.ui.screens.results.ResultsScreen
 import com.negk01.mentalmath.ui.theme.MentalMathTheme
 import com.negk01.mentalmath.ui.utils.toLocaleListCompat
@@ -159,7 +160,7 @@ fun AppNavigation() {
                 )
             }
 
-            OnboardingModal(
+            OnboardingDialog(
                 visible = homeUiState.showOnboarding,
                 selectedTheme = configUiState.themePreference,
                 selectedDifficulty = configUiState.selectedDifficulty,
@@ -172,6 +173,14 @@ fun AppNavigation() {
                 DeleteHistoryDialog(
                     onConfirm = configViewModel::clearScoresHistory,
                     onDismiss = configViewModel::hideDeleteHistoryDialog
+                )
+            }
+
+            if (homeUiState.showCalendarDialog) {
+                StreakCalendarDialog(
+                    onDismiss = homeViewModel::hideCalendarDialog,
+                    streakStartDate = homeUiState.streakStartDate,
+                    streakEndDate = homeUiState.streakEndDate
                 )
             }
         }

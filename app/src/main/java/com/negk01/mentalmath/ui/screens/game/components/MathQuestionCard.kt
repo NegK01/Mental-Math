@@ -34,7 +34,7 @@ fun MathQuestionCard(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(Radius.Modal))
+            .clip(RoundedCornerShape(Radius.Dialog))
             .background(MaterialTheme.colorScheme.surface)
     ) {
         Box(

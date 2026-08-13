@@ -49,7 +49,7 @@ fun PauseDialog(onResume: () -> Unit) {
         Column(
             modifier = Modifier
                 .padding(horizontal = 40.dp)
-                .clip(RoundedCornerShape(Radius.Modal))
+                .clip(RoundedCornerShape(Radius.Dialog))
                 .background(MaterialTheme.colorScheme.surface)
                 .padding(horizontal = 28.dp, vertical = 32.dp),
             horizontalAlignment = Alignment.CenterHorizontally,

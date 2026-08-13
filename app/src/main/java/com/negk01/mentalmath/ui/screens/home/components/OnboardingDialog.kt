@@ -14,10 +14,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -45,9 +45,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
-import com.negk01.mentalmath.ui.theme.Opacity
-import com.negk01.mentalmath.ui.theme.Radius
-import com.negk01.mentalmath.ui.theme.Spacing
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -65,15 +62,18 @@ import com.negk01.mentalmath.ui.theme.NordicAccent
 import com.negk01.mentalmath.ui.theme.NordicBg
 import com.negk01.mentalmath.ui.theme.OledAccent
 import com.negk01.mentalmath.ui.theme.OledBg
+import com.negk01.mentalmath.ui.theme.Opacity
 import com.negk01.mentalmath.ui.theme.OriginalAccent
 import com.negk01.mentalmath.ui.theme.OriginalBg
+import com.negk01.mentalmath.ui.theme.Radius
 import com.negk01.mentalmath.ui.theme.RoyalAccent
 import com.negk01.mentalmath.ui.theme.RoyalBg
+import com.negk01.mentalmath.ui.theme.Spacing
 
 private val swatchSize = 44.dp
 
 @Composable
-fun OnboardingModal(
+fun OnboardingDialog(
     visible: Boolean,
     selectedTheme: ThemePreference,
     selectedDifficulty: Difficulty,
@@ -99,7 +99,7 @@ fun OnboardingModal(
                 modifier = Modifier
                     .padding(horizontal = Spacing.Xxl)
                     .heightIn(max = maxHeight * 0.88f)
-                    .clip(RoundedCornerShape(Radius.Modal))
+                    .clip(RoundedCornerShape(Radius.Dialog))
                     .background(MaterialTheme.colorScheme.surface)
                     .verticalScroll(rememberScrollState())
                     .padding(horizontal = 24.dp, vertical = 28.dp),

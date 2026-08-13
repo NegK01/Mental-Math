@@ -22,7 +22,7 @@ body:
     attributes:
       label: Proposed Solution Description
       description: Explain in detail how you imagine the screen or component should work.
-      placeholder: Add a stats tab or modal with interactive charts using Compose Canvas.
+      placeholder: Add a stats tab or dialog with interactive charts using Compose Canvas.
     validations:
       required: true
 

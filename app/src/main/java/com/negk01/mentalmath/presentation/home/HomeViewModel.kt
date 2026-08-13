@@ -22,8 +22,6 @@ class HomeViewModel(
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
     init {
-        // DEV 1: descomentar para ver el onboarding de nuevo en el próximo lanzamiento
-        // viewModelScope.launch { settingsRepository.saveSettings(settingsRepository.getSettings().copy(hasSeenOnboarding = false)) }
         loadOnboardingFlag()
         observeRecentRecords()
     }
@@ -89,6 +87,18 @@ class HomeViewModel(
             }
         }
 
+        val startDate = expectedDate
+        val endDate = uniqueDates.first()
+        _uiState.value = _uiState.value.copy(streakStartDate = startDate, streakEndDate = endDate)
+
         return streak
+    }
+
+    fun showCalendarDialog() {
+        _uiState.value = _uiState.value.copy(showCalendarDialog = true)
+    }
+
+    fun hideCalendarDialog() {
+        _uiState.value = _uiState.value.copy(showCalendarDialog = false)
     }
 }

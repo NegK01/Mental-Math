@@ -27,6 +27,9 @@
     <string name="home_title">Mental Math</string>
     <string name="home_daily_streak_title">Daily streak</string>
     <string name="home_daily_streak_value">%1$d</string>
+    <string name="home_calendar_previous_month">Previous month</string>
+    <string name="home_calendar_next_month">Next month</string>
+    <string name="home_calendar_back_to_today">Back to today</string>
     <string name="home_recent_scores_title">Last 3 games</string>
     <string name="home_empty_hint">Your recent games will show up here.</string>
     <string name="home_recent_score">%1$d/%2$d</string>

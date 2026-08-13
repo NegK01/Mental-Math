@@ -49,7 +49,7 @@ fun HomeScreen(
                     verticalArrangement = Arrangement.spacedBy(Spacing.Lg)
                 ) {
                     item {
-                        HomeHeader(dailyStreak = uiState.dailyStreak)
+                        HomeHeader(dailyStreak = uiState.dailyStreak, viewModel::showCalendarDialog)
                     }
                     item {
                         RecentScoresCard(records = uiState.recentRecords)
