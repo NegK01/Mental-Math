@@ -31,9 +31,10 @@
 
 - **Fast Calculation Rounds:** Dynamic math challenges with instant feedback.
 - **3 Difficulty Levels:** Easy, Medium, and Hard (with combined operations, mathematical precedence, and positive integer validation).
-- **Statistics & History:** Local records of completed games, average response times, and accuracy streaks (*Best Streak*).
+- **Statistics & History:** Local records of completed games and average response times. Includes a dedicated **Personal Bests** section tracking top scores by difficulty.
+- **Daily Streak Calendar:** An interactive visual calendar tracking your daily activity directly on the home screen.
 - **Operator Insights:** Performance analysis focused on addition, subtraction, multiplication, and division.
-- **Dynamic Theme System:** Multiple native visual themes including *Light*, *Dark*, *OLED*, *Deep Teal*, *Nordic Frost*, and *Royal Dark*.
+- **Dynamic Theme System:** Multiple native visual themes including *Light*, *Dark*, *OLED*, *Deep Teal*, *Nordic Frost*, *Royal Dark*, and *Graphite Lime*.
 - **Native Multilingual Support:** Full localization in Spanish and English with dynamic language switching.
 - **Immersive Edge-to-Edge Experience:** Clean, distraction-free interface taking full advantage of the device screen.
 
@@ -134,9 +135,10 @@ This project is distributed under the **GNU General Public License v3.0 (GPLv3)*
 
 - **Rondas Rápidas de Cálculo:** Desafíos matemáticos dinámicos con retroalimentación instantánea.
 - **3 Niveles de Dificultad:** Fácil, Medio y Difícil (con operaciones combinadas, jerarquía matemática y validación de resultados positivos exactos).
-- **Estadísticas e Historial:** Registro local de partidas completadas, tiempos promedio de respuesta y rachas de aciertos (*Best Streak*).
+- **Estadísticas e Historial:** Registro local de partidas completadas y tiempos promedio de respuesta. Incluye una sección dedicada a **Mejores Marcas Personales** por dificultad.
+- **Calendario de Racha Diaria:** Un calendario visual interactivo que rastrea tu actividad diaria directamente en la pantalla de inicio.
 - **Insights por Operador:** Análisis de rendimiento enfocado en suma, resta, multiplicación y división.
-- **Sistema de Temas Dinámicos:** Múltiples temas visuales nativos incluyendo *Light*, *Dark*, *OLED*, *Teal Profundo*, *Nordic Frost* y *Royal Dark*.
+- **Sistema de Temas Dinámicos:** Múltiples temas visuales nativos incluyendo *Light*, *Dark*, *OLED*, *Teal Profundo*, *Nordic Frost*, *Royal Dark* y *Graphite Lime*.
 - **Soporte Multilingüe Nativo:** Localización completa en Español e Inglés con cambio dinámico de idioma.
 - **Experiencia Inmersiva Edge-to-Edge:** Interfaz limpia sin distracciones que aprovecha la pantalla completa del dispositivo.
 
