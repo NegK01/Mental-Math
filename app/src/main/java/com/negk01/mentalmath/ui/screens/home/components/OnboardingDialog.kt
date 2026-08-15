@@ -1,6 +1,5 @@
 package com.negk01.mentalmath.ui.screens.home.components
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -9,10 +8,8 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -21,30 +18,25 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -52,6 +44,8 @@ import androidx.compose.ui.unit.dp
 import com.negk01.mentalmath.R
 import com.negk01.mentalmath.domain.model.Difficulty
 import com.negk01.mentalmath.domain.model.ThemePreference
+import com.negk01.mentalmath.ui.components.AppDialog
+import com.negk01.mentalmath.ui.components.OptionSelector
 import com.negk01.mentalmath.ui.theme.BackgroundLight
 import com.negk01.mentalmath.ui.theme.BrandPrimary
 import com.negk01.mentalmath.ui.theme.GraphiteAccent
@@ -69,6 +63,7 @@ import com.negk01.mentalmath.ui.theme.Radius
 import com.negk01.mentalmath.ui.theme.RoyalAccent
 import com.negk01.mentalmath.ui.theme.RoyalBg
 import com.negk01.mentalmath.ui.theme.Spacing
+import com.negk01.mentalmath.ui.utils.toLabelResId
 
 private val swatchSize = 44.dp
 
@@ -81,132 +76,91 @@ fun OnboardingDialog(
     onDifficultyChange: (Difficulty) -> Unit,
     onDismiss: () -> Unit
 ) {
-    BackHandler(enabled = visible, onBack = onDismiss)
-
     AnimatedVisibility(
         visible = visible,
         enter = fadeIn() + scaleIn(initialScale = 0.96f),
         exit = fadeOut() + scaleOut(targetScale = 0.96f)
     ) {
-        BoxWithConstraints(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.Black.copy(alpha = Opacity.Scrim))
-                .pointerInput(Unit) { detectTapGestures { } },
-            contentAlignment = Alignment.Center
+        AppDialog(
+            onDismiss = onDismiss,
+            scrollable = true,
+            verticalArrangement = Arrangement.spacedBy(Spacing.Lg)
         ) {
             Column(
-                modifier = Modifier
-                    .padding(horizontal = Spacing.Xxl)
-                    .heightIn(max = maxHeight * 0.88f)
-                    .clip(RoundedCornerShape(Radius.Dialog))
-                    .background(MaterialTheme.colorScheme.surface)
-                    .verticalScroll(rememberScrollState())
-                    .padding(horizontal = 24.dp, vertical = 28.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(20.dp)
+                verticalArrangement = Arrangement.spacedBy(Spacing.Xs)
             ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(Spacing.Xs)
-                ) {
-                    Text(
-                        text = stringResource(R.string.onboarding_title),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        textAlign = TextAlign.Center
-                    )
-                    Text(
-                        text = stringResource(R.string.app_name),
-                        style = MaterialTheme.typography.headlineSmall,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        textAlign = TextAlign.Center
-                    )
-                    Spacer(modifier = Modifier.height(2.dp))
-                    Text(
-                        text = stringResource(R.string.onboarding_subtitle),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        textAlign = TextAlign.Center
-                    )
-                }
+                Text(
+                    text = stringResource(R.string.onboarding_title),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    textAlign = TextAlign.Center
+                )
+                Text(
+                    text = stringResource(R.string.app_name),
+                    style = MaterialTheme.typography.headlineSmall,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.height(2.dp))
+                Text(
+                    text = stringResource(R.string.onboarding_subtitle),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    textAlign = TextAlign.Center
+                )
+            }
 
-                Column(
-                    horizontalAlignment = Alignment.Start,
-                    verticalArrangement = Arrangement.spacedBy(Spacing.Md),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(
-                        text = stringResource(R.string.onboarding_section_theme),
-                        style = MaterialTheme.typography.labelLarge,
-                        fontWeight = FontWeight.SemiBold,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                    ThemeSwatchRow(
-                        selectedTheme = selectedTheme,
-                        onThemeChange = onThemeChange
-                    )
-                }
+            Column(
+                horizontalAlignment = Alignment.Start,
+                verticalArrangement = Arrangement.spacedBy(Spacing.Md),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = stringResource(R.string.onboarding_section_theme),
+                    style = MaterialTheme.typography.labelLarge,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                ThemeSwatchRow(
+                    selectedTheme = selectedTheme,
+                    onThemeChange = onThemeChange
+                )
+            }
 
-                Column(
-                    horizontalAlignment = Alignment.Start,
-                    verticalArrangement = Arrangement.spacedBy(Spacing.Md),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(
-                        text = stringResource(R.string.onboarding_section_difficulty),
-                        style = MaterialTheme.typography.labelLarge,
-                        fontWeight = FontWeight.SemiBold,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(Spacing.Sm)
-                    ) {
-                        Difficulty.entries.forEach { difficulty ->
-                            val labelRes = when (difficulty) {
-                                Difficulty.EASY -> R.string.difficulty_easy
-                                Difficulty.MEDIUM -> R.string.difficulty_medium
-                                Difficulty.HARD -> R.string.difficulty_hard
-                            }
-                            Surface(
-                                onClick = { onDifficultyChange(difficulty) },
-                                modifier = Modifier.weight(1f),
-                                shape = RoundedCornerShape(Radius.Lg),
-                                color = if (difficulty == selectedDifficulty) {
-                                    MaterialTheme.colorScheme.primaryContainer
-                                } else {
-                                    MaterialTheme.colorScheme.surfaceVariant
-                                }
-                            ) {
-                                Text(
-                                    text = stringResource(labelRes),
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(vertical = 10.dp),
-                                    style = MaterialTheme.typography.labelLarge,
-                                    color = if (difficulty == selectedDifficulty) {
-                                        MaterialTheme.colorScheme.onPrimaryContainer
-                                    } else {
-                                        MaterialTheme.colorScheme.onSurfaceVariant
-                                    },
-                                    textAlign = TextAlign.Center
-                                )
-                            }
-                        }
-                    }
-                }
+            Column(
+                horizontalAlignment = Alignment.Start,
+                verticalArrangement = Arrangement.spacedBy(Spacing.Md),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = stringResource(R.string.onboarding_section_difficulty),
+                    style = MaterialTheme.typography.labelLarge,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                OptionSelector(
+                    options = Difficulty.entries,
+                    selected = selectedDifficulty,
+                    onSelect = onDifficultyChange,
+                    optionLabelRes = { it.toLabelResId() },
+                    optionShape = RoundedCornerShape(Radius.Lg),
+                    optionTextStyle = MaterialTheme.typography.labelLarge,
+                    optionFontWeight = null,
+                    optionSpacing = Spacing.Sm,
+                    optionPadding = PaddingValues(vertical = 10.dp)
+                )
+            }
 
-                Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(Spacing.Xs))
 
-                Button(
-                    onClick = onDismiss,
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(Radius.Xl)
-                ) {
-                    Text(stringResource(R.string.onboarding_cta))
-                }
+            Button(
+                onClick = onDismiss,
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(Radius.Xl)
+            ) {
+                Text(stringResource(R.string.onboarding_cta))
             }
         }
     }
@@ -245,7 +199,7 @@ private fun ThemeSwatchRow(
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
+                tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = Opacity.Scrim),
                 modifier = Modifier.size(22.dp)
             )
         }
