@@ -13,7 +13,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import com.negk01.mentalmath.ui.theme.Motion
 import com.negk01.mentalmath.ui.theme.Radius
+import com.negk01.mentalmath.ui.theme.Spacing
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,15 +42,15 @@ fun MathQuestionCard(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 20.dp, vertical = 24.dp),
+                .padding(horizontal = 20.dp, vertical = Spacing.Xl),
             contentAlignment = Alignment.Center
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 AnimatedContent(
                     targetState = questionText,
                     transitionSpec = {
-                        (slideInHorizontally(tween(250)) { width -> width / 2 } + fadeIn(tween(250))).togetherWith(
-                            slideOutHorizontally(tween(250)) { width -> -width / 2 } + fadeOut(tween(250))
+                        (slideInHorizontally(tween(Motion.Medium)) { width -> width / 2 } + fadeIn(tween(Motion.Medium))).togetherWith(
+                            slideOutHorizontally(tween(Motion.Medium)) { width -> -width / 2 } + fadeOut(tween(Motion.Medium))
                         )
                     },
                     label = "questionTransition"

@@ -13,7 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.negk01.mentalmath.R
-import com.negk01.mentalmath.domain.model.RoundDetail
+import com.negk01.mentalmath.ui.screens.results.RoundDetail
 
 @Composable
 fun RoundDetailsSection(

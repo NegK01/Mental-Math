@@ -19,7 +19,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
+import com.negk01.mentalmath.presentation.game.TimerUrgency
+import com.negk01.mentalmath.ui.theme.Motion
 import com.negk01.mentalmath.ui.theme.Spacing
 import com.negk01.mentalmath.R
 
@@ -29,25 +30,26 @@ import com.negk01.mentalmath.R
 fun GameProgressCard(
     currentRound: Int,
     totalRounds: Int,
-    timeLeftSeconds: Int
+    timeLeftSeconds: Int,
+    timerUrgency: TimerUrgency
 ) {
     // ── Progreso de ronda animado ─────────────────────────────────────────────
     // tween de 400ms evita el salto visual brusco entre rondas
     val animatedProgress by animateFloatAsState(
         targetValue = currentRound.toFloat() / totalRounds.toFloat(),
-        animationSpec = tween(durationMillis = 400),
+        animationSpec = tween(durationMillis = Motion.Slow),
         label = "roundProgress"
     )
 
     // ── Color del timer animado ───────────────────────────────────────────────
     // Transición suave: tertiary (normal) → secondary (advertencia) → error (urgente)
     val timerColor by animateColorAsState(
-        targetValue = when {
-            timeLeftSeconds <= 5  -> MaterialTheme.colorScheme.error
-            timeLeftSeconds <= 10 -> MaterialTheme.colorScheme.secondary
-            else                  -> MaterialTheme.colorScheme.tertiary
+        targetValue = when (timerUrgency) {
+            TimerUrgency.CRITICAL -> MaterialTheme.colorScheme.error
+            TimerUrgency.WARNING  -> MaterialTheme.colorScheme.secondary
+            TimerUrgency.NORMAL   -> MaterialTheme.colorScheme.tertiary
         },
-        animationSpec = tween(durationMillis = 300),
+        animationSpec = tween(durationMillis = Motion.Fast),
         label = "timerColor"
     )
 
@@ -61,7 +63,7 @@ fun GameProgressCard(
             progress = { animatedProgress },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(4.dp),
+                .height(Spacing.Xs),
             color = MaterialTheme.colorScheme.primary,
             trackColor = MaterialTheme.colorScheme.surfaceVariant
         )
@@ -81,7 +83,7 @@ fun GameProgressCard(
 
             // Timer visible como texto con color semántico animado
             Text(
-                text = "${timeLeftSeconds}s",
+                text = stringResource(R.string.common_seconds_int, timeLeftSeconds),
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Bold,
                 color = timerColor

@@ -27,9 +27,11 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.negk01.mentalmath.ui.theme.Motion
+import com.negk01.mentalmath.ui.theme.Opacity
 import com.negk01.mentalmath.ui.theme.Radius
+import com.negk01.mentalmath.ui.theme.Spacing
 import com.negk01.mentalmath.ui.utils.isDarkTheme
-import com.negk01.mentalmath.ui.utils.motionEnabled
 
 @Composable
 fun AnswerDisplay(
@@ -38,26 +40,24 @@ fun AnswerDisplay(
 ) {
     val cardColor by animateColorAsState(
         targetValue = when (lastAnswerCorrect) {
-            true  -> MaterialTheme.colorScheme.tertiary.copy(alpha = 0.18f)
-            false -> MaterialTheme.colorScheme.error.copy(alpha = 0.18f)
+            true  -> MaterialTheme.colorScheme.tertiary.copy(alpha = Opacity.BadgeContainer)
+            false -> MaterialTheme.colorScheme.error.copy(alpha = Opacity.BadgeContainer)
             null  -> if (isDarkTheme()) MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f) else MaterialTheme.colorScheme.surfaceVariant
         },
-        animationSpec = tween(durationMillis = 150),
+        animationSpec = tween(durationMillis = Motion.Fast),
         label = "answerFlash"
     )
 
-    val motion = motionEnabled()
     val infiniteTransition = rememberInfiniteTransition(label = "cursor")
     val cursorAlpha by infiniteTransition.animateFloat(
         initialValue = 1f,
         targetValue = 0f,
         animationSpec = infiniteRepeatable(
-            animation = tween(800, easing = LinearEasing),
+            animation = tween(Motion.ExtraSlow, easing = LinearEasing),
             repeatMode = RepeatMode.Reverse
         ),
         label = "cursorAlpha"
     )
-    val effectiveCursorAlpha = if (!motion) 1f else cursorAlpha
 
     Box(
         modifier = Modifier
@@ -86,8 +86,8 @@ fun AnswerDisplay(
                 modifier = Modifier
                     .padding(start = if (value.isNotBlank()) 3.dp else 0.dp)
                     .width(2.dp)
-                    .height(32.dp)
-                    .alpha(effectiveCursorAlpha)
+                    .height(Spacing.Xxl)
+                    .alpha(cursorAlpha)
                     .background(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f))
             )
         }

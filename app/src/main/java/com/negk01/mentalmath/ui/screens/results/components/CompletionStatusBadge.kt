@@ -13,7 +13,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.negk01.mentalmath.domain.model.CompletionStatus
+import com.negk01.mentalmath.ui.theme.Opacity
 import com.negk01.mentalmath.ui.theme.Radius
+import com.negk01.mentalmath.ui.theme.Spacing
 import com.negk01.mentalmath.ui.utils.completionStatusToDisplayNameRes
 
 @Composable
@@ -23,8 +25,8 @@ fun CompletionStatusBadge(
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(Radius.Sm))
-            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.50f))
-            .padding(horizontal = 10.dp, vertical = 4.dp),
+            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = Opacity.Half))
+            .padding(horizontal = 10.dp, vertical = Spacing.Xs),
         contentAlignment = Alignment.Center
     ) {
         Text(
