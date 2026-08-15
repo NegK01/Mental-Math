@@ -44,22 +44,30 @@ class HomeViewModel(
         viewModelScope.launch {
             gameRecordRepository.getAllRecords().collect { allRecords ->
                 val recentRecords = allRecords.take(3)
-                val dailyStreak = calculateDailyStreak(
+                val streakResult = calculateDailyStreak(
                     timestamps = allRecords.map { it.playedAt }
                 )
 
                 _uiState.update { currentState ->
                     currentState.copy(
-                        dailyStreak = dailyStreak,
-                        recentRecords = recentRecords
+                        dailyStreak = streakResult.streak,
+                        recentRecords = recentRecords,
+                        streakStartDate = streakResult.startDate,
+                        streakEndDate = streakResult.endDate
                     )
                 }
             }
         }
     }
 
-    private fun calculateDailyStreak(timestamps: List<Long>): Int {
-        if (timestamps.isEmpty()) return 0
+    private data class StreakResult(
+        val streak: Int,
+        val startDate: LocalDate?,
+        val endDate: LocalDate?
+    )
+
+    private fun calculateDailyStreak(timestamps: List<Long>): StreakResult {
+        if (timestamps.isEmpty()) return StreakResult(0, null, null)
 
         val zoneId = ZoneId.systemDefault()
 
@@ -72,7 +80,7 @@ class HomeViewModel(
         val yesterday = today.minusDays(1)
 
         val startsTodayOrYesterday = uniqueDates.firstOrNull() == today || uniqueDates.firstOrNull() == yesterday
-        if (!startsTodayOrYesterday) return 0
+        if (!startsTodayOrYesterday) return StreakResult(0, null, null)
 
         var streak = 1
         var expectedDate = uniqueDates.first()
@@ -87,18 +95,14 @@ class HomeViewModel(
             }
         }
 
-        val startDate = expectedDate
-        val endDate = uniqueDates.first()
-        _uiState.value = _uiState.value.copy(streakStartDate = startDate, streakEndDate = endDate)
-
-        return streak
+        return StreakResult(streak, expectedDate, uniqueDates.first())
     }
 
     fun showCalendarDialog() {
-        _uiState.value = _uiState.value.copy(showCalendarDialog = true)
+        _uiState.update { it.copy(showCalendarDialog = true) }
     }
 
     fun hideCalendarDialog() {
-        _uiState.value = _uiState.value.copy(showCalendarDialog = false)
+        _uiState.update { it.copy(showCalendarDialog = false) }
     }
 }
