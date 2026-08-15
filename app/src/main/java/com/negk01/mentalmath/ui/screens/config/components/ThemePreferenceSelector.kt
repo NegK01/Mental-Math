@@ -180,7 +180,7 @@ private fun ThemePreviewCard(
         Box(
             modifier = Modifier
                 .align(Alignment.TopEnd)
-                .offset(x = (-8).dp, y = 8.dp)
+                .offset(x = -Spacing.Sm, y = Spacing.Sm)
                 .size(10.dp)
                 .clip(CircleShape)
                 .background(colors.accent)
@@ -189,7 +189,7 @@ private fun ThemePreviewCard(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(24.dp)
+                .height(Spacing.Xl)
                 .align(Alignment.BottomCenter)
                 .background(colors.surface)
                 .padding(horizontal = Spacing.Sm),
