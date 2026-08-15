@@ -9,5 +9,6 @@ data class ConfigUiState(
     val soundEnabled: Boolean = true,
     val themePreference: ThemePreference = ThemePreference.SYSTEM,
     val languagePreference: LanguagePreference = LanguagePreference.SYSTEM,
+    val hasSeenOnboarding: Boolean = false,
     val showDeleteHistoryDialog: Boolean = false,
 )
