@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface GameRecordRepository {
     suspend fun insert(record: GameRecord)
-    fun getLastThreeRecords(): Flow<List<GameRecord>>
 
     // Flow completo — solo para métricas globales en HistoryViewModel
     fun getAllRecords(): Flow<List<GameRecord>>

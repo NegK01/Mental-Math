@@ -18,12 +18,6 @@ class GameRecordRepositoryImpl(
         gameRecordDao.insert(record.toEntity())
     }
 
-    override fun getLastThreeRecords(): Flow<List<GameRecord>> {
-        return gameRecordDao.getLastThreeRecords().map { list ->
-            list.map { it.toDomain() }
-        }
-    }
-
     override fun getAllRecords(): Flow<List<GameRecord>> {
         return gameRecordDao.getAllRecords().map { list ->
             list.map { it.toDomain() }

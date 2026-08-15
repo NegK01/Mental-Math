@@ -13,9 +13,6 @@ interface GameRecordDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(record: GameRecordEntity)
 
-    @Query("SELECT * FROM game_records ORDER BY playedAt DESC LIMIT 3")
-    fun getLastThreeRecords(): Flow<List<GameRecordEntity>>
-
     // Usado exclusivamente para calcular métricas globales en HistoryViewModel.
     // Nunca se usa para renderizar la lista visible — eso va por getRecordsPaged.
     @Query("SELECT * FROM game_records ORDER BY playedAt DESC")
