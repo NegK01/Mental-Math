@@ -5,10 +5,13 @@ import androidx.lifecycle.ViewModelProvider
 import com.negk01.mentalmath.domain.repository.GameRecordRepository
 
 class ResultsViewModelFactory(
-    private val repository: GameRecordRepository
+    private val gameRecordRepository: GameRecordRepository
 ) : ViewModelProvider.Factory {
+    @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        @Suppress("UNCHECKED_CAST")
-        return ResultsViewModel(repository) as T
+        if (modelClass.isAssignableFrom(ResultsViewModel::class.java)) {
+            return ResultsViewModel(gameRecordRepository) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
     }
 }

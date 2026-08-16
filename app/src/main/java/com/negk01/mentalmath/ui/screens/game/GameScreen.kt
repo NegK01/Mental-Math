@@ -18,11 +18,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.negk01.mentalmath.ui.theme.Spacing
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
-import com.negk01.mentalmath.navigation.Routes
 import com.negk01.mentalmath.presentation.game.GameViewModel
 import com.negk01.mentalmath.ui.screens.game.components.AnswerDisplay
 import com.negk01.mentalmath.ui.screens.game.components.GameProgressCard
@@ -30,20 +27,20 @@ import com.negk01.mentalmath.ui.screens.game.components.GameTopBar
 import com.negk01.mentalmath.ui.screens.game.components.MathQuestionCard
 import com.negk01.mentalmath.ui.screens.game.components.NumberPad
 import com.negk01.mentalmath.ui.screens.game.components.PauseDialog
+import com.negk01.mentalmath.ui.theme.Spacing
 
 @Composable
 fun GameScreen(
-    navController: NavController,
     viewModel: GameViewModel = viewModel(),
-    onGameAbandoned: () -> Unit = {}
+    onNavigateToResults: () -> Unit,
+    onGameAbandoned: () -> Unit,
+    onGoBack: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
     LaunchedEffect(uiState.isFinished) {
         if (uiState.isFinished) {
-            navController.navigate(Routes.RESULTS) {
-                popUpTo(Routes.GAME) { inclusive = true }
-            }
+            onNavigateToResults()
         }
     }
 
@@ -51,14 +48,13 @@ fun GameScreen(
         containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             GameTopBar(
+                isPaused = uiState.isPaused,
                 onPauseClick = viewModel::pauseGame,
                 onExitClick = {
                     val shouldShowResults = viewModel.abandonGame()
-                    if (shouldShowResults) {
-                        navController.navigate(Routes.RESULTS)
-                    } else {
+                    if (!shouldShowResults) {
                         onGameAbandoned()
-                        navController.popBackStack()
+                        onGoBack()
                     }
                 }
             )
@@ -86,7 +82,8 @@ fun GameScreen(
                     GameProgressCard(
                         currentRound = uiState.currentRound,
                         totalRounds = uiState.totalRounds,
-                        timeLeftSeconds = uiState.timeLeftSeconds
+                        timeLeftSeconds = uiState.timeLeftSeconds,
+                        timerUrgency = uiState.timerUrgency
                     )
 
                     Spacer(modifier = Modifier.weight(1f))

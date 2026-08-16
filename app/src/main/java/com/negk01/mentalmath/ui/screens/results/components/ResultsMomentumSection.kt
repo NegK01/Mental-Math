@@ -18,11 +18,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.negk01.mentalmath.R
+import com.negk01.mentalmath.domain.game.DeltaState
+import com.negk01.mentalmath.ui.theme.Opacity
 import com.negk01.mentalmath.ui.theme.Radius
-import com.negk01.mentalmath.presentation.results.DeltaState
+import com.negk01.mentalmath.ui.theme.Spacing
 
 @Composable
 fun ResultsMomentumSection(
@@ -40,7 +43,7 @@ fun ResultsMomentumSection(
                     imageVector = Icons.Outlined.LocalFireDepartment,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.secondary,
-                    modifier = Modifier.size(16.dp)
+                    modifier = Modifier.size(Spacing.Lg)
                 )
             },
             label = stringResource(R.string.results_max_streak),
@@ -55,7 +58,7 @@ fun ResultsMomentumSection(
                         imageVector = Icons.Outlined.EmojiEvents,
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.tertiary,
-                        modifier = Modifier.size(16.dp)
+                        modifier = Modifier.size(Spacing.Lg)
                     )
                 },
                 label = stringResource(R.string.results_new_record),
@@ -81,13 +84,13 @@ private fun MomentumChip(
     icon: (@Composable () -> Unit)?,
     label: String,
     value: String?,
-    accentColor: androidx.compose.ui.graphics.Color
+    accentColor: Color
 ) {
     Box(
         modifier = modifier
             .clip(RoundedCornerShape(Radius.Md))
-            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.50f))
-            .padding(horizontal = 12.dp, vertical = 10.dp)
+            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = Opacity.Half))
+            .padding(horizontal = Spacing.Md, vertical = 10.dp)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,

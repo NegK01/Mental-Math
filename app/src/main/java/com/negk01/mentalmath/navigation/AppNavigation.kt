@@ -116,28 +116,39 @@ fun AppNavigation() {
 
                 composable(Routes.GAME) {
                     GameScreen(
-                        navController = navController,
                         viewModel = gameViewModel,
-                        onGameAbandoned = { historyViewModel.resetToTop() }
+                        onNavigateToResults = {
+                            navController.navigate(Routes.RESULTS) {
+                                popUpTo(Routes.GAME) { inclusive = true }
+                            }
+                        },
+                        onGameAbandoned = { historyViewModel.resetToTop() },
+                        onGoBack = { navController.popBackStack() }
                     )
                 }
 
                 composable(Routes.RESULTS) {
                     val resultsUiState by resultsViewModel.uiState.collectAsState()
-                    val sessionResult = gameViewModel.sessionResult
+                    val gameUiState by gameViewModel.uiState.collectAsState()
+                    val sessionResult = gameUiState.sessionResult
 
                     LaunchedEffect(sessionResult) {
                         sessionResult?.let { resultsViewModel.loadForSession(it) }
                     }
 
                     ResultsScreen(
-                        navController = navController,
                         sessionResult = sessionResult,
                         resultsUiState = resultsUiState,
                         onPlayAgain = {
                             gameViewModel.restartGame()
                             navController.navigate(Routes.GAME) {
                                 popUpTo(Routes.RESULTS) { inclusive = true }
+                            }
+                        },
+                        onGoHome = {
+                            navController.navigate(Routes.HOME) {
+                                popUpTo(Routes.HOME) { inclusive = false }
+                                launchSingleTop = true
                             }
                         }
                     )

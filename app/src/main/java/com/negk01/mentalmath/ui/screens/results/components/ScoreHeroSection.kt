@@ -28,13 +28,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.negk01.mentalmath.R
+import com.negk01.mentalmath.domain.game.NextGoalState
+import com.negk01.mentalmath.domain.game.ScoreFeedback
 import com.negk01.mentalmath.domain.model.CompletionStatus
 import com.negk01.mentalmath.domain.model.Difficulty
-import com.negk01.mentalmath.presentation.results.NextGoalState
 import com.negk01.mentalmath.ui.components.DifficultyBadge
 import com.negk01.mentalmath.ui.theme.Motion
 import com.negk01.mentalmath.ui.theme.Spacing
-import com.negk01.mentalmath.ui.utils.motionEnabled
 import com.negk01.mentalmath.ui.utils.toLabelResId
 
 @Composable
@@ -44,6 +44,7 @@ fun ScoreHeroSection(
     difficulty: Difficulty?,
     completionStatus: CompletionStatus,
     nextGoal: NextGoalState,
+    scoreFeedback: ScoreFeedback,
     modifier: Modifier = Modifier,
     isNewRecord: Boolean = false
 ) {
@@ -51,36 +52,31 @@ fun ScoreHeroSection(
 
     val animatedProgress = remember { Animatable(0f) }
     val arcScale = remember { Animatable(1f) }
-    val motion = motionEnabled()
 
     LaunchedEffect(Unit) {
-        if (motion) {
-            animatedProgress.animateTo(
-                targetValue = accuracy,
-                animationSpec = tween(durationMillis = 800, easing = FastOutSlowInEasing)
-            )
-        } else {
-            animatedProgress.snapTo(accuracy)
-        }
+        animatedProgress.animateTo(
+            targetValue = accuracy,
+            animationSpec = tween(durationMillis = Motion.ExtraSlow, easing = FastOutSlowInEasing)
+        )
     }
 
     LaunchedEffect(isNewRecord) {
-        if (isNewRecord && motion) {
+        if (isNewRecord) {
             arcScale.animateTo(1.06f, tween(Motion.Celebration / 2, easing = Motion.EaseEmphasized))
             arcScale.animateTo(1.0f, tween(Motion.Celebration / 2, easing = Motion.EaseEmphasized))
         }
     }
 
-    val scoreColor = when {
-        accuracy >= 0.9f -> MaterialTheme.colorScheme.tertiary
-        accuracy >= 0.6f -> MaterialTheme.colorScheme.primary
-        else -> MaterialTheme.colorScheme.secondary
+    val scoreColor = when (scoreFeedback) {
+        is ScoreFeedback.Great          -> MaterialTheme.colorScheme.tertiary
+        is ScoreFeedback.Good           -> MaterialTheme.colorScheme.primary
+        is ScoreFeedback.KeepPracticing -> MaterialTheme.colorScheme.secondary
     }
 
-    val titleRes = when {
-        accuracy >= 0.9f -> R.string.results_feedback_title_great
-        accuracy >= 0.6f -> R.string.results_feedback_title_good
-        else -> R.string.results_feedback_title_keep
+    val titleRes = when (scoreFeedback) {
+        is ScoreFeedback.Great          -> R.string.results_feedback_title_great
+        is ScoreFeedback.Good           -> R.string.results_feedback_title_good
+        is ScoreFeedback.KeepPracticing -> R.string.results_feedback_title_keep
     }
 
     val subtitleText = when (nextGoal) {
@@ -116,16 +112,11 @@ fun ScoreHeroSection(
                 drawArc(color = trackColor, startAngle = -90f, sweepAngle = 360f, useCenter = false, style = stroke)
                 drawArc(color = scoreColor, startAngle = -90f, sweepAngle = 360f * animatedProgress.value, useCenter = false, style = stroke)
             }
-            Row(verticalAlignment = Alignment.Bottom) {
-                Text(text = "$correctAnswers", style = MaterialTheme.typography.headlineLarge, color = scoreColor)
-                Text(
-                    text = "/$totalRounds",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Medium,
-                    color = scoreColor.copy(alpha = 0.7f),
-                    modifier = Modifier.padding(bottom = 3.dp)
-                )
-            }
+            Text(
+                text = stringResource(R.string.home_recent_score, correctAnswers, totalRounds),
+                style = MaterialTheme.typography.headlineLarge,
+                color = scoreColor
+            )
         }
 
         if (difficulty != null) {
@@ -138,7 +129,7 @@ fun ScoreHeroSection(
             }
         }
 
-        Spacer(modifier = Modifier.height(14.dp))
+        Spacer(modifier = Modifier.height(Spacing.Md))
 
         Text(
             text = stringResource(titleRes),

@@ -3,5 +3,11 @@ package com.negk01.mentalmath.domain.model
 enum class Difficulty {
     EASY,
     MEDIUM,
-    HARD
+    HARD;
+
+    fun next(): Difficulty = when (this) {
+        EASY -> MEDIUM
+        MEDIUM -> HARD
+        HARD -> HARD
+    }
 }

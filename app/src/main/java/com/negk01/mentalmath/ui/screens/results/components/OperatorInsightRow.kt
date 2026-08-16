@@ -15,9 +15,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.negk01.mentalmath.R
-import com.negk01.mentalmath.presentation.results.OperatorInsight
+import com.negk01.mentalmath.domain.game.OperatorInsight
+import com.negk01.mentalmath.ui.theme.Spacing
 import com.negk01.mentalmath.ui.utils.toLabelResId
 
 @Composable
@@ -34,9 +34,9 @@ fun OperatorInsightRow(
             imageVector = Icons.Outlined.Lightbulb,
             contentDescription = null,
             tint = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.size(16.dp)
+            modifier = Modifier.size(Spacing.Lg)
         )
-        Spacer(modifier = Modifier.width(8.dp))
+        Spacer(modifier = Modifier.width(Spacing.Sm))
         Text(
             text = stringResource(
                 R.string.results_operator_insight,

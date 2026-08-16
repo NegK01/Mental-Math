@@ -9,39 +9,41 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.negk01.mentalmath.ui.theme.Spacing
-import androidx.navigation.NavController
 import com.negk01.mentalmath.R
+import com.negk01.mentalmath.domain.game.DeltaState
 import com.negk01.mentalmath.domain.model.CompletionStatus
 import com.negk01.mentalmath.domain.model.GameSessionResult
-import com.negk01.mentalmath.domain.model.RoundDetail
-import com.negk01.mentalmath.navigation.Routes
-import com.negk01.mentalmath.presentation.results.DeltaState
 import com.negk01.mentalmath.presentation.results.ResultsUiState
 import com.negk01.mentalmath.ui.screens.results.components.OperatorInsightRow
 import com.negk01.mentalmath.ui.screens.results.components.ResultsActions
 import com.negk01.mentalmath.ui.screens.results.components.ResultsMomentumSection
 import com.negk01.mentalmath.ui.screens.results.components.RoundDetailsSection
 import com.negk01.mentalmath.ui.screens.results.components.ScoreHeroSection
+import com.negk01.mentalmath.ui.theme.Spacing
+import java.util.Locale
 
 @Composable
 fun ResultsScreen(
-    navController: NavController,
     sessionResult: GameSessionResult?,
     resultsUiState: ResultsUiState,
-    onPlayAgain: () -> Unit
+    onPlayAgain: () -> Unit,
+    onGoHome: () -> Unit
 ) {
-    val roundDetails = sessionResult?.roundResults?.map { round ->
-        RoundDetail(
-            expression = stringResource(R.string.results_round_expression, round.question, round.userAnswer),
-            correctAnswer = round.correctAnswer.toString(),
-            isCorrect = round.isCorrect,
-            time = stringResource(R.string.common_seconds_int, round.timeSpentSeconds)
-        )
-    }.orEmpty()
+    val exprFormat = stringResource(R.string.results_round_expression)
+    val roundDetails = remember(sessionResult) {
+        sessionResult?.roundResults?.map { round ->
+            RoundDetail(
+                expression = exprFormat.format(round.question, round.userAnswer),
+                correctAnswer = round.correctAnswer.toString(),
+                isCorrect = round.isCorrect,
+                time = String.format(Locale.getDefault(), "%.1fs", round.timeSpentSeconds)
+            )
+        }.orEmpty()
+    }
 
     val correctAnswers = sessionResult?.correctAnswers ?: 0
     val totalRounds = sessionResult?.totalRounds ?: 0
@@ -66,6 +68,7 @@ fun ResultsScreen(
                         difficulty = sessionResult?.difficulty,
                         completionStatus = sessionResult?.completionStatus ?: CompletionStatus.COMPLETED,
                         nextGoal = resultsUiState.nextGoal,
+                        scoreFeedback = resultsUiState.scoreFeedback,
                         isNewRecord = resultsUiState.delta is DeltaState.NewRecord,
                         modifier = Modifier.padding(bottom = 20.dp)
                     )
@@ -98,12 +101,7 @@ fun ResultsScreen(
 
             ResultsActions(
                 modifier = Modifier.padding(horizontal = Spacing.Lg, vertical = Spacing.Md),
-                onGoHome = {
-                    navController.navigate(Routes.HOME) {
-                        popUpTo(0) { inclusive = false }
-                        launchSingleTop = true
-                    }
-                },
+                onGoHome = onGoHome,
                 onPlayAgain = onPlayAgain
             )
         }

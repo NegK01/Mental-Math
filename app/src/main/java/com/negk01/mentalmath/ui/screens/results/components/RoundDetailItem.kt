@@ -22,9 +22,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.negk01.mentalmath.R
+import com.negk01.mentalmath.ui.theme.Opacity
 import com.negk01.mentalmath.ui.theme.Radius
 import com.negk01.mentalmath.ui.theme.Spacing
-import com.negk01.mentalmath.domain.model.RoundDetail
+import com.negk01.mentalmath.ui.screens.results.RoundDetail
 import com.negk01.mentalmath.ui.utils.isDarkTheme
 
 @Composable
@@ -33,7 +34,7 @@ fun RoundDetailItem(
 ) {
     val isDark = isDarkTheme()
     val itemBg = if (item.isCorrect) {
-        MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = if (isDark) 0.25f else 0.6f)
+        MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = if (isDark) 0.25f else Opacity.Scrim)
     } else {
         MaterialTheme.colorScheme.errorContainer.copy(alpha = if (isDark) 0.25f else 0.55f)
     }
@@ -48,7 +49,7 @@ fun RoundDetailItem(
             .fillMaxWidth()
             .clip(RoundedCornerShape(Radius.Md))
             .background(itemBg)
-            .padding(horizontal = 12.dp, vertical = 10.dp),
+            .padding(horizontal = Spacing.Md, vertical = 10.dp),
         verticalArrangement = Arrangement.spacedBy(Spacing.Xs)
     ) {
         Row(
