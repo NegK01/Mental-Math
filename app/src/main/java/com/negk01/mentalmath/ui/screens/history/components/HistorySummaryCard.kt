@@ -25,7 +25,9 @@ import com.negk01.mentalmath.R
 import com.negk01.mentalmath.domain.model.Difficulty
 import com.negk01.mentalmath.domain.model.GameRecord
 import com.negk01.mentalmath.ui.components.DifficultyBadge
+import com.negk01.mentalmath.ui.theme.Opacity
 import com.negk01.mentalmath.ui.theme.Radius
+import com.negk01.mentalmath.ui.theme.Spacing
 
 @Composable
 fun HistorySummaryCard(
@@ -94,7 +96,7 @@ private fun PersonalBestsCard(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(Radius.Card))
-            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.50f))
+            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = Opacity.Half))
             .padding(horizontal = 14.dp, vertical = 10.dp)
     ) {
         Column(
@@ -105,7 +107,7 @@ private fun PersonalBestsCard(
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.padding(bottom = 8.dp)
+                modifier = Modifier.padding(bottom = Spacing.Sm)
             )
             listOf(
                 Difficulty.EASY to bestEasy,
@@ -128,7 +130,7 @@ private fun PersonalBestsCard(
 
 @Composable
 private fun BestRecordRow(difficulty: Difficulty, record: GameRecord) {
-    val averageSeconds = record.averageResponseTimeMillis / 1000.0
+    val averageSeconds = record.averageResponseTimeSeconds
     Row(
         modifier = Modifier
             .fillMaxWidth()

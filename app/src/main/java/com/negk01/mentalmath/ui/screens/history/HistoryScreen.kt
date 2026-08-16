@@ -29,6 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.negk01.mentalmath.R
 import com.negk01.mentalmath.ui.theme.BottomNavContentPadding
+import com.negk01.mentalmath.ui.theme.Opacity
 import com.negk01.mentalmath.ui.theme.Spacing
 import com.negk01.mentalmath.presentation.history.HistoryViewModel
 import com.negk01.mentalmath.ui.screens.history.components.HistorySummaryCard
@@ -40,13 +41,11 @@ fun HistoryScreen(
     viewModel: HistoryViewModel,
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    val shouldScrollToTop by viewModel.shouldScrollToTop.collectAsState()
     val listState = rememberLazyListState()
 
-    LaunchedEffect(shouldScrollToTop) {
-        if (shouldScrollToTop) {
+    LaunchedEffect(Unit) {
+        viewModel.scrollToTopEvent.collect {
             listState.animateScrollToItem(0)
-            viewModel.consumeScrollToTop()
         }
     }
 
@@ -101,7 +100,7 @@ fun HistoryScreen(
                             GameRecordItem(record = record)
                         }
                     }
-                    if ((index + 1) % 5 == 0 && index < uiState.displayRecords.lastIndex) {
+                    if ((index + 1) % HistoryViewModel.PAGE_SIZE == 0 && index < uiState.displayRecords.lastIndex) {
                         item(key = "divider_${record.playedAt}") {
                             HorizontalDivider(
                                 modifier = Modifier.padding(horizontal = Spacing.Xl),
@@ -124,12 +123,12 @@ fun HistoryScreen(
                     }
                 }
 
-                if (uiState.hasMore && uiState.totalGames > 5 && !uiState.isLoadingMore) {
+                if (uiState.hasMore && uiState.totalGames > HistoryViewModel.PAGE_SIZE && !uiState.isLoadingMore) {
                     item {
                         OutlinedButton(
                             onClick = viewModel::loadMore,
                             modifier = Modifier.fillMaxWidth(),
-                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.6f)),
+                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = Opacity.Scrim)),
                             colors = ButtonDefaults.outlinedButtonColors(
                                 contentColor = MaterialTheme.colorScheme.primary
                             )

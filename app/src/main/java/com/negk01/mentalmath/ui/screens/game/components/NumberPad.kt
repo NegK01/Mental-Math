@@ -29,18 +29,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.semantics.disabled
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.disabled
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import com.negk01.mentalmath.ui.theme.Radius
 import androidx.compose.ui.unit.sp
 import com.negk01.mentalmath.R
+import com.negk01.mentalmath.ui.theme.Opacity
+import com.negk01.mentalmath.ui.theme.Radius
+import com.negk01.mentalmath.ui.theme.Spacing
+
+private val Row1Digits = listOf("1", "2", "3")
+private val Row2Digits = listOf("4", "5", "6")
+private val Row3Digits = listOf("7", "8", "9")
 
 @Composable
 fun NumberPad(
@@ -50,7 +56,7 @@ fun NumberPad(
     isSubmitEnabled: Boolean,
     buttonHeight: Dp = 64.dp
 ) {
-    val buttonSpacing = if (buttonHeight <= 50.dp) 8.dp else 10.dp
+    val buttonSpacing = if (buttonHeight <= 50.dp) Spacing.Sm else 10.dp
     val digitFontSize = if (buttonHeight <= 50.dp) 18.sp else 22.sp
 
     Box(
@@ -60,12 +66,12 @@ fun NumberPad(
             .background(MaterialTheme.colorScheme.surface)
     ) {
         Column(
-            modifier = Modifier.padding(12.dp),
+            modifier = Modifier.padding(Spacing.Md),
             verticalArrangement = Arrangement.spacedBy(buttonSpacing)
         ) {
-            NumberPadRow(listOf("1", "2", "3"), onDigitClick, buttonHeight, digitFontSize, buttonSpacing)
-            NumberPadRow(listOf("4", "5", "6"), onDigitClick, buttonHeight, digitFontSize, buttonSpacing)
-            NumberPadRow(listOf("7", "8", "9"), onDigitClick, buttonHeight, digitFontSize, buttonSpacing)
+            NumberPadRow(Row1Digits, onDigitClick, buttonHeight, digitFontSize, buttonSpacing)
+            NumberPadRow(Row2Digits, onDigitClick, buttonHeight, digitFontSize, buttonSpacing)
+            NumberPadRow(Row3Digits, onDigitClick, buttonHeight, digitFontSize, buttonSpacing)
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -73,7 +79,7 @@ fun NumberPad(
             ) {
                 ActionButton(
                     modifier = Modifier.weight(1f),
-                    containerColor = MaterialTheme.colorScheme.error.copy(alpha = 0.18f),
+                    containerColor = MaterialTheme.colorScheme.error.copy(alpha = Opacity.BadgeContainer),
                     contentColor = MaterialTheme.colorScheme.error,
                     buttonHeight = buttonHeight,
                     onClick = onClearClick

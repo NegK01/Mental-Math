@@ -17,6 +17,7 @@ import com.negk01.mentalmath.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GameTopBar(
+    isPaused: Boolean,
     onPauseClick: () -> Unit,
     onExitClick: () -> Unit
 ) {
@@ -39,7 +40,10 @@ fun GameTopBar(
             }
         },
         actions = {
-            IconButton(onClick = onPauseClick) {
+            IconButton(
+                onClick = onPauseClick,
+                enabled = !isPaused
+            ) {
                 Icon(
                     imageVector = Icons.Default.Pause,
                     contentDescription = stringResource(R.string.game_pause)

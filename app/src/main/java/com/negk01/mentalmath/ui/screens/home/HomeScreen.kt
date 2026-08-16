@@ -57,7 +57,7 @@ fun HomeScreen(
                 }
 
                 Box(
-                    modifier = Modifier.padding(start = 18.dp, top = 16.dp, end = 18.dp, bottom = BottomNavContentPadding)
+                    modifier = Modifier.padding(start = 18.dp, top = Spacing.Lg, end = 18.dp, bottom = BottomNavContentPadding)
                 ) {
                     StartGameButton(onClick = onStartGame)
                 }

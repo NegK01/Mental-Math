@@ -18,7 +18,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.negk01.mentalmath.R
+import com.negk01.mentalmath.ui.theme.Opacity
 import com.negk01.mentalmath.ui.theme.Radius
+import com.negk01.mentalmath.ui.theme.Spacing
 import com.negk01.mentalmath.domain.model.GameRecord
 import com.negk01.mentalmath.ui.utils.isDarkTheme
 import java.text.SimpleDateFormat
@@ -33,20 +35,20 @@ fun GameRecordItem(
         SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date(record.playedAt))
     }
 
-    val averageSeconds = record.averageResponseTimeMillis / 1000.0
-    val itemAlpha = if (isDarkTheme()) 0.5f else 0.8f
+    val averageSeconds = record.averageResponseTimeSeconds
+    val itemAlpha = if (isDarkTheme()) Opacity.Half else 0.8f
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(Radius.Card))
             .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = itemAlpha))
-            .padding(horizontal = 14.dp, vertical = 12.dp),
+            .padding(horizontal = 14.dp, vertical = Spacing.Md),
         verticalAlignment = Alignment.CenterVertically
     ) {
         DifficultyBadge(difficulty = record.difficulty, compact = true)
 
-        Spacer(modifier = Modifier.size(12.dp))
+        Spacer(modifier = Modifier.size(Spacing.Md))
 
         Text(
             text = formattedDate,

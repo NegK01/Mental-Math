@@ -28,7 +28,7 @@ object QuestionGenerator {
         val useCompound = Random.nextBoolean()
 
         if (!useCompound) {
-            return simpleQuestion(range = 5..30, allowNegative = false)
+            return simpleQuestion(addSubtractRange = 5..30, allowNegative = false)
         }
 
         val a = Random.nextInt(5, 31)
@@ -43,9 +43,11 @@ object QuestionGenerator {
             }
 
             1 -> {
-                val expression = "$a - $b + $c"
-                val answer = a - b + c
-                if (answer < 0) generateMediumQuestion() else Question(expression, answer, Operator.SUBTRACT)
+                val maxFirst = maxOf(a, b)
+                val minSecond = minOf(a, b)
+                val expression = "$maxFirst - $minSecond + $c"
+                val answer = maxFirst - minSecond + c
+                Question(expression, answer, Operator.SUBTRACT)
             }
 
             2 -> {
@@ -55,9 +57,10 @@ object QuestionGenerator {
             }
 
             else -> {
-                val expression = "$a × $b - $c"
-                val answer = (a * b) - c
-                if (answer < 0) generateMediumQuestion() else Question(expression, answer, Operator.MULTIPLY)
+                val safeC = minOf(c, (a * b) - 1)
+                val expression = "$a × $b - $safeC"
+                val answer = (a * b) - safeC
+                Question(expression, answer, Operator.MULTIPLY)
             }
         }
     }
@@ -71,9 +74,10 @@ object QuestionGenerator {
                 val b = Random.nextInt(2, 11)
                 val c = Random.nextInt(2, 16)
                 val d = Random.nextInt(2, 11)
-                val expression = "$a × $b - $c + $d"
-                val answer = a * b - c + d
-                if (answer < 0) generateHardQuestion() else Question(expression, answer, Operator.MULTIPLY)
+                val safeC = minOf(c, (a * b + d) - 1)
+                val expression = "$a × $b - $safeC + $d"
+                val answer = a * b - safeC + d
+                Question(expression, answer, Operator.MULTIPLY)
             }
 
             1 -> {
@@ -109,17 +113,18 @@ object QuestionGenerator {
                 val b = Random.nextInt(2, 21)
                 val c = Random.nextInt(2, 21)
                 val d = Random.nextInt(2, 16)
-                val expression = "$a - $b + $c × $d"
-                val answer = a - b + (c * d)
-                if (answer < 0) generateHardQuestion() else Question(expression, answer, Operator.MULTIPLY)
+                val safeB = minOf(b, a + (c * d) - 1)
+                val expression = "$a - $safeB + $c × $d"
+                val answer = a - safeB + (c * d)
+                Question(expression, answer, Operator.MULTIPLY)
             }
         }
     }
 
-    private fun simpleQuestion(range: IntRange, allowNegative: Boolean): Question {
+    private fun simpleQuestion(addSubtractRange: IntRange, allowNegative: Boolean): Question {
         return when (Random.nextInt(4)) {
-            0 -> generateAdditionQuestion(range)
-            1 -> generateSubtractionQuestion(range, allowNegative)
+            0 -> generateAdditionQuestion(addSubtractRange)
+            1 -> generateSubtractionQuestion(addSubtractRange, allowNegative)
             2 -> generateMultiplicationQuestion(2..12, 2..12)
             else -> generateDivisionQuestion(2..12, 2..12)
         }

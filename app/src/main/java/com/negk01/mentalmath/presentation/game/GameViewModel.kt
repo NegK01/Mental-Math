@@ -3,6 +3,7 @@ package com.negk01.mentalmath.presentation.game
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.negk01.mentalmath.domain.game.QuestionGenerator
+import com.negk01.mentalmath.domain.game.StreakTracker
 import com.negk01.mentalmath.domain.model.Difficulty
 import com.negk01.mentalmath.domain.model.GameRecord
 import com.negk01.mentalmath.domain.model.CompletionStatus
@@ -11,13 +12,16 @@ import com.negk01.mentalmath.domain.model.Question
 import com.negk01.mentalmath.domain.model.RoundResult
 import com.negk01.mentalmath.domain.model.getGameConfig
 import com.negk01.mentalmath.domain.repository.GameRecordRepository
+import kotlin.math.ceil
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 private const val ANSWER_FLASH_MILLIS = 300L
 
@@ -30,18 +34,16 @@ class GameViewModel(
 
     private var currentDifficulty: Difficulty = Difficulty.EASY
     private var currentTimePerRound = 30
-    private var currentMaxStreak = 0
-    private var currentStreak = 0
+    private val streakTracker = StreakTracker()
+
+    private var roundStartTimeMillis = 0L
+    private var accumulatedRoundTimeMillis = 0L
 
     private var timerJob: Job? = null
     private var flashJob: Job? = null
 
     private val _uiState = MutableStateFlow(GameUiState())
     val uiState: StateFlow<GameUiState> = _uiState.asStateFlow()
-
-    private var _sessionResult: GameSessionResult? = null
-    val sessionResult: GameSessionResult?
-        get() = _sessionResult
 
     fun startGame(difficulty: Difficulty) {
         timerJob?.cancel()
@@ -50,16 +52,15 @@ class GameViewModel(
         val config = getGameConfig(difficulty)
         currentDifficulty = difficulty
         currentTimePerRound = config.timePerRoundSeconds
-        currentMaxStreak = 0
-        currentStreak = 0
+        streakTracker.reset()
         roundResults.clear()
-        _sessionResult = null
+        accumulatedRoundTimeMillis = 0L
+        roundStartTimeMillis = System.currentTimeMillis()
 
         val firstQuestion = QuestionGenerator.generate(difficulty)
         currentQuestion = firstQuestion
 
         _uiState.value = GameUiState(
-            difficulty = difficulty,
             currentRound = 1,
             totalRounds = config.totalRounds,
             timeLeftSeconds = config.timePerRoundSeconds,
@@ -122,22 +123,7 @@ class GameViewModel(
         val answer = state.answerInput.toIntOrNull() ?: 0
         val isCorrect = answer == question.correctAnswer
 
-        // 1. Activar flash
-        _uiState.update {
-            it.copy(
-                lastAnswerCorrect = isCorrect,
-                isInputLocked = true
-            )
-        }
-
-        flashJob?.cancel()
-        flashJob = viewModelScope.launch {
-            delay(ANSWER_FLASH_MILLIS)
-
-            if (_uiState.value.isPaused) return@launch
-
-            resolveCurrentRound(userRanOutOfTime = false)
-        }
+        triggerAnswerFlash(isCorrect = isCorrect, userRanOutOfTime = false)
     }
 
     private fun onTimeExpired() {
@@ -147,6 +133,21 @@ class GameViewModel(
         val answer = state.answerInput.toIntOrNull() ?: 0
         val isCorrect = answer == question.correctAnswer
 
+        triggerAnswerFlash(isCorrect = isCorrect, userRanOutOfTime = true)
+    }
+
+    private fun triggerAnswerFlash(isCorrect: Boolean, userRanOutOfTime: Boolean) {
+        timerJob?.cancel()
+
+        val totalRoundTimeMillis = currentTimePerRound * 1000L
+        val consumedMillis = if (userRanOutOfTime) {
+            totalRoundTimeMillis
+        } else {
+            val currentElapsed = accumulatedRoundTimeMillis + (System.currentTimeMillis() - roundStartTimeMillis)
+            currentElapsed.coerceIn(0L, totalRoundTimeMillis)
+        }
+
+        // 1. Lock input and show flash color
         _uiState.update {
             it.copy(
                 lastAnswerCorrect = isCorrect,
@@ -157,13 +158,11 @@ class GameViewModel(
         flashJob?.cancel()
         flashJob = viewModelScope.launch {
             delay(ANSWER_FLASH_MILLIS)
-            resolveCurrentRound(userRanOutOfTime = true)
+            resolveCurrentRound(consumedMillis = consumedMillis)
         }
     }
 
-    private fun resolveCurrentRound(userRanOutOfTime: Boolean) {
-        timerJob?.cancel()
-
+    private fun resolveCurrentRound(consumedMillis: Long) {
         val state = _uiState.value
         val question = currentQuestion ?: return
 
@@ -172,31 +171,16 @@ class GameViewModel(
             else -> state.answerInput.toIntOrNull() ?: 0
         }
 
-        val rawTimeSpent = currentTimePerRound - state.timeLeftSeconds
-        val consumedTime = if (userRanOutOfTime) {
-            currentTimePerRound
-        } else {
-            rawTimeSpent.coerceAtLeast(0)
-        }
-
         val isCorrect = answer == question.correctAnswer
 
-        if (isCorrect) {
-            currentStreak++
-            if (currentStreak > currentMaxStreak) {
-                currentMaxStreak = currentStreak
-            }
-        } else {
-            currentStreak = 0
-        }
+        streakTracker.recordAnswer(isCorrect)
 
         val roundResult = RoundResult(
-            roundNumber = state.currentRound,
             question = question.expression,
             userAnswer = answer,
             correctAnswer = question.correctAnswer,
             isCorrect = isCorrect,
-            timeSpentSeconds = consumedTime,
+            timeSpentMillis = consumedMillis,
             operator = question.operator
         )
 
@@ -212,13 +196,15 @@ class GameViewModel(
         val nextQuestion = QuestionGenerator.generate(currentDifficulty)
         currentQuestion = nextQuestion
 
+        roundStartTimeMillis = System.currentTimeMillis()
+        accumulatedRoundTimeMillis = 0L
+
         _uiState.update { currentState ->
             currentState.copy(
                 currentRound = currentState.currentRound + 1,
                 timeLeftSeconds = currentTimePerRound,
                 questionText = nextQuestion.expression,
                 answerInput = "",
-                //isPaused = false, // no se despausa aqui, sino daba feedback gratis
                 lastAnswerCorrect = null,
                 isInputLocked = false
             )
@@ -240,65 +226,50 @@ class GameViewModel(
     private fun finishGame(completionStatus: CompletionStatus) {
         timerJob?.cancel()
 
-        val correctAnswers = roundResults.count { it.isCorrect }
-        val averageTime = if (roundResults.isEmpty()) {
-            0.0
-        } else {
-            roundResults.map { it.timeSpentSeconds }.average()
-        }
-
-        _sessionResult = GameSessionResult(
+        val sessionResult = GameSessionResult.fromRounds(
             difficulty = currentDifficulty,
-            correctAnswers = correctAnswers,
             totalRounds = _uiState.value.totalRounds,
-            averageResponseTimeSeconds = averageTime,
             completionStatus = completionStatus,
             roundResults = roundResults.toList(),
-            maxStreak = currentMaxStreak
+            maxStreak = streakTracker.maxStreak
         )
 
         if (completionStatus == CompletionStatus.COMPLETED) {
-            saveCompletedGame(
-                correctAnswers = correctAnswers,
-                totalRounds = _uiState.value.totalRounds,
-                averageResponseTimeSeconds = averageTime,
-                maxStreak = currentMaxStreak
-            )
+            saveCompletedGame(sessionResult)
         }
 
         _uiState.update { currentState ->
             currentState.copy(
                 isFinished = true,
-                answerInput = ""
+                answerInput = "",
+                sessionResult = sessionResult
             )
         }
     }
 
-    private fun saveCompletedGame(
-        correctAnswers: Int,
-        totalRounds: Int,
-        averageResponseTimeSeconds: Double,
-        maxStreak: Int
-    ) {
+    private fun saveCompletedGame(sessionResult: GameSessionResult) {
         viewModelScope.launch {
-            gameRecordRepository.insert(
-                GameRecord(
-                    playedAt = System.currentTimeMillis(),
-                    difficulty = currentDifficulty,
-                    correctAnswers = correctAnswers,
-                    totalRounds = totalRounds,
-                    averageResponseTimeMillis = (averageResponseTimeSeconds * 1000).toLong(),
-                    maxStreak = maxStreak
+            withContext(NonCancellable) {
+                gameRecordRepository.insert(
+                    GameRecord.fromCompletedSession(
+                        difficulty = sessionResult.difficulty,
+                        correctAnswers = sessionResult.correctAnswers,
+                        totalRounds = sessionResult.totalRounds,
+                        averageResponseTimeMillis = sessionResult.averageResponseTimeMillis,
+                        maxStreak = sessionResult.maxStreak
+                    )
                 )
-            )
+            }
         }
     }
 
     fun pauseGame() {
+        if (_uiState.value.isPaused) return
         if (_uiState.value.isFinished) return
         if (_uiState.value.isInputLocked) return
 
         timerJob?.cancel()
+        accumulatedRoundTimeMillis += (System.currentTimeMillis() - roundStartTimeMillis)
 
         _uiState.update { currentState ->
             currentState.copy(
@@ -310,7 +281,10 @@ class GameViewModel(
     }
 
     fun resumeGame() {
+        if (!_uiState.value.isPaused) return
         if (_uiState.value.isFinished) return
+
+        roundStartTimeMillis = System.currentTimeMillis()
 
         _uiState.update { currentState ->
             currentState.copy(isPaused = false)
@@ -322,26 +296,23 @@ class GameViewModel(
     private fun startRoundTimer() {
         timerJob?.cancel()
 
+        val totalRoundTimeMillis = currentTimePerRound * 1000L
+
         timerJob = viewModelScope.launch {
-            while (_uiState.value.timeLeftSeconds > 0 &&
-                !_uiState.value.isPaused &&
-                !_uiState.value.isFinished
-            ) {
-                delay(1000)
-
-                val currentState = _uiState.value
-                if (currentState.isPaused || currentState.isFinished) break
-
-                val newTime = currentState.timeLeftSeconds - 1
+            while (!_uiState.value.isPaused && !_uiState.value.isFinished) {
+                val elapsedMillis = accumulatedRoundTimeMillis + (System.currentTimeMillis() - roundStartTimeMillis)
+                val remainingMillis = (totalRoundTimeMillis - elapsedMillis).coerceAtLeast(0L)
+                val remainingSeconds = ceil(remainingMillis / 1000.0).toInt()
 
                 _uiState.update {
-                    it.copy(timeLeftSeconds = newTime)
+                    it.copy(timeLeftSeconds = remainingSeconds)
                 }
 
-                if (newTime <= 0) {
+                if (remainingMillis <= 0L) {
                     onTimeExpired()
                     break
                 }
+                delay(100L)
             }
         }
     }
