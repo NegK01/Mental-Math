@@ -35,13 +35,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.negk01.mentalmath.ui.theme.Radius
-import com.negk01.mentalmath.ui.theme.Spacing
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.negk01.mentalmath.R
-import com.negk01.mentalmath.ui.theme.Opacity
 import com.negk01.mentalmath.navigation.Routes
-import com.negk01.mentalmath.ui.utils.motionEnabled
+import com.negk01.mentalmath.ui.theme.Motion
+import com.negk01.mentalmath.ui.theme.Opacity
+import com.negk01.mentalmath.ui.theme.Radius
+import com.negk01.mentalmath.ui.theme.Spacing
 
 private data class NavItem(
     val route: String,
@@ -65,33 +65,31 @@ fun BottomNavBar(
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 18.dp, vertical = 20.dp),
+            .padding(horizontal = Spacing.Lg, vertical = Spacing.Xl),
         shape = RoundedCornerShape(Radius.NavBar),
         color = MaterialTheme.colorScheme.surface,
         shadowElevation = 8.dp
     ) {
         Row(
             modifier = Modifier
-                .padding(horizontal = Spacing.Lg, vertical = Spacing.Md)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .padding(horizontal = Spacing.Lg, vertical = Spacing.Md),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             val haptic = LocalHapticFeedback.current
-            val motion = motionEnabled()
 
             navItems.forEach { item ->
                 val isSelected = currentRoute == item.route
                 val primary = MaterialTheme.colorScheme.primary
-                val animDuration = if (motion) 350 else 0
                 val background = animateColorAsState(
                     targetValue = if (isSelected) primary.copy(alpha = Opacity.BadgeContainer) else primary.copy(alpha = 0f),
-                    animationSpec = tween(animDuration, easing = FastOutSlowInEasing),
+                    animationSpec = tween(Motion.Slow, easing = FastOutSlowInEasing),
                     label = "backgroundColor"
                 ).value
                 val contentColor = animateColorAsState(
                     targetValue = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
-                    animationSpec = tween(animDuration, easing = FastOutSlowInEasing),
+                    animationSpec = tween(Motion.Slow, easing = FastOutSlowInEasing),
                     label = "contentColor"
                 ).value
 
@@ -120,7 +118,7 @@ fun BottomNavBar(
                                 }
                             }
                         )
-                        .padding(horizontal = 16.dp, vertical = 10.dp),
+                        .padding(horizontal = Spacing.Lg, vertical = Spacing.Sm),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {
@@ -132,8 +130,8 @@ fun BottomNavBar(
 
                     AnimatedVisibility(
                         visible = isSelected,
-                        enter = fadeIn(animationSpec = tween(if (motion) 350 else 0)) + expandHorizontally(animationSpec = tween(if (motion) 350 else 0, easing = FastOutSlowInEasing), expandFrom = Alignment.Start),
-                        exit = fadeOut(animationSpec = tween(if (motion) 200 else 0)) + shrinkHorizontally(animationSpec = tween(if (motion) 200 else 0, easing = FastOutSlowInEasing), shrinkTowards = Alignment.Start)
+                        enter = fadeIn(animationSpec = tween(Motion.Slow)) + expandHorizontally(animationSpec = tween(Motion.Slow, easing = FastOutSlowInEasing), expandFrom = Alignment.Start),
+                        exit = fadeOut(animationSpec = tween(Motion.Medium)) + shrinkHorizontally(animationSpec = tween(Motion.Medium, easing = FastOutSlowInEasing), shrinkTowards = Alignment.Start)
                     ) {
                         Text(
                             text = stringResource(item.labelRes),

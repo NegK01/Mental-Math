@@ -80,11 +80,11 @@
     <string name="results_goal_hard_perfect">HARD dominado. Vuelve por más.</string>
     <string name="results_goal_perfect_next">Perfecto. Listo para %1$s</string>
     <string name="results_round_details_empty">Sin rondas para mostrar</string>
-    <string name="results_operator_insight">Practica sugerida: %1$s (%2$.1fs prom)</string>
+    <string name="results_operator_insight">Práctica sugerida: %1$s (%2$.1fs prom)</string>
     <string name="operator_add">suma</string>
     <string name="operator_subtract">resta</string>
-    <string name="operator_multiply">multiplicacion</string>
-    <string name="operator_divide">division</string>
+    <string name="operator_multiply">multiplicación</string>
+    <string name="operator_divide">división</string>
     <string name="results_feedback_title_great">Muy bien</string>
     <string name="results_feedback_title_good">Buen ritmo</string>
     <string name="results_feedback_title_keep">Sigue entrenando</string>

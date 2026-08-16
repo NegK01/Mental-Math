@@ -4,9 +4,6 @@ import com.negk01.mentalmath.data.local.dao.SettingsDao
 import com.negk01.mentalmath.data.mapper.toDomain
 import com.negk01.mentalmath.data.mapper.toEntity
 import com.negk01.mentalmath.domain.model.AppSettings
-import com.negk01.mentalmath.domain.model.Difficulty
-import com.negk01.mentalmath.domain.model.LanguagePreference
-import com.negk01.mentalmath.domain.model.ThemePreference
 import com.negk01.mentalmath.domain.repository.SettingsRepository
 
 class SettingsRepositoryImpl(
@@ -14,13 +11,7 @@ class SettingsRepositoryImpl(
 ) : SettingsRepository {
 
     override suspend fun getSettings(): AppSettings {
-        return settingsDao.getSettings()?.toDomain()
-            ?: AppSettings(
-                selectedDifficulty = Difficulty.MEDIUM,
-                soundEnabled = true,
-                themePreference = ThemePreference.SYSTEM,
-                languagePreference = LanguagePreference.SYSTEM
-            )
+        return settingsDao.getSettings()?.toDomain() ?: AppSettings.default()
     }
 
     override suspend fun saveSettings(settings: AppSettings) {
@@ -28,7 +19,11 @@ class SettingsRepositoryImpl(
     }
 
     override suspend fun markOnboardingShown() {
-        val current = getSettings()
-        saveSettings(current.copy(hasSeenOnboarding = true))
+        val current = settingsDao.getSettings()
+        if (current == null) {
+            settingsDao.insertOrUpdate(AppSettings.default().copy(hasSeenOnboarding = true).toEntity())
+        } else {
+            settingsDao.markOnboardingShown()
+        }
     }
 }

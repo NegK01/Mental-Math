@@ -14,4 +14,7 @@ interface SettingsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertOrUpdate(settings: SettingsEntity)
+
+    @Query("UPDATE settings SET hasSeenOnboarding = 1 WHERE id = 1")
+    suspend fun markOnboardingShown()
 }

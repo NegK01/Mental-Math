@@ -22,6 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.negk01.mentalmath.R
 import com.negk01.mentalmath.ui.theme.Opacity
+import com.negk01.mentalmath.ui.theme.Spacing
 import com.negk01.mentalmath.ui.theme.Warning
 
 @Composable
@@ -29,23 +30,24 @@ fun StreakBadge(
     dailyStreak: Int,
     onClick: () -> Unit
 ) {
+    val streakColor = Warning
     Box(
         modifier = Modifier
             .clip(CircleShape)
-            .background(Warning.copy(alpha = Opacity.BadgeContainer))
+            .background(streakColor.copy(alpha = Opacity.BadgeContainer))
             .clickable(onClick = onClick)
-            .padding(horizontal = 12.dp, vertical = 6.dp),
+            .padding(horizontal = Spacing.Md, vertical = 6.dp),
         contentAlignment = Alignment.Center,
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(
                 imageVector = Icons.Default.LocalFireDepartment,
                 contentDescription = stringResource(R.string.home_daily_streak_title),
-                tint = Warning,
-                modifier = Modifier.size(24.dp)
+                tint = streakColor,
+                modifier = Modifier.size(Spacing.Xl)
             )
 
-            Spacer(modifier = Modifier.size(4.dp))
+            Spacer(modifier = Modifier.size(Spacing.Xs))
 
             Text(
                 text = stringResource(R.string.home_daily_streak_value, dailyStreak),
