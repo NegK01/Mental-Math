@@ -1,5 +1,6 @@
 package com.negk01.mentalmath.presentation.config
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.negk01.mentalmath.domain.model.AppSettings
@@ -28,15 +29,19 @@ class ConfigViewModel(
 
     private fun loadSettings() {
         viewModelScope.launch {
-            val settings = settingsRepository.getSettings()
-            _uiState.update {
-                it.copy(
-                    selectedDifficulty = settings.selectedDifficulty,
-                    soundEnabled = settings.soundEnabled,
-                    themePreference = settings.themePreference,
-                    languagePreference = settings.languagePreference,
-                    hasSeenOnboarding = settings.hasSeenOnboarding
-                )
+            try {
+                val settings = settingsRepository.getSettings()
+                _uiState.update {
+                    it.copy(
+                        selectedDifficulty = settings.selectedDifficulty,
+                        soundEnabled = settings.soundEnabled,
+                        themePreference = settings.themePreference,
+                        languagePreference = settings.languagePreference,
+                        hasSeenOnboarding = settings.hasSeenOnboarding
+                    )
+                }
+            } catch (e: Exception) {
+                Log.w("ConfigViewModel", "Failed to load settings", e)
             }
         }
     }
@@ -71,23 +76,31 @@ class ConfigViewModel(
 
     private fun saveSettings() {
         viewModelScope.launch {
-            val current = _uiState.value
-            settingsRepository.saveSettings(
-                AppSettings(
-                    selectedDifficulty = current.selectedDifficulty,
-                    soundEnabled = current.soundEnabled,
-                    themePreference = current.themePreference,
-                    languagePreference = current.languagePreference,
-                    hasSeenOnboarding = current.hasSeenOnboarding
+            try {
+                val current = _uiState.value
+                settingsRepository.saveSettings(
+                    AppSettings(
+                        selectedDifficulty = current.selectedDifficulty,
+                        soundEnabled = current.soundEnabled,
+                        themePreference = current.themePreference,
+                        languagePreference = current.languagePreference,
+                        hasSeenOnboarding = current.hasSeenOnboarding
+                    )
                 )
-            )
+            } catch (e: Exception) {
+                Log.w("ConfigViewModel", "Failed to save settings", e)
+            }
         }
     }
 
     fun clearScoresHistory() {
         viewModelScope.launch {
-            gameRecordRepository.clearAll()
-            _uiState.update { it.copy(showDeleteHistoryDialog = false) }
+            try {
+                gameRecordRepository.clearAll()
+                _uiState.update { it.copy(showDeleteHistoryDialog = false) }
+            } catch (e: Exception) {
+                Log.w("ConfigViewModel", "Failed to clear scores history", e)
+            }
         }
     }
 }

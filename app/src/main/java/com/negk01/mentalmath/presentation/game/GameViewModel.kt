@@ -1,5 +1,6 @@
 package com.negk01.mentalmath.presentation.game
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.negk01.mentalmath.domain.game.QuestionGenerator
@@ -250,15 +251,19 @@ class GameViewModel(
     private fun saveCompletedGame(sessionResult: GameSessionResult) {
         viewModelScope.launch {
             withContext(NonCancellable) {
-                gameRecordRepository.insert(
-                    GameRecord.fromCompletedSession(
-                        difficulty = sessionResult.difficulty,
-                        correctAnswers = sessionResult.correctAnswers,
-                        totalRounds = sessionResult.totalRounds,
-                        averageResponseTimeMillis = sessionResult.averageResponseTimeMillis,
-                        maxStreak = sessionResult.maxStreak
+                try {
+                    gameRecordRepository.insert(
+                        GameRecord.fromCompletedSession(
+                            difficulty = sessionResult.difficulty,
+                            correctAnswers = sessionResult.correctAnswers,
+                            totalRounds = sessionResult.totalRounds,
+                            averageResponseTimeMillis = sessionResult.averageResponseTimeMillis,
+                            maxStreak = sessionResult.maxStreak
+                        )
                     )
-                )
+                } catch (e: Exception) {
+                    Log.w("GameViewModel", "Failed to save game record", e)
+                }
             }
         }
     }

@@ -39,30 +39,38 @@ class HistoryViewModel(
     }
 
     private suspend fun observeStats() {
-        gameRecordRepository.getAllRecords().collect { records ->
-            _uiState.update { current ->
-                current.copy(
-                    totalGames = records.size,
-                    averageAccuracy = if (records.isEmpty()) 0.0 else
-                        records.map { it.correctAnswers.toDouble() / it.totalRounds }
-                            .average() * 100,
-                    averageTimeSeconds = if (records.isEmpty()) 0.0 else
-                        records.map { it.averageResponseTimeSeconds }.average()
-                )
+        try {
+            gameRecordRepository.getAllRecords().collect { records ->
+                _uiState.update { current ->
+                    current.copy(
+                        totalGames = records.size,
+                        averageAccuracy = if (records.isEmpty()) 0.0 else
+                            records.map { it.correctAnswers.toDouble() / it.totalRounds }
+                                .average() * 100,
+                        averageTimeSeconds = if (records.isEmpty()) 0.0 else
+                            records.map { it.averageResponseTimeSeconds }.average()
+                    )
+                }
             }
+        } catch (e: Exception) {
+            Log.w("HistoryViewModel", "Failed to observe stats", e)
         }
     }
 
     // drop(1) salta la emisión inicial — solo reacciona a inserts reales
     private suspend fun observeNewRecords() {
-        gameRecordRepository.getAllRecords()
-            .map { it.size }
-            .distinctUntilChanged()
-            .drop(1)
-            .collect {
-                resetDisplay(reloadFromDb = true)
-                loadBestRecords()
-            }
+        try {
+            gameRecordRepository.getAllRecords()
+                .map { it.size }
+                .distinctUntilChanged()
+                .drop(1)
+                .collect {
+                    resetDisplay(reloadFromDb = true)
+                    loadBestRecords()
+                }
+        } catch (e: Exception) {
+            Log.w("HistoryViewModel", "Failed to observe new records", e)
+        }
     }
 
     private suspend fun loadBestRecords() {
@@ -125,19 +133,24 @@ class HistoryViewModel(
     }
 
     private suspend fun loadPage() {
-        val offset = _uiState.value.displayRecords.size
+        try {
+            val offset = _uiState.value.displayRecords.size
 
-        val newRecords = gameRecordRepository.getRecordsPaged(
-            limit = PAGE_SIZE,
-            offset = offset
-        )
-
-        _uiState.update { current ->
-            current.copy(
-                displayRecords = current.displayRecords + newRecords,
-                hasMore = newRecords.size == PAGE_SIZE,
-                isLoadingMore = false
+            val newRecords = gameRecordRepository.getRecordsPaged(
+                limit = PAGE_SIZE,
+                offset = offset
             )
+
+            _uiState.update { current ->
+                current.copy(
+                    displayRecords = current.displayRecords + newRecords,
+                    hasMore = newRecords.size == PAGE_SIZE,
+                    isLoadingMore = false
+                )
+            }
+        } catch (e: Exception) {
+            Log.w("HistoryViewModel", "Failed to load paged records", e)
+            _uiState.update { it.copy(isLoadingMore = false) }
         }
     }
-}
+}

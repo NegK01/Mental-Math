@@ -1,5 +1,6 @@
 package com.negk01.mentalmath.presentation.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.negk01.mentalmath.domain.repository.GameRecordRepository
@@ -28,34 +29,46 @@ class HomeViewModel(
 
     private fun loadOnboardingFlag() {
         viewModelScope.launch {
-            val settings = settingsRepository.getSettings()
-            _uiState.update { it.copy(showOnboarding = !settings.hasSeenOnboarding) }
+            try {
+                val settings = settingsRepository.getSettings()
+                _uiState.update { it.copy(showOnboarding = !settings.hasSeenOnboarding) }
+            } catch (e: Exception) {
+                Log.w("HomeViewModel", "Failed to load onboarding flag", e)
+            }
         }
     }
 
     fun markOnboardingShown() {
         viewModelScope.launch {
-            settingsRepository.markOnboardingShown()
-            _uiState.update { it.copy(showOnboarding = false) }
+            try {
+                settingsRepository.markOnboardingShown()
+                _uiState.update { it.copy(showOnboarding = false) }
+            } catch (e: Exception) {
+                Log.w("HomeViewModel", "Failed to mark onboarding shown", e)
+            }
         }
     }
 
     private fun observeRecentRecords() {
         viewModelScope.launch {
-            gameRecordRepository.getAllRecords().collect { allRecords ->
-                val recentRecords = allRecords.take(3)
-                val streakResult = calculateDailyStreak(
-                    timestamps = allRecords.map { it.playedAt }
-                )
-
-                _uiState.update { currentState ->
-                    currentState.copy(
-                        dailyStreak = streakResult.streak,
-                        recentRecords = recentRecords,
-                        streakStartDate = streakResult.startDate,
-                        streakEndDate = streakResult.endDate
+            try {
+                gameRecordRepository.getAllRecords().collect { allRecords ->
+                    val recentRecords = allRecords.take(3)
+                    val streakResult = calculateDailyStreak(
+                        timestamps = allRecords.map { it.playedAt }
                     )
+
+                    _uiState.update { currentState ->
+                        currentState.copy(
+                            dailyStreak = streakResult.streak,
+                            recentRecords = recentRecords,
+                            streakStartDate = streakResult.startDate,
+                            streakEndDate = streakResult.endDate
+                        )
+                    }
                 }
+            } catch (e: Exception) {
+                Log.w("HomeViewModel", "Failed to observe recent records", e)
             }
         }
     }
