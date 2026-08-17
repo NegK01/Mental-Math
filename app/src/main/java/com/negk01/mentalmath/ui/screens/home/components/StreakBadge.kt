@@ -19,7 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import com.negk01.mentalmath.R
 import com.negk01.mentalmath.ui.theme.Opacity
 import com.negk01.mentalmath.ui.theme.Spacing
@@ -36,7 +35,7 @@ fun StreakBadge(
             .clip(CircleShape)
             .background(streakColor.copy(alpha = Opacity.BadgeContainer))
             .clickable(onClick = onClick)
-            .padding(horizontal = Spacing.Md, vertical = 6.dp),
+            .padding(horizontal = Spacing.Md, vertical = Spacing.Sm),
         contentAlignment = Alignment.Center,
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {

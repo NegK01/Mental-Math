@@ -38,6 +38,7 @@ object ResultsAnalyzer {
     fun calculateDelta(current: GameSessionResult, previousBest: GameRecord?): DeltaState {
         if (current.completionStatus == CompletionStatus.ABANDONED) return DeltaState.None
         if (previousBest == null) return DeltaState.FirstGame
+        if (current.totalRounds == 0 || previousBest.totalRounds == 0) return DeltaState.None
         if (current.correctAnswers == 0) return DeltaState.None
 
         val currentAccuracy = current.correctAnswers.toFloat() / current.totalRounds
@@ -51,8 +52,9 @@ object ResultsAnalyzer {
     }
 
     fun computeNextGoal(correctAnswers: Int, difficulty: Difficulty, totalRounds: Int): NextGoalState {
+        if (totalRounds == 0) return NextGoalState.LowAccuracy(targetCorrect = 1, totalRounds = 0)
         val targetCorrect = floor(totalRounds * 0.7).toInt()
-        val accuracy = if (totalRounds == 0) 0f else correctAnswers.toFloat() / totalRounds
+        val accuracy = correctAnswers.toFloat() / totalRounds
         return when {
             correctAnswers < targetCorrect -> NextGoalState.LowAccuracy(
                 targetCorrect = targetCorrect,
@@ -68,25 +70,29 @@ object ResultsAnalyzer {
     fun computeOperatorInsight(roundResults: List<RoundResult>): OperatorInsight? {
         if (roundResults.size < 2) return null
         val overallAvgMillis = roundResults.map { it.timeSpentMillis }.average()
-        val worst = roundResults
+        val operatorAverages = roundResults
             .groupBy { it.operator }
             .filter { (_, rounds) -> rounds.size >= 2 }
-            .maxByOrNull { (_, rounds) -> rounds.map { it.timeSpentMillis }.average() }
-            ?: return null
-        val worstAvgMillis = worst.value.map { it.timeSpentMillis }.average()
+            .mapValues { (_, rounds) -> rounds.map { it.timeSpentMillis }.average() }
+
+        val worstEntry = operatorAverages.maxByOrNull { it.value } ?: return null
+        val worstAvgMillis = worstEntry.value
+
         return if (worstAvgMillis > overallAvgMillis * 1.3) {
-            OperatorInsight(worst.key, worstAvgMillis / 1000.0)
+            OperatorInsight(worstEntry.key, worstAvgMillis / 1000.0)
         } else {
             null
         }
     }
 
     fun computeScoreFeedback(correctAnswers: Int, totalRounds: Int): ScoreFeedback {
-        val accuracy = if (totalRounds == 0) 0f else correctAnswers.toFloat() / totalRounds
+        if (totalRounds == 0) return ScoreFeedback.KeepPracticing
+        val targetCorrect = floor(totalRounds * 0.7).toInt()
+        val accuracy = correctAnswers.toFloat() / totalRounds
         return when {
             accuracy >= 0.9f -> ScoreFeedback.Great
-            accuracy >= 0.6f -> ScoreFeedback.Good
-            else             -> ScoreFeedback.KeepPracticing
+            correctAnswers >= targetCorrect -> ScoreFeedback.Good
+            else -> ScoreFeedback.KeepPracticing
         }
     }
 }

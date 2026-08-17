@@ -1,6 +1,5 @@
 package com.negk01.mentalmath.ui.components
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -19,7 +18,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import com.negk01.mentalmath.ui.theme.Radius
 import com.negk01.mentalmath.ui.theme.Spacing
 
@@ -34,8 +32,8 @@ fun <T> OptionSelector(
     optionShape: Shape = RoundedCornerShape(Radius.Card),
     optionTextStyle: TextStyle = MaterialTheme.typography.labelMedium,
     optionFontWeight: FontWeight? = FontWeight.SemiBold,
-    optionSpacing: Dp = 10.dp,
-    optionPadding: PaddingValues = PaddingValues(vertical = 10.dp, horizontal = Spacing.Sm)
+    optionSpacing: Dp = Spacing.Sm,
+    optionPadding: PaddingValues = PaddingValues(vertical = Spacing.Sm, horizontal = Spacing.Sm)
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),

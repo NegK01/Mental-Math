@@ -34,9 +34,9 @@ import androidx.compose.ui.platform.LocalLocale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import com.negk01.mentalmath.R
 import com.negk01.mentalmath.ui.components.AppDialog
+import com.negk01.mentalmath.ui.theme.Radius
 import com.negk01.mentalmath.ui.theme.Spacing
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -109,9 +109,9 @@ fun StreakCalendarDialog(
                     fontWeight = FontWeight.Bold,
                     color = if (isCurrentMonth) Color.Transparent else MaterialTheme.colorScheme.primary,
                     modifier = Modifier
-                        .clip(RoundedCornerShape(4.dp))
+                        .clip(RoundedCornerShape(Radius.Sm))
                         .clickable(enabled = !isCurrentMonth) { currentMonth = YearMonth.now() }
-                        .padding(horizontal = Spacing.Sm, vertical = 2.dp)
+                        .padding(horizontal = Spacing.Sm, vertical = Spacing.Xs)
                 )
             }
 

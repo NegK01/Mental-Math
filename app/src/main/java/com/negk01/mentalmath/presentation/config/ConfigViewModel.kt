@@ -47,23 +47,34 @@ class ConfigViewModel(
     }
 
     fun onDifficultySelected(difficulty: Difficulty) {
+        val previous = _uiState.value.selectedDifficulty
         _uiState.update { it.copy(selectedDifficulty = difficulty) }
-        saveSettings()
+        saveSettings(_uiState.value.toAppSettings(), onFailure = {
+            _uiState.update { it.copy(selectedDifficulty = previous) }
+        })
     }
 
     fun onSoundEnabledChanged(enabled: Boolean) {
+        val previous = _uiState.value.soundEnabled
         _uiState.update { it.copy(soundEnabled = enabled) }
-        saveSettings()
+        saveSettings(_uiState.value.toAppSettings(), onFailure = {
+            _uiState.update { it.copy(soundEnabled = previous) }
+        })
     }
 
     fun onThemePreferenceSelected(themePreference: ThemePreference) {
+        val previous = _uiState.value.themePreference
         _uiState.update { it.copy(themePreference = themePreference) }
-        saveSettings()
+        saveSettings(_uiState.value.toAppSettings(), onFailure = {
+            _uiState.update { it.copy(themePreference = previous) }
+        })
     }
 
     fun onLanguagePreferenceSelected(languagePreference: LanguagePreference) {
         _uiState.update { it.copy(languagePreference = languagePreference) }
-        saveSettings()
+        saveSettings(_uiState.value.toAppSettings(), onFailure = {
+            _uiState.update { it.copy(languagePreference = LanguagePreference.SYSTEM) }
+        })
     }
 
     fun showDeleteHistoryDialog() {
@@ -74,21 +85,21 @@ class ConfigViewModel(
         _uiState.update { it.copy(showDeleteHistoryDialog = false) }
     }
 
-    private fun saveSettings() {
+    private fun ConfigUiState.toAppSettings(): AppSettings = AppSettings(
+        selectedDifficulty = selectedDifficulty,
+        soundEnabled = soundEnabled,
+        themePreference = themePreference,
+        languagePreference = languagePreference,
+        hasSeenOnboarding = hasSeenOnboarding
+    )
+
+    private fun saveSettings(settings: AppSettings, onFailure: (() -> Unit)? = null) {
         viewModelScope.launch {
             try {
-                val current = _uiState.value
-                settingsRepository.saveSettings(
-                    AppSettings(
-                        selectedDifficulty = current.selectedDifficulty,
-                        soundEnabled = current.soundEnabled,
-                        themePreference = current.themePreference,
-                        languagePreference = current.languagePreference,
-                        hasSeenOnboarding = current.hasSeenOnboarding
-                    )
-                )
+                settingsRepository.saveSettings(settings)
             } catch (e: Exception) {
                 Log.w("ConfigViewModel", "Failed to save settings", e)
+                onFailure?.invoke()
             }
         }
     }
@@ -97,9 +108,10 @@ class ConfigViewModel(
         viewModelScope.launch {
             try {
                 gameRecordRepository.clearAll()
-                _uiState.update { it.copy(showDeleteHistoryDialog = false) }
             } catch (e: Exception) {
                 Log.w("ConfigViewModel", "Failed to clear scores history", e)
+            } finally {
+                _uiState.update { it.copy(showDeleteHistoryDialog = false) }
             }
         }
     }

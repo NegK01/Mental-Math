@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.negk01.mentalmath.domain.model.Difficulty
 import com.negk01.mentalmath.domain.repository.GameRecordRepository
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -28,7 +29,10 @@ class HistoryViewModel(
     private val _uiState = MutableStateFlow(HistoryUiState())
     val uiState: StateFlow<HistoryUiState> = _uiState.asStateFlow()
 
-    private val _scrollToTopEvent = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
+    private val _scrollToTopEvent = MutableSharedFlow<Unit>(
+        extraBufferCapacity = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
     val scrollToTopEvent: SharedFlow<Unit> = _scrollToTopEvent.asSharedFlow()
 
     init {
@@ -103,16 +107,15 @@ class HistoryViewModel(
         }
     }
 
-    // Toca el tab de History estando ya en él → emite evento de scroll
+    // Toca el tab de History (1 tap) → emite evento de scroll
     fun onTabReselected() {
         _scrollToTopEvent.tryEmit(Unit)
     }
 
-    // Llamado desde AppNavigation cuando el usuario abandona un juego sin guardar.
-    // En ese caso observeNewRecords() no dispara (totalGames no cambia),
-    // por lo que necesitamos reset explícito desde afuera.
+    // Long press en el tab → colapsa el historial a la primera página sin scroll
     fun resetToTop() {
         resetDisplay()
+        _scrollToTopEvent.tryEmit(Unit)
     }
 
     private fun resetDisplay(reloadFromDb: Boolean = false) {
@@ -124,10 +127,8 @@ class HistoryViewModel(
                 hasMore = firstPage.size == PAGE_SIZE,
                 isLoadingMore = false
             ) }
-            _scrollToTopEvent.tryEmit(Unit)
         } else {
             _uiState.update { it.copy(displayRecords = emptyList(), hasMore = false, isLoadingMore = false) }
-            _scrollToTopEvent.tryEmit(Unit)
             viewModelScope.launch { loadPage() }
         }
     }
@@ -153,4 +154,4 @@ class HistoryViewModel(
             _uiState.update { it.copy(isLoadingMore = false) }
         }
     }
-}
+}

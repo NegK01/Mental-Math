@@ -25,7 +25,7 @@ data class GameSessionResult(
             averageResponseTimeMillis = if (roundResults.isEmpty()) {
                 0L
             } else {
-                roundResults.map { it.timeSpentMillis }.average().toLong()
+                Math.round(roundResults.map { it.timeSpentMillis }.average())
             },
             completionStatus = completionStatus,
             roundResults = roundResults,

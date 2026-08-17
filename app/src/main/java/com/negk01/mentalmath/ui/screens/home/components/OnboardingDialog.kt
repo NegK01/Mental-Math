@@ -19,7 +19,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -103,7 +102,7 @@ fun OnboardingDialog(
                     color = MaterialTheme.colorScheme.onSurface,
                     textAlign = TextAlign.Center
                 )
-                Spacer(modifier = Modifier.height(2.dp))
+                Spacer(modifier = Modifier.height(Spacing.Xs))
                 Text(
                     text = stringResource(R.string.onboarding_subtitle),
                     style = MaterialTheme.typography.bodyMedium,
@@ -149,7 +148,7 @@ fun OnboardingDialog(
                     optionTextStyle = MaterialTheme.typography.labelLarge,
                     optionFontWeight = null,
                     optionSpacing = Spacing.Sm,
-                    optionPadding = PaddingValues(vertical = 10.dp)
+                    optionPadding = PaddingValues(vertical = Spacing.Sm)
                 )
             }
 
@@ -176,8 +175,8 @@ private fun ThemeSwatchRow(
     Box {
         LazyRow(
             state = listState,
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
-            contentPadding = PaddingValues(horizontal = 2.dp)
+            horizontalArrangement = Arrangement.spacedBy(Spacing.Sm),
+            contentPadding = PaddingValues(horizontal = Spacing.Xs)
         ) {
             items(ThemePreference.entries.filter { it != ThemePreference.SYSTEM }) { theme ->
                 ThemeSwatch(

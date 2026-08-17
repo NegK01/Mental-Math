@@ -5,11 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.negk01.mentalmath.domain.repository.GameRecordRepository
 import com.negk01.mentalmath.domain.repository.SettingsRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
@@ -54,9 +56,11 @@ class HomeViewModel(
             try {
                 gameRecordRepository.getAllRecords().collect { allRecords ->
                     val recentRecords = allRecords.take(3)
-                    val streakResult = calculateDailyStreak(
-                        timestamps = allRecords.map { it.playedAt }
-                    )
+                    val streakResult = withContext(Dispatchers.Default) {
+                        calculateDailyStreak(
+                            timestamps = allRecords.map { it.playedAt }
+                        )
+                    }
 
                     _uiState.update { currentState ->
                         currentState.copy(

@@ -1,7 +1,7 @@
 package com.negk01.mentalmath.ui.screens.history
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,11 +11,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Inbox
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -28,13 +27,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.negk01.mentalmath.R
+import com.negk01.mentalmath.presentation.history.HistoryViewModel
+import com.negk01.mentalmath.ui.components.GameRecordItem
+import com.negk01.mentalmath.ui.screens.history.components.EmptyState
+import com.negk01.mentalmath.ui.screens.history.components.HistorySummaryCard
 import com.negk01.mentalmath.ui.theme.BottomNavContentPadding
 import com.negk01.mentalmath.ui.theme.Opacity
 import com.negk01.mentalmath.ui.theme.Spacing
-import com.negk01.mentalmath.presentation.history.HistoryViewModel
-import com.negk01.mentalmath.ui.screens.history.components.HistorySummaryCard
-import com.negk01.mentalmath.ui.screens.history.components.EmptyState
-import com.negk01.mentalmath.ui.components.GameRecordItem
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.isActive
 
 @Composable
 fun HistoryScreen(
@@ -45,7 +46,14 @@ fun HistoryScreen(
 
     LaunchedEffect(Unit) {
         viewModel.scrollToTopEvent.collect {
-            listState.animateScrollToItem(0)
+            try {
+                if (listState.firstVisibleItemIndex > 5) {
+                    listState.scrollToItem(2)
+                }
+                listState.animateScrollToItem(0)
+            } catch (e: CancellationException) {
+                if (!coroutineContext.isActive) throw e
+            }
         }
     }
 
@@ -96,9 +104,7 @@ fun HistoryScreen(
 
                 uiState.displayRecords.forEachIndexed { index, record ->
                     item(key = record.playedAt) {
-                        Box(modifier = Modifier.animateItem()) {
-                            GameRecordItem(record = record)
-                        }
+                        GameRecordItem(record = record)
                     }
                     if ((index + 1) % HistoryViewModel.PAGE_SIZE == 0 && index < uiState.displayRecords.lastIndex) {
                         item(key = "divider_${record.playedAt}") {

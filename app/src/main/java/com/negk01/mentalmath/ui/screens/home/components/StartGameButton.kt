@@ -29,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.negk01.mentalmath.R
 import com.negk01.mentalmath.ui.theme.Radius
+import com.negk01.mentalmath.ui.theme.Spacing
 
 @Composable
 fun StartGameButton(
@@ -43,12 +44,6 @@ fun StartGameButton(
         contentPadding = PaddingValues(),
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Transparent
-        ),
-        elevation = ButtonDefaults.buttonElevation(
-            defaultElevation = 6.dp,
-            pressedElevation = 2.dp,
-            focusedElevation = 6.dp,
-            hoveredElevation = 6.dp
         )
     ) {
         Box(
@@ -76,7 +71,7 @@ fun StartGameButton(
                     modifier = Modifier.size(22.dp)
                 )
 
-                Spacer(modifier = Modifier.size(6.dp))
+                Spacer(modifier = Modifier.size(Spacing.Sm))
 
                 Text(
                     text = stringResource(R.string.home_start_game),
