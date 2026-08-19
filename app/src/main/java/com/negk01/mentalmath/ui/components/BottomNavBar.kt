@@ -8,8 +8,8 @@ import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkHorizontally
-import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,9 +24,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -42,6 +44,8 @@ import com.negk01.mentalmath.ui.theme.Motion
 import com.negk01.mentalmath.ui.theme.Opacity
 import com.negk01.mentalmath.ui.theme.Radius
 import com.negk01.mentalmath.ui.theme.Spacing
+
+private val NavbarPillShape = RoundedCornerShape(Radius.Xl)
 
 private data class NavItem(
     val route: String,
@@ -60,10 +64,11 @@ fun BottomNavBar(
     navController: NavController,
     currentRoute: String?,
     onReselect: (route: String) -> Unit = {},
-    onReselectLong: (route: String) -> Unit = {}
+    onReselectLong: (route: String) -> Unit = {},
+    modifier: Modifier = Modifier
 ) {
     Surface(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = Spacing.Lg, vertical = Spacing.Xl),
         shape = RoundedCornerShape(Radius.NavBar),
@@ -82,21 +87,26 @@ fun BottomNavBar(
             navItems.forEach { item ->
                 val isSelected = currentRoute == item.route
                 val primary = MaterialTheme.colorScheme.primary
-                val background = animateColorAsState(
+                val onSurfaceVariant = MaterialTheme.colorScheme.onSurfaceVariant
+                val labelText = stringResource(item.labelRes)
+
+                val backgroundState = animateColorAsState(
                     targetValue = if (isSelected) primary.copy(alpha = Opacity.BadgeContainer) else primary.copy(alpha = 0f),
                     animationSpec = tween(Motion.Slow, easing = FastOutSlowInEasing),
                     label = "backgroundColor"
-                ).value
-                val contentColor = animateColorAsState(
-                    targetValue = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                val contentColorState = animateColorAsState(
+                    targetValue = if (isSelected) primary else onSurfaceVariant,
                     animationSpec = tween(Motion.Slow, easing = FastOutSlowInEasing),
                     label = "contentColor"
-                ).value
+                )
 
                 Row(
                     modifier = Modifier
-                        .clip(RoundedCornerShape(Radius.Xl))
-                        .background(background)
+                        .clip(NavbarPillShape)
+                        .drawBehind {
+                            drawRect(color = backgroundState.value)
+                        }
                         .combinedClickable(
                             onClick = {
                                 if (isSelected) {
@@ -124,22 +134,28 @@ fun BottomNavBar(
                 ) {
                     Icon(
                         imageVector = item.icon,
-                        contentDescription = stringResource(item.labelRes),
-                        tint = contentColor
+                        contentDescription = null,
+                        tint = contentColorState.value
                     )
 
                     AnimatedVisibility(
                         visible = isSelected,
-                        enter = fadeIn(animationSpec = tween(Motion.Slow)) + expandHorizontally(animationSpec = tween(Motion.Slow, easing = FastOutSlowInEasing), expandFrom = Alignment.Start),
-                        exit = fadeOut(animationSpec = tween(Motion.Medium)) + shrinkHorizontally(animationSpec = tween(Motion.Medium, easing = FastOutSlowInEasing), shrinkTowards = Alignment.Start)
+                        enter = fadeIn(animationSpec = tween(Motion.Slow)) + expandHorizontally(
+                            animationSpec = tween(Motion.Slow, easing = FastOutSlowInEasing),
+                            expandFrom = Alignment.Start
+                        ),
+                        exit = fadeOut(animationSpec = tween(Motion.Medium)) + shrinkHorizontally(
+                            animationSpec = tween(Motion.Medium, easing = FastOutSlowInEasing),
+                            shrinkTowards = Alignment.Start
+                        )
                     ) {
                         Text(
-                            text = stringResource(item.labelRes),
-                            color = contentColor,
+                            text = labelText,
+                            color = contentColorState.value,
                             fontWeight = FontWeight.Bold,
                             maxLines = 1,
                             softWrap = false,
-                            overflow = TextOverflow.Ellipsis,
+                            overflow = TextOverflow.Clip,
                             modifier = Modifier.padding(start = Spacing.Sm)
                         )
                     }

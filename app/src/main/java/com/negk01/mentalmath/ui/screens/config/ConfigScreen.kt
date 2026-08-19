@@ -17,14 +17,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.negk01.mentalmath.ui.theme.BottomNavContentPadding
-import com.negk01.mentalmath.ui.theme.Spacing
 import com.negk01.mentalmath.R
 import com.negk01.mentalmath.presentation.config.ConfigViewModel
 import com.negk01.mentalmath.ui.screens.config.components.DangerZone
+import com.negk01.mentalmath.ui.screens.config.components.DeleteHistoryDialog
 import com.negk01.mentalmath.ui.screens.config.components.DifficultySelector
 import com.negk01.mentalmath.ui.screens.config.components.LanguagePreferenceSelector
 import com.negk01.mentalmath.ui.screens.config.components.ThemePreferenceSelector
+import com.negk01.mentalmath.ui.theme.BottomNavContentPadding
+import com.negk01.mentalmath.ui.theme.Spacing
 
 @Composable
 fun ConfigScreen(
@@ -93,7 +94,13 @@ fun ConfigScreen(
                     )
                 }
             }
+        }
 
+        if (uiState.showDeleteHistoryDialog) {
+            DeleteHistoryDialog(
+                onConfirm = viewModel::clearScoresHistory,
+                onDismiss = viewModel::hideDeleteHistoryDialog
+            )
         }
     }
 }

@@ -1,6 +1,5 @@
 package com.negk01.mentalmath.ui.components
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -28,6 +27,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import com.negk01.mentalmath.ui.theme.Opacity
 import com.negk01.mentalmath.ui.theme.Radius
 import com.negk01.mentalmath.ui.theme.Spacing
@@ -44,30 +45,35 @@ fun AppDialog(
     verticalArrangement: Arrangement.Vertical = Arrangement.spacedBy(Spacing.Md),
     content: @Composable ColumnScope.() -> Unit
 ) {
-    BackHandler(enabled = true, onBack = onDismiss)
-
-    BoxWithConstraints(
-        modifier = modifier
-            .fillMaxSize()
-            .background(Color.Black.copy(alpha = Opacity.Scrim))
-            .pointerInput(Unit) {
-                detectTapGestures { if (dismissOnScrimTap) onDismiss() }
-            },
-        contentAlignment = Alignment.Center
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(horizontal = horizontalMargin)
-                .heightIn(max = maxHeight * maxHeightFraction)
-                .clip(RoundedCornerShape(Radius.Dialog))
-                .background(MaterialTheme.colorScheme.surface)
-                .pointerInput(Unit) { detectTapGestures { } }
-                .then(if (scrollable) Modifier.verticalScroll(rememberScrollState()) else Modifier)
-                .padding(contentPadding),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = verticalArrangement,
-            content = content
+    Dialog(
+        onDismissRequest = onDismiss,
+        properties = DialogProperties(
+            usePlatformDefaultWidth = false,
+            decorFitsSystemWindows = false
         )
+    ) {
+        BoxWithConstraints(
+            modifier = modifier
+                .fillMaxSize()
+                .pointerInput(Unit) {
+                    detectTapGestures { if (dismissOnScrimTap) onDismiss() }
+                },
+            contentAlignment = Alignment.Center
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = horizontalMargin)
+                    .heightIn(max = maxHeight * maxHeightFraction)
+                    .clip(RoundedCornerShape(Radius.Dialog))
+                    .background(MaterialTheme.colorScheme.surface)
+                    .pointerInput(Unit) { detectTapGestures { } }
+                    .then(if (scrollable) Modifier.verticalScroll(rememberScrollState()) else Modifier)
+                    .padding(contentPadding),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = verticalArrangement,
+                content = content
+            )
+        }
     }
 }
 

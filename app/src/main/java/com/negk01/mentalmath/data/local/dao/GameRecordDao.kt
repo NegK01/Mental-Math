@@ -13,8 +13,8 @@ interface GameRecordDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(record: GameRecordEntity)
 
-    // Usado exclusivamente para calcular métricas globales en HistoryViewModel.
-    // Nunca se usa para renderizar la lista visible — eso va por getRecordsPaged.
+    // Usado para HomeViewModel (racha + recientes) y métricas globales en HistoryViewModel.
+    // Nunca se usa para renderizar la lista visible de History — eso va por getRecordsPaged.
     @Query("SELECT * FROM game_records ORDER BY playedAt DESC")
     fun getAllRecords(): Flow<List<GameRecordEntity>>
 

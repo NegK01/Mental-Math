@@ -34,12 +34,9 @@ import com.negk01.mentalmath.presentation.results.ResultsViewModel
 import com.negk01.mentalmath.presentation.results.ResultsViewModelFactory
 import com.negk01.mentalmath.ui.components.BottomNavBar
 import com.negk01.mentalmath.ui.screens.config.ConfigScreen
-import com.negk01.mentalmath.ui.screens.config.components.DeleteHistoryDialog
 import com.negk01.mentalmath.ui.screens.game.GameScreen
 import com.negk01.mentalmath.ui.screens.history.HistoryScreen
 import com.negk01.mentalmath.ui.screens.home.HomeScreen
-import com.negk01.mentalmath.ui.screens.home.components.OnboardingDialog
-import com.negk01.mentalmath.ui.screens.home.components.StreakCalendarDialog
 import com.negk01.mentalmath.ui.screens.results.ResultsScreen
 import com.negk01.mentalmath.ui.theme.MentalMathTheme
 import com.negk01.mentalmath.ui.utils.toLocaleListCompat
@@ -68,17 +65,15 @@ fun AppNavigation() {
     val gameViewModel: GameViewModel = viewModel(
         factory = GameViewModelFactory(gameRecordRepository)
     )
-    val resultsViewModel: ResultsViewModel = viewModel(
-        factory = ResultsViewModelFactory(gameRecordRepository)
-    )
 
     val configUiState by configViewModel.uiState.collectAsState()
-    val homeUiState by homeViewModel.uiState.collectAsState()
 
     LaunchedEffect(configUiState.languagePreference) {
-        AppCompatDelegate.setApplicationLocales(
-            configUiState.languagePreference.toLocaleListCompat()
-        )
+        val targetLocales = configUiState.languagePreference.toLocaleListCompat()
+        val currentLocales = AppCompatDelegate.getApplicationLocales()
+        if (targetLocales != currentLocales) {
+            AppCompatDelegate.setApplicationLocales(targetLocales)
+        }
     }
 
     MentalMathTheme(themePreference = configUiState.themePreference) {
@@ -95,6 +90,10 @@ fun AppNavigation() {
                 composable(Routes.HOME) {
                     HomeScreen(
                         viewModel = homeViewModel,
+                        selectedTheme = configUiState.themePreference,
+                        selectedDifficulty = configUiState.selectedDifficulty,
+                        onThemeChange = configViewModel::onThemePreferenceSelected,
+                        onDifficultyChange = configViewModel::onDifficultySelected,
                         onStartGame = {
                             gameViewModel.startGame(configUiState.selectedDifficulty)
                             navController.navigate(Routes.GAME)
@@ -128,6 +127,9 @@ fun AppNavigation() {
                 }
 
                 composable(Routes.RESULTS) {
+                    val resultsViewModel: ResultsViewModel = viewModel(
+                        factory = ResultsViewModelFactory(gameRecordRepository)
+                    )
                     val resultsUiState by resultsViewModel.uiState.collectAsState()
                     val gameUiState by gameViewModel.uiState.collectAsState()
                     val sessionResult = gameUiState.sessionResult
@@ -168,30 +170,6 @@ fun AppNavigation() {
                     onReselectLong = { route ->
                         if (route == Routes.HISTORY) historyViewModel.resetToTop()
                     }
-                )
-            }
-
-            OnboardingDialog(
-                visible = homeUiState.showOnboarding,
-                selectedTheme = configUiState.themePreference,
-                selectedDifficulty = configUiState.selectedDifficulty,
-                onThemeChange = { configViewModel.onThemePreferenceSelected(it) },
-                onDifficultyChange = { configViewModel.onDifficultySelected(it) },
-                onDismiss = { homeViewModel.markOnboardingShown() }
-            )
-
-            if (configUiState.showDeleteHistoryDialog) {
-                DeleteHistoryDialog(
-                    onConfirm = configViewModel::clearScoresHistory,
-                    onDismiss = configViewModel::hideDeleteHistoryDialog
-                )
-            }
-
-            if (homeUiState.showCalendarDialog) {
-                StreakCalendarDialog(
-                    onDismiss = homeViewModel::hideCalendarDialog,
-                    streakStartDate = homeUiState.streakStartDate,
-                    streakEndDate = homeUiState.streakEndDate
                 )
             }
         }

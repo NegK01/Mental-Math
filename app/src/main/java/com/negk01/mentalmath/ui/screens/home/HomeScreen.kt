@@ -16,17 +16,25 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.negk01.mentalmath.domain.model.Difficulty
+import com.negk01.mentalmath.domain.model.ThemePreference
 import com.negk01.mentalmath.presentation.home.HomeViewModel
-import com.negk01.mentalmath.ui.theme.BottomNavContentPadding
-import com.negk01.mentalmath.ui.theme.Spacing
 import com.negk01.mentalmath.ui.screens.home.components.HomeHeader
+import com.negk01.mentalmath.ui.screens.home.components.OnboardingDialog
 import com.negk01.mentalmath.ui.screens.home.components.RecentScoresCard
 import com.negk01.mentalmath.ui.screens.home.components.StartGameButton
+import com.negk01.mentalmath.ui.screens.home.components.StreakCalendarDialog
+import com.negk01.mentalmath.ui.theme.BottomNavContentPadding
+import com.negk01.mentalmath.ui.theme.Spacing
 
 @Composable
 fun HomeScreen(
-    onStartGame: () -> Unit,
-    viewModel: HomeViewModel
+    viewModel: HomeViewModel,
+    selectedTheme: ThemePreference,
+    selectedDifficulty: Difficulty,
+    onThemeChange: (ThemePreference) -> Unit,
+    onDifficultyChange: (Difficulty) -> Unit,
+    onStartGame: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -49,7 +57,10 @@ fun HomeScreen(
                     verticalArrangement = Arrangement.spacedBy(Spacing.Lg)
                 ) {
                     item {
-                        HomeHeader(dailyStreak = uiState.dailyStreak, viewModel::showCalendarDialog)
+                        HomeHeader(
+                            dailyStreak = uiState.dailyStreak,
+                            onClick = viewModel::showCalendarDialog
+                        )
                     }
                     item {
                         RecentScoresCard(records = uiState.recentRecords)
@@ -62,6 +73,23 @@ fun HomeScreen(
                     StartGameButton(onClick = onStartGame)
                 }
             }
+        }
+
+        OnboardingDialog(
+            visible = uiState.showOnboarding,
+            selectedTheme = selectedTheme,
+            selectedDifficulty = selectedDifficulty,
+            onThemeChange = onThemeChange,
+            onDifficultyChange = onDifficultyChange,
+            onDismiss = viewModel::markOnboardingShown
+        )
+
+        if (uiState.showCalendarDialog) {
+            StreakCalendarDialog(
+                onDismiss = viewModel::hideCalendarDialog,
+                streakStartDate = uiState.streakStartDate,
+                streakEndDate = uiState.streakEndDate
+            )
         }
     }
 }
