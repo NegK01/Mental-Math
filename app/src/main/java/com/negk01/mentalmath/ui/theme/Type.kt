@@ -68,7 +68,7 @@ val Typography = Typography(
         fontWeight = FontWeight.Bold,
         fontSize = 24.sp,
         lineHeight = 32.sp,
-        letterSpacing = (-0.25).sp,
+        letterSpacing = (-0.25f).sp,
         fontFeatureSettings = "tnum"
     ),
     headlineLarge = TextStyle(
@@ -76,7 +76,7 @@ val Typography = Typography(
         fontWeight = FontWeight.ExtraBold,
         fontSize = 32.sp,
         lineHeight = 40.sp,
-        letterSpacing = (-0.5).sp,
+        letterSpacing = (-0.5f).sp,
         fontFeatureSettings = "tnum"
     )
 )

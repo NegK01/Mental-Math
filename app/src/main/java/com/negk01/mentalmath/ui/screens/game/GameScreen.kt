@@ -18,6 +18,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.isSpecified
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.negk01.mentalmath.presentation.game.GameViewModel
@@ -70,9 +71,10 @@ fun GameScreen(
                     .fillMaxSize()
                     .padding(horizontal = Spacing.Lg)
             ) {
-                val buttonHeight = (maxHeight * 0.085f).coerceIn(44.dp, 66.dp)
-                val questionFontSize = (maxHeight.value * 0.048f).coerceIn(26f, 42f).sp
-                val sectionSpacing = (maxHeight * 0.015f).coerceIn(6.dp, 14.dp)
+                val isHeightValid = maxHeight.isSpecified && maxHeight.value.isFinite() && maxHeight.value > 0f
+                val buttonHeight = if (isHeightValid) (maxHeight * 0.085f).coerceIn(44.dp, 66.dp) else 64.dp
+                val questionFontSize = if (isHeightValid) (maxHeight.value * 0.048f).coerceIn(26f, 42f).sp else 34.sp
+                val sectionSpacing = if (isHeightValid) (maxHeight * 0.015f).coerceIn(6.dp, 14.dp) else 10.dp
 
                 Column(
                     modifier = Modifier
