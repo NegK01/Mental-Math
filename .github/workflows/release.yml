@@ -1,0 +1,89 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    if: "startsWith(github.event.head_commit.message, 'release: v')"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'gradle'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Extract version tag
+        id: version
+        run: |
+          TAG=$(echo "${{ github.event.head_commit.message }}" | grep -o 'v[0-9]\+\.[0-9]\+\.[0-9]\+' | head -n 1)
+          if [ -z "$TAG" ]; then
+            echo "Error: Could not extract version tag."
+            exit 1
+          fi
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+
+      - name: Build release artifacts
+        run: ./gradlew bundleRelease assembleRelease
+
+      - name: Sign and prepare release artifacts
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          VERSION="${{ steps.version.outputs.tag }}"
+          mkdir -p artifacts
+          
+          APK_RAW=$(find app/build/outputs/apk/release -name "*.apk" | head -n 1)
+          AAB_RAW=$(find app/build/outputs/bundle/release -name "*.aab" | head -n 1)
+          
+          if [ -n "$KEYSTORE_BASE64" ]; then
+            echo "$KEYSTORE_BASE64" | base64 -d > /tmp/release.jks
+            
+            $ANDROID_HOME/build-tools/35.0.0/apksigner sign \
+              --ks /tmp/release.jks \
+              --ks-pass "pass:$KEYSTORE_PASSWORD" \
+              --ks-key-alias "$KEY_ALIAS" \
+              --key-pass "pass:$KEY_PASSWORD" \
+              --out "artifacts/MentalMath-${VERSION}.apk" \
+              "$APK_RAW"
+            
+            cp "$AAB_RAW" "artifacts/MentalMath-${VERSION}.aab"
+            jarsigner -keystore /tmp/release.jks \
+              -storepass "$KEYSTORE_PASSWORD" \
+              -keypass "$KEY_PASSWORD" \
+              "artifacts/MentalMath-${VERSION}.aab" \
+              "$KEY_ALIAS"
+              
+            rm -f /tmp/release.jks
+          else
+            cp "$APK_RAW" "artifacts/MentalMath-${VERSION}.apk"
+            cp "$AAB_RAW" "artifacts/MentalMath-${VERSION}.aab"
+          fi
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          name: Mental Math ${{ steps.version.outputs.tag }}
+          generate_release_notes: true
+          files: |
+            artifacts/*.aab
+            artifacts/*.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
