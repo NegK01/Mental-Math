@@ -1,6 +1,6 @@
 # Contribution Guide
 
-Thank you for your interest in contributing to **Mental Math**! This is an open-source native Android application designed to train mental calculation skills through a modern, clean, and fast user interface.
+Thank you for your interest in contributing to **Mental Math**! This is a source-available native Android application designed to train mental calculation skills through a modern, clean, and fast user interface.
 
 To maintain code quality, consistency, and simplicity, please follow these guidelines.
 

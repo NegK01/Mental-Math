@@ -6,7 +6,7 @@
 [![Target SDK](https://img.shields.io/badge/Target%20SDK-37-blue.svg)](https://developer.android.com)
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.3%2B-purple.svg)](https://kotlinlang.org)
 [![Compose](https://img.shields.io/badge/Jetpack%20Compose-Material%203-4285F4.svg)](https://developer.android.com/jetpack/compose)
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![License: Source-Available](https://img.shields.io/badge/License-Source--Available-blue.svg)](LICENSE)
 
 🌐 **Languages:** [English](#mental-math) | [Español](#mental-math---español)
 
@@ -97,7 +97,7 @@ Contributions are welcome! If you wish to report a bug, propose an enhancement, 
 
 ## License
 
-This project is distributed under the **GNU General Public License v3.0 (GPLv3)**. See the [LICENSE](LICENSE) file for more details.
+This project is source-available. All rights are reserved by the author, with community contributions welcomed via Issues and Pull Requests. See the [LICENSE](LICENSE) file for details.
 
 ---
 ---
@@ -110,7 +110,7 @@ This project is distributed under the **GNU General Public License v3.0 (GPLv3)*
 [![Target SDK](https://img.shields.io/badge/Target%20SDK-37-blue.svg)](https://developer.android.com)
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.3%2B-purple.svg)](https://kotlinlang.org)
 [![Compose](https://img.shields.io/badge/Jetpack%20Compose-Material%203-4285F4.svg)](https://developer.android.com/jetpack/compose)
-[![Licencia: GPL v3](https://img.shields.io/badge/Licencia-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Licencia: Source-Available](https://img.shields.io/badge/Licencia-Source--Available-blue.svg)](LICENSE)
 
 🌐 **Idiomas:** [English](#mental-math) | [Español](#mental-math---español)
 
@@ -201,4 +201,4 @@ Para compilar el proyecto localmente necesitas:
 
 ## Licencia
 
-Este proyecto se distribuye bajo la licencia **GNU General Public License v3.0 (GPLv3)**. Consulta el archivo [LICENSE](LICENSE) para más detalles.
+Este proyecto es de **código fuente disponible** (*source-available*). Todos los derechos están reservados por el autor, permitiendo contribuciones de la comunidad mediante Issues y Pull Requests. Consulta el archivo [LICENSE](LICENSE) para más detalles.
