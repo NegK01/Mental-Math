@@ -2,20 +2,20 @@ package com.negk01.mentalmath.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val BrandPrimary = Color(0xFF3933A9)
-val BrandPrimaryLight = Color(0xFFCECBFF)
+val BrandPrimary = Color(0xFF4338CA)
+val BrandPrimaryLight = Color(0xFFEEF2FF)
 val BrandSecondary = Color(0xFFF59E0B)
 val BrandSecondaryContainer = Color(0xFFFFF1CF)
 val BrandTertiary = Color(0xFF10B981)
 val BrandTertiaryContainer = Color(0xFFD7F7EB)
 
-val BackgroundLight = Color(0xFFF4F7FB)
+val BackgroundLight = Color(0xFFF1F5F9)
 val SurfaceLight = Color(0xFFFFFFFF)
-val SurfaceVariantLight = Color(0xFFE8EDF7)
-val OnBackgroundLight = Color(0xFF172033)
-val OnSurfaceLight = Color(0xFF172033)
-val OnSurfaceVariantLight = Color(0xFF4F5E78)
-val OutlineLight = Color(0xFFB8C1D1)
+val SurfaceVariantLight = Color(0xFFE2E8F0)
+val OnBackgroundLight = Color(0xFF0F172A)
+val OnSurfaceLight = Color(0xFF0F172A)
+val OnSurfaceVariantLight = Color(0xFF475569)
+val OutlineLight = Color(0xFFCBD5E1)
 
 val BackgroundDark = Color(0xFF0F1724)
 val SurfaceDark = Color(0xFF172132)
@@ -33,11 +33,11 @@ val Success = Color(0xFF10B981)
 val SuccessContainer = Color(0xFFD7F7EB)
 val SuccessText = Color(0xFF0C7A5A)
 
-val EasyBadgeLight = Color(0xFF0E8A5F)
+val EasyBadgeLight = Color(0xFF059669)
 
-val MediumBadgeLight = Color(0xFFA05500)
+val MediumBadgeLight = Color(0xFFD97706)
 
-val HardBadgeLight = Color(0xFFC1303A)
+val HardBadgeLight = Color(0xFFDC2626)
 
 val RecentAccent = Color(0xFF5C6CC9)
 val RecentAccentContainer = Color(0xFFE1E6FA)

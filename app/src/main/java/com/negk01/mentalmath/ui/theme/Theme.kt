@@ -203,10 +203,10 @@ private val LightColors = lightColorScheme(
     onSurface = OnSurfaceLight,
     surfaceVariant = SurfaceVariantLight,
     onSurfaceVariant = OnSurfaceVariantLight,
-    error = Danger,
+    error = Color(0xFFBA1A1A),
     onError = Color.White,
-    errorContainer = DangerContainer,
-    onErrorContainer = Color(0xFF9D2F2F),
+    errorContainer = Color(0xFFFFDAD6),
+    onErrorContainer = Color(0xFF410002),
     outline = OutlineLight
 )
 

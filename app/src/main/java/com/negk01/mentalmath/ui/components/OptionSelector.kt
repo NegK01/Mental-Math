@@ -18,6 +18,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
+import com.negk01.mentalmath.ui.theme.Opacity
 import com.negk01.mentalmath.ui.theme.Radius
 import com.negk01.mentalmath.ui.theme.Spacing
 
@@ -52,15 +53,20 @@ fun <T> OptionSelector(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(optionSpacing)
         ) {
+            val primary = MaterialTheme.colorScheme.primary
+            val surfaceVariant = MaterialTheme.colorScheme.surfaceVariant
+            val onSurfaceVariant = MaterialTheme.colorScheme.onSurfaceVariant
+
             options.forEach { option ->
+                val isSelected = selected == option
                 Surface(
                     onClick = { onSelect(option) },
                     modifier = Modifier.weight(1f),
                     shape = optionShape,
-                    color = if (selected == option) {
-                        MaterialTheme.colorScheme.primaryContainer
+                    color = if (isSelected) {
+                        primary.copy(alpha = Opacity.BadgeContainer)
                     } else {
-                        MaterialTheme.colorScheme.surfaceVariant
+                        surfaceVariant
                     }
                 ) {
                     Text(
@@ -71,10 +77,10 @@ fun <T> OptionSelector(
                         style = optionTextStyle,
                         fontWeight = optionFontWeight,
                         textAlign = TextAlign.Center,
-                        color = if (selected == option) {
-                            MaterialTheme.colorScheme.onPrimaryContainer
+                        color = if (isSelected) {
+                            primary
                         } else {
-                            MaterialTheme.colorScheme.onSurfaceVariant
+                            onSurfaceVariant
                         }
                     )
                 }
