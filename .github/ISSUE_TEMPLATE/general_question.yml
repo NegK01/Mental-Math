@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Do you have questions about the architecture, compilation, or internal workings of **Mental Math**? Ask here.
+        Do you have questions about the architecture, compilation, or internal workings of Mental Math? Ask here.
 
   - type: textarea
     id: question
@@ -20,7 +20,7 @@ body:
   - type: textarea
     id: context
     attributes:
-      label: Additional Context
+      label: Additional Context (optional)
       description: If you are trying to build or learn from a specific component, please mention it.
     validations:
       required: false

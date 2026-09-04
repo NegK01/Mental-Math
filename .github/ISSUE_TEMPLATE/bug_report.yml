@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thank you for reporting a bug in **Mental Math**! Please provide the necessary information to help reproduce and fix the issue.
+        Thank you for reporting a bug in Mental Math! Please provide the necessary information to help reproduce and fix the issue.
 
   - type: textarea
     id: description
@@ -41,7 +41,7 @@ body:
   - type: input
     id: device
     attributes:
-      label: Device and Android Version
+      label: Device and Android Version (optional)
       description: Device model and OS version.
       placeholder: Samsung Galaxy S23 (Android 14) / Pixel 7 (Android 15)
     validations:
@@ -50,7 +50,7 @@ body:
   - type: textarea
     id: screenshots
     attributes:
-      label: Screenshots / Logcat
+      label: Screenshots / Logcat (optional)
       description: Drag or paste images or stack traces (Logcat) if available.
     validations:
       required: false
