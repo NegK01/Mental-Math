@@ -101,4 +101,20 @@
     <string name="onboarding_section_theme">Elige tu tema</string>
     <string name="onboarding_section_difficulty">Elige tu dificultad</string>
     <string name="onboarding_cta">¡Empezar a jugar!</string>
+
+    <string name="support_title">Apoyar el proyecto</string>
+    <string name="support_subtitle">Propina voluntaria para apoyar el desarrollo</string>
+    <string name="support_description">Mental Math es 100% gratuita y sin anuncios. Si disfrutas entrenando tu mente a diario, puedes dejar una propina voluntaria para seguir mejorando el proyecto.</string>
+    <string name="support_tier_1_label">Propina simple</string>
+    <string name="support_tier_1_price">$0.99</string>
+    <string name="support_tier_2_label">Apoyo constante</string>
+    <string name="support_tier_2_price">$2.99</string>
+    <string name="support_tier_3_label">Gran contribución</string>
+    <string name="support_tier_3_price">$4.99</string>
+    <string name="support_home_button">Apoyar a Mental Math</string>
+    <string name="support_thank_you_toast">¡Gracias por apoyar a Mental Math! (%1$s)</string>
+    <string name="support_process_payment">Procesar pago</string>
+    <string name="support_unavailable">Google Play no está disponible en este momento</string>
+    <string name="support_error">No se pudo completar la compra</string>
+    <string name="close">Cerrar</string>
 </resources>

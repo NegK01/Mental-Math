@@ -7,6 +7,7 @@ import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -19,6 +20,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.negk01.mentalmath.data.billing.BillingManager
 import com.negk01.mentalmath.data.local.db.DatabaseProvider
 import com.negk01.mentalmath.data.repository.GameRecordRepositoryImpl
 import com.negk01.mentalmath.data.repository.SettingsRepositoryImpl
@@ -52,6 +54,14 @@ fun AppNavigation() {
     val database = remember(context) { DatabaseProvider.getDatabase(context) }
     val settingsRepository = remember(database) { SettingsRepositoryImpl(database.settingsDao()) }
     val gameRecordRepository = remember(database) { GameRecordRepositoryImpl(database.gameRecordDao()) }
+    val billingManager = remember { BillingManager(context.applicationContext) }
+
+    DisposableEffect(billingManager) {
+        billingManager.startConnection()
+        onDispose {
+            billingManager.destroy()
+        }
+    }
 
     val configViewModel: ConfigViewModel = viewModel(
         factory = ConfigViewModelFactory(settingsRepository, gameRecordRepository)
@@ -90,6 +100,7 @@ fun AppNavigation() {
                 composable(Routes.HOME) {
                     HomeScreen(
                         viewModel = homeViewModel,
+                        billingManager = billingManager,
                         selectedTheme = configUiState.themePreference,
                         selectedDifficulty = configUiState.selectedDifficulty,
                         onThemeChange = configViewModel::onThemePreferenceSelected,
@@ -109,7 +120,8 @@ fun AppNavigation() {
 
                 composable(Routes.CONFIG) {
                     ConfigScreen(
-                        viewModel = configViewModel
+                        viewModel = configViewModel,
+                        billingManager = billingManager
                     )
                 }
 

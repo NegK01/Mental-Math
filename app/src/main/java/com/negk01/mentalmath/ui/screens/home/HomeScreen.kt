@@ -16,10 +16,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.negk01.mentalmath.data.billing.BillingManager
 import com.negk01.mentalmath.domain.model.Difficulty
 import com.negk01.mentalmath.domain.model.ThemePreference
 import com.negk01.mentalmath.presentation.home.HomeViewModel
+import com.negk01.mentalmath.ui.components.SupportProjectDialog
 import com.negk01.mentalmath.ui.screens.home.components.HomeHeader
+import com.negk01.mentalmath.ui.screens.home.components.HomeSupportCard
 import com.negk01.mentalmath.ui.screens.home.components.OnboardingDialog
 import com.negk01.mentalmath.ui.screens.home.components.RecentScoresCard
 import com.negk01.mentalmath.ui.screens.home.components.StartGameButton
@@ -30,6 +33,7 @@ import com.negk01.mentalmath.ui.theme.Spacing
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel,
+    billingManager: BillingManager,
     selectedTheme: ThemePreference,
     selectedDifficulty: Difficulty,
     onThemeChange: (ThemePreference) -> Unit,
@@ -38,58 +42,77 @@ fun HomeScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    Scaffold(
-        containerColor = MaterialTheme.colorScheme.background
-    ) { innerPadding ->
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-                    .statusBarsPadding()
+    Box(modifier = Modifier.fillMaxSize()) {
+        Scaffold(
+            containerColor = MaterialTheme.colorScheme.background
+        ) { innerPadding ->
+            Surface(
+                modifier = Modifier.fillMaxSize(),
+                color = MaterialTheme.colorScheme.background
             ) {
-                LazyColumn(
-                    modifier = Modifier.weight(1f),
-                    contentPadding = PaddingValues(start = Spacing.Lg, top = Spacing.Md, end = Spacing.Lg, bottom = Spacing.Xl),
-                    verticalArrangement = Arrangement.spacedBy(Spacing.Lg)
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding)
+                        .statusBarsPadding()
                 ) {
-                    item {
-                        HomeHeader(
-                            dailyStreak = uiState.dailyStreak,
-                            onClick = viewModel::showCalendarDialog
-                        )
+                    LazyColumn(
+                        modifier = Modifier.weight(1f),
+                        contentPadding = PaddingValues(start = Spacing.Lg, top = Spacing.Md, end = Spacing.Lg, bottom = Spacing.Xl),
+                        verticalArrangement = Arrangement.spacedBy(Spacing.Lg)
+                    ) {
+                        item {
+                            HomeHeader(
+                                dailyStreak = uiState.dailyStreak,
+                                onClick = viewModel::showCalendarDialog
+                            )
+                        }
+                        item {
+                            RecentScoresCard(records = uiState.recentRecords)
+                        }
+                        if (uiState.showSupportCard) {
+                            item {
+                                HomeSupportCard(
+                                    onClick = viewModel::showSupportDialog,
+                                    onDismiss = viewModel::dismissSupportCard
+                                )
+                            }
+                        }
                     }
-                    item {
-                        RecentScoresCard(records = uiState.recentRecords)
-                    }
-                }
 
-                Box(
-                    modifier = Modifier.padding(start = 18.dp, top = Spacing.Lg, end = 18.dp, bottom = BottomNavContentPadding)
-                ) {
-                    StartGameButton(onClick = onStartGame)
+                    Box(
+                        modifier = Modifier.padding(start = 18.dp, top = Spacing.Lg, end = 18.dp, bottom = BottomNavContentPadding)
+                    ) {
+                        StartGameButton(onClick = onStartGame)
+                    }
                 }
+            }
+
+            OnboardingDialog(
+                visible = uiState.showOnboarding,
+                selectedTheme = selectedTheme,
+                selectedDifficulty = selectedDifficulty,
+                onThemeChange = onThemeChange,
+                onDifficultyChange = onDifficultyChange,
+                onDismiss = viewModel::markOnboardingShown
+            )
+
+            if (uiState.showCalendarDialog) {
+                StreakCalendarDialog(
+                    onDismiss = viewModel::hideCalendarDialog,
+                    streakStartDate = uiState.streakStartDate,
+                    streakEndDate = uiState.streakEndDate
+                )
             }
         }
 
-        OnboardingDialog(
-            visible = uiState.showOnboarding,
-            selectedTheme = selectedTheme,
-            selectedDifficulty = selectedDifficulty,
-            onThemeChange = onThemeChange,
-            onDifficultyChange = onDifficultyChange,
-            onDismiss = viewModel::markOnboardingShown
-        )
-
-        if (uiState.showCalendarDialog) {
-            StreakCalendarDialog(
-                onDismiss = viewModel::hideCalendarDialog,
-                streakStartDate = uiState.streakStartDate,
-                streakEndDate = uiState.streakEndDate
+        if (uiState.showSupportDialog) {
+            SupportProjectDialog(
+                billingManager = billingManager,
+                onDismiss = viewModel::hideSupportDialog,
+                onPurchaseSuccess = viewModel::onDonationCompleted
             )
         }
     }
 }
+

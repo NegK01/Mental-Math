@@ -1,19 +1,21 @@
 package com.negk01.mentalmath.domain.model
 
 data class AppSettings(
+    val languagePreference: LanguagePreference,
     val selectedDifficulty: Difficulty,
     val soundEnabled: Boolean,
     val themePreference: ThemePreference,
-    val languagePreference: LanguagePreference,
     val hasSeenOnboarding: Boolean = false,
+    val hasDismissedHomeSupportCard: Boolean = false,
 ) {
     companion object {
         fun default() = AppSettings(
+            languagePreference = LanguagePreference.SYSTEM,
             selectedDifficulty = Difficulty.MEDIUM,
             soundEnabled = true,
             themePreference = ThemePreference.SYSTEM,
-            languagePreference = LanguagePreference.SYSTEM,
-            hasSeenOnboarding = false
+            hasSeenOnboarding = false,
+            hasDismissedHomeSupportCard = false
         )
     }
 }

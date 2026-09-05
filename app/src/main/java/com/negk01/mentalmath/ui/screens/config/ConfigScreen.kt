@@ -16,20 +16,23 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.negk01.mentalmath.R
+import com.negk01.mentalmath.data.billing.BillingManager
 import com.negk01.mentalmath.presentation.config.ConfigViewModel
+import com.negk01.mentalmath.ui.components.SupportProjectDialog
 import com.negk01.mentalmath.ui.screens.config.components.DangerZone
 import com.negk01.mentalmath.ui.screens.config.components.DeleteHistoryDialog
 import com.negk01.mentalmath.ui.screens.config.components.DifficultySelector
 import com.negk01.mentalmath.ui.screens.config.components.LanguagePreferenceSelector
+import com.negk01.mentalmath.ui.screens.config.components.ConfigSupportCard
 import com.negk01.mentalmath.ui.screens.config.components.ThemePreferenceSelector
 import com.negk01.mentalmath.ui.theme.BottomNavContentPadding
 import com.negk01.mentalmath.ui.theme.Spacing
 
 @Composable
 fun ConfigScreen(
-    viewModel: ConfigViewModel = viewModel()
+    viewModel: ConfigViewModel,
+    billingManager: BillingManager
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -88,12 +91,26 @@ fun ConfigScreen(
                 }
 
                 item {
+                    ConfigSupportCard(
+                        onClick = viewModel::showSupportDialog
+                    )
+                }
+
+                item {
                     DangerZone(
                         buttonText = stringResource(R.string.config_delete_history_button),
                         onDelete = viewModel::showDeleteHistoryDialog
                     )
                 }
             }
+        }
+
+        if (uiState.showSupportDialog) {
+            SupportProjectDialog(
+                billingManager = billingManager,
+                onDismiss = viewModel::hideSupportDialog,
+                onPurchaseSuccess = viewModel::onDonationCompleted
+            )
         }
 
         if (uiState.showDeleteHistoryDialog) {
@@ -104,3 +121,4 @@ fun ConfigScreen(
         }
     }
 }
+

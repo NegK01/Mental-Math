@@ -9,5 +9,7 @@ data class HomeUiState(
     val showOnboarding: Boolean = false,
     val showCalendarDialog: Boolean = false,
     val streakStartDate: LocalDate? = null,
-    val streakEndDate: LocalDate? = null
+    val streakEndDate: LocalDate? = null,
+    val showSupportCard: Boolean = false,
+    val showSupportDialog: Boolean = false
 )

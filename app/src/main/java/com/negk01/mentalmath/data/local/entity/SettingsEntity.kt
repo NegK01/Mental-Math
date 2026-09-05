@@ -6,9 +6,10 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "settings")
 data class SettingsEntity(
     @PrimaryKey val id: Int = 1,
+    val languagePreference: String,
     val selectedDifficulty: String,
     val soundEnabled: Boolean,
     val themePreference: String,
-    val languagePreference: String,
-    val hasSeenOnboarding: Boolean = false
+    val hasSeenOnboarding: Boolean = false,
+    val hasDismissedHomeSupportCard: Boolean = false
 )

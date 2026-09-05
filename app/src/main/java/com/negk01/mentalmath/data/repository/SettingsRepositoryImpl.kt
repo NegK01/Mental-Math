@@ -26,4 +26,13 @@ class SettingsRepositoryImpl(
             settingsDao.markOnboardingShown()
         }
     }
+
+    override suspend fun markHomeSupportCardDismissed() {
+        val current = settingsDao.getSettings()
+        if (current == null) {
+            settingsDao.insertOrUpdate(AppSettings.default().copy(hasDismissedHomeSupportCard = true).toEntity())
+        } else {
+            settingsDao.markHomeSupportCardDismissed()
+        }
+    }
 }

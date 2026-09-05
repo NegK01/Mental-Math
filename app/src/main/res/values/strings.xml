@@ -101,4 +101,20 @@
     <string name="onboarding_section_theme">Pick your theme</string>
     <string name="onboarding_section_difficulty">Pick your difficulty</string>
     <string name="onboarding_cta">Start playing!</string>
+
+    <string name="support_title">Support the project</string>
+    <string name="support_subtitle">Voluntary tip to support development</string>
+    <string name="support_description">Mental Math is 100% free and ad-free. If you enjoy training your mind every day, you can leave a voluntary tip to keep improving the project.</string>
+    <string name="support_tier_1_label">Simple tip</string>
+    <string name="support_tier_1_price">$0.99</string>
+    <string name="support_tier_2_label">Steady support</string>
+    <string name="support_tier_2_price">$2.99</string>
+    <string name="support_tier_3_label">Major contribution</string>
+    <string name="support_tier_3_price">$4.99</string>
+    <string name="support_home_button">Support Mental Math</string>
+    <string name="support_thank_you_toast">Thank you for supporting Mental Math! (%1$s)</string>
+    <string name="support_process_payment">Process payment</string>
+    <string name="support_unavailable">Google Play is currently unavailable</string>
+    <string name="support_error">Unable to complete the purchase</string>
+    <string name="close">Close</string>
 </resources>

@@ -24,18 +24,27 @@ class HomeViewModel(
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
+    private var isSupportCardDismissed = false
+    private var totalRecordsCount = 0
+
     init {
-        loadOnboardingFlag()
+        loadSettingsFlags()
         observeRecentRecords()
     }
 
-    private fun loadOnboardingFlag() {
+    private fun loadSettingsFlags() {
         viewModelScope.launch {
             try {
                 val settings = settingsRepository.getSettings()
-                _uiState.update { it.copy(showOnboarding = !settings.hasSeenOnboarding) }
+                isSupportCardDismissed = settings.hasDismissedHomeSupportCard
+                _uiState.update {
+                    it.copy(
+                        showOnboarding = !settings.hasSeenOnboarding,
+                        showSupportCard = !isSupportCardDismissed && totalRecordsCount >= 5
+                    )
+                }
             } catch (e: Exception) {
-                Log.w("HomeViewModel", "Failed to load onboarding flag", e)
+                Log.w("HomeViewModel", "Failed to load settings flags", e)
             }
         }
     }
@@ -51,10 +60,23 @@ class HomeViewModel(
         }
     }
 
+    fun dismissSupportCard() {
+        isSupportCardDismissed = true
+        _uiState.update { it.copy(showSupportCard = false) }
+        viewModelScope.launch {
+            try {
+                settingsRepository.markHomeSupportCardDismissed()
+            } catch (e: Exception) {
+                Log.w("HomeViewModel", "Failed to mark home support card dismissed", e)
+            }
+        }
+    }
+
     private fun observeRecentRecords() {
         viewModelScope.launch {
             try {
                 gameRecordRepository.getAllRecords().collect { allRecords ->
+                    totalRecordsCount = allRecords.size
                     val recentRecords = allRecords.take(3)
                     val streakResult = withContext(Dispatchers.Default) {
                         calculateDailyStreak(
@@ -67,7 +89,8 @@ class HomeViewModel(
                             dailyStreak = streakResult.streak,
                             recentRecords = recentRecords,
                             streakStartDate = streakResult.startDate,
-                            streakEndDate = streakResult.endDate
+                            streakEndDate = streakResult.endDate,
+                            showSupportCard = !isSupportCardDismissed && totalRecordsCount >= 5
                         )
                     }
                 }
@@ -121,5 +144,18 @@ class HomeViewModel(
 
     fun hideCalendarDialog() {
         _uiState.update { it.copy(showCalendarDialog = false) }
+    }
+
+    fun showSupportDialog() {
+        _uiState.update { it.copy(showSupportDialog = true) }
+    }
+
+    fun hideSupportDialog() {
+        _uiState.update { it.copy(showSupportDialog = false) }
+    }
+
+    fun onDonationCompleted() {
+        hideSupportDialog()
+        dismissSupportCard()
     }
 }

@@ -33,11 +33,12 @@ class ConfigViewModel(
                 val settings = settingsRepository.getSettings()
                 _uiState.update {
                     it.copy(
+                        languagePreference = settings.languagePreference,
                         selectedDifficulty = settings.selectedDifficulty,
                         soundEnabled = settings.soundEnabled,
                         themePreference = settings.themePreference,
-                        languagePreference = settings.languagePreference,
-                        hasSeenOnboarding = settings.hasSeenOnboarding
+                        hasSeenOnboarding = settings.hasSeenOnboarding,
+                        hasDismissedHomeSupportCard = settings.hasDismissedHomeSupportCard
                     )
                 }
             } catch (e: Exception) {
@@ -85,12 +86,33 @@ class ConfigViewModel(
         _uiState.update { it.copy(showDeleteHistoryDialog = false) }
     }
 
+    fun showSupportDialog() {
+        _uiState.update { it.copy(showSupportDialog = true) }
+    }
+
+    fun hideSupportDialog() {
+        _uiState.update { it.copy(showSupportDialog = false) }
+    }
+
+    fun onDonationCompleted() {
+        hideSupportDialog()
+        _uiState.update { it.copy(hasDismissedHomeSupportCard = true) }
+        viewModelScope.launch {
+            try {
+                settingsRepository.markHomeSupportCardDismissed()
+            } catch (e: Exception) {
+                Log.w("ConfigViewModel", "Failed to mark home support card dismissed", e)
+            }
+        }
+    }
+
     private fun ConfigUiState.toAppSettings(): AppSettings = AppSettings(
+        languagePreference = languagePreference,
         selectedDifficulty = selectedDifficulty,
         soundEnabled = soundEnabled,
         themePreference = themePreference,
-        languagePreference = languagePreference,
-        hasSeenOnboarding = hasSeenOnboarding
+        hasSeenOnboarding = hasSeenOnboarding,
+        hasDismissedHomeSupportCard = hasDismissedHomeSupportCard
     )
 
     private fun saveSettings(settings: AppSettings, onFailure: (() -> Unit)? = null) {

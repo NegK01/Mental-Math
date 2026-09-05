@@ -1,9 +1,8 @@
 package com.negk01.mentalmath.ui.theme
 
 import android.app.Activity
-import android.content.Context
-import android.content.ContextWrapper
 import android.os.Build
+import com.negk01.mentalmath.ui.utils.findActivity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
@@ -253,15 +252,4 @@ fun MentalMathTheme(
         typography = Typography,
         content = content
     )
-}
-
-private fun Context.findActivity(): Activity? {
-    var currentContext = this
-    while (currentContext is ContextWrapper) {
-        if (currentContext is Activity) {
-            return currentContext
-        }
-        currentContext = currentContext.baseContext
-    }
-    return null
 }
