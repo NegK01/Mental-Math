@@ -113,6 +113,8 @@
     <string name="support_tier_3_price">$4.99</string>
     <string name="support_home_button">Support Mental Math</string>
     <string name="support_thank_you_toast">Thank you for supporting Mental Math! (%1$s)</string>
+    <string name="support_thank_you_toast_generic">Thank you for supporting Mental Math!</string>
+    <string name="support_pending">Payment pending. It will be confirmed once processed by Google Play.</string>
     <string name="support_process_payment">Process payment</string>
     <string name="support_unavailable">Google Play is currently unavailable</string>
     <string name="support_error">Unable to complete the purchase</string>

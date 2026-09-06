@@ -1,5 +1,6 @@
 package com.negk01.mentalmath.ui.components
 
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,20 +23,20 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import android.widget.Toast
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.platform.LocalContext
 import com.negk01.mentalmath.R
 import com.negk01.mentalmath.data.billing.BillingConstants
 import com.negk01.mentalmath.data.billing.BillingEvent
@@ -58,21 +59,20 @@ fun SupportProjectDialog(
 ) {
     val context = LocalContext.current
     val localizedPrices by billingManager.localizedPrices.collectAsState()
-    val thankYouTemplate = stringResource(R.string.support_thank_you_toast)
     val unavailableMessage = stringResource(R.string.support_unavailable)
     val errorMessage = stringResource(R.string.support_error)
 
+    var isSubmitting by rememberSaveable { mutableStateOf(false) }
+
     LaunchedEffect(billingManager) {
         billingManager.billingEvents.collect { event ->
+            isSubmitting = false
             when (event) {
                 is BillingEvent.Success -> {
-                    val displayPrice = event.formattedPrice.ifEmpty { "" }
-                    Toast.makeText(
-                        context,
-                        thankYouTemplate.format(displayPrice),
-                        Toast.LENGTH_SHORT
-                    ).show()
                     onPurchaseSuccess?.invoke()
+                    onDismiss()
+                }
+                BillingEvent.Pending -> {
                     onDismiss()
                 }
                 is BillingEvent.Error -> {
@@ -99,6 +99,7 @@ fun SupportProjectDialog(
         if (activity != null) {
             billingManager.launchPurchase(activity, productId)
         } else {
+            isSubmitting = false
             Toast.makeText(
                 context,
                 unavailableMessage,
@@ -116,7 +117,7 @@ fun SupportProjectDialog(
         SupportTier(BillingConstants.TIP_MEDIUM, tier2Price, stringResource(R.string.support_tier_2_label)),
         SupportTier(BillingConstants.TIP_LARGE, tier3Price, stringResource(R.string.support_tier_3_label))
     )
-    var selectedIndex by rememberSaveable { mutableIntStateOf(1) } // Tier 2 ($2.99) by default
+    var selectedIndex by rememberSaveable { mutableIntStateOf(1) }
 
     AppDialog(
         onDismiss = onDismiss,
@@ -161,9 +162,11 @@ fun SupportProjectDialog(
 
         Button(
             onClick = {
+                isSubmitting = true
                 val tier = tiers[selectedIndex]
                 onSelectTier(tier.productId)
             },
+            enabled = !isSubmitting,
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(Radius.Xl),
             colors = ButtonDefaults.buttonColors(

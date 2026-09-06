@@ -21,3 +21,4 @@
 *.pepk
 keystore.properties
 signing.properties
+play_console_assets/

@@ -113,6 +113,8 @@
     <string name="support_tier_3_price">$4.99</string>
     <string name="support_home_button">Apoyar a Mental Math</string>
     <string name="support_thank_you_toast">¡Gracias por apoyar a Mental Math! (%1$s)</string>
+    <string name="support_thank_you_toast_generic">¡Gracias por apoyar a Mental Math!</string>
+    <string name="support_pending">Pago pendiente. Se confirmará una vez procesado por Google Play.</string>
     <string name="support_process_payment">Procesar pago</string>
     <string name="support_unavailable">Google Play no está disponible en este momento</string>
     <string name="support_error">No se pudo completar la compra</string>

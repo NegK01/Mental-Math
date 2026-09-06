@@ -128,13 +128,7 @@ class BillingManager(
                     result.purchasesList
                         .filter { it.purchaseState == Purchase.PurchaseState.PURCHASED }
                         .forEach { purchase ->
-                            try {
-                                consume(purchase.purchaseToken)
-                            } catch (e: CancellationException) {
-                                throw e
-                            } catch (e: Exception) {
-                                Log.e(TAG, "Failed to consume pending purchase", e)
-                            }
+                            processPurchase(purchase)
                         }
                 }
             } catch (e: CancellationException) {
@@ -179,7 +173,12 @@ class BillingManager(
     override fun onPurchasesUpdated(result: BillingResult, purchases: List<Purchase>?) {
         when (result.responseCode) {
             BillingClient.BillingResponseCode.OK -> {
-                purchases?.forEach { processPurchase(it) }
+                purchases?.forEach { purchase ->
+                    when (purchase.purchaseState) {
+                        Purchase.PurchaseState.PURCHASED -> processPurchase(purchase)
+                        Purchase.PurchaseState.PENDING -> _billingEvents.tryEmit(BillingEvent.Pending)
+                    }
+                }
             }
             BillingClient.BillingResponseCode.USER_CANCELED -> {
                 _billingEvents.tryEmit(BillingEvent.Canceled)
@@ -205,8 +204,7 @@ class BillingManager(
                 when (result.responseCode) {
                     BillingClient.BillingResponseCode.OK -> {
                         val productId = purchase.products.firstOrNull().orEmpty()
-                        val price = _localizedPrices.value[productId].orEmpty()
-                        _billingEvents.tryEmit(BillingEvent.Success(price))
+                        _billingEvents.tryEmit(BillingEvent.Success(productId, purchase.quantity))
                     }
                     BillingClient.BillingResponseCode.BILLING_UNAVAILABLE -> {
                         _billingEvents.tryEmit(BillingEvent.Unavailable)

@@ -1,5 +1,6 @@
 package com.negk01.mentalmath.navigation
 
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
@@ -12,14 +13,19 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.negk01.mentalmath.R
+import com.negk01.mentalmath.data.billing.BillingConstants
+import com.negk01.mentalmath.data.billing.BillingEvent
 import com.negk01.mentalmath.data.billing.BillingManager
 import com.negk01.mentalmath.data.local.db.DatabaseProvider
 import com.negk01.mentalmath.data.repository.GameRecordRepositoryImpl
@@ -60,6 +66,46 @@ fun AppNavigation() {
         billingManager.startConnection()
         onDispose {
             billingManager.destroy()
+        }
+    }
+
+    val thankYouTemplate by rememberUpdatedState(stringResource(R.string.support_thank_you_toast))
+    val thankYouGeneric by rememberUpdatedState(stringResource(R.string.support_thank_you_toast_generic))
+    val pendingMessage by rememberUpdatedState(stringResource(R.string.support_pending))
+    val tier1Label by rememberUpdatedState(stringResource(R.string.support_tier_1_label))
+    val tier2Label by rememberUpdatedState(stringResource(R.string.support_tier_2_label))
+    val tier3Label by rememberUpdatedState(stringResource(R.string.support_tier_3_label))
+
+    LaunchedEffect(billingManager) {
+        billingManager.billingEvents.collect { event ->
+            when (event) {
+                is BillingEvent.Success -> {
+                    try {
+                        settingsRepository.markHomeSupportCardDismissed()
+                    } catch (_: Exception) {}
+                    val tierLabel = when (event.productId) {
+                        BillingConstants.TIP_SMALL -> tier1Label
+                        BillingConstants.TIP_MEDIUM -> tier2Label
+                        BillingConstants.TIP_LARGE -> tier3Label
+                        else -> ""
+                    }
+                    val message = if (tierLabel.isNotBlank()) {
+                        val detail = if (event.quantity > 1) {
+                            "${event.quantity}x $tierLabel"
+                        } else {
+                            tierLabel
+                        }
+                        thankYouTemplate.format(detail)
+                    } else {
+                        thankYouGeneric
+                    }
+                    Toast.makeText(context.applicationContext, message, Toast.LENGTH_SHORT).show()
+                }
+                BillingEvent.Pending -> {
+                    Toast.makeText(context.applicationContext, pendingMessage, Toast.LENGTH_LONG).show()
+                }
+                else -> Unit
+            }
         }
     }
 
