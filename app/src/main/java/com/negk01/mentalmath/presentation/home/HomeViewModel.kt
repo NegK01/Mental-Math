@@ -156,6 +156,7 @@ class HomeViewModel(
 
     fun onDonationCompleted() {
         hideSupportDialog()
-        dismissSupportCard()
+        isSupportCardDismissed = true
+        _uiState.update { it.copy(showSupportCard = false) }
     }
 }

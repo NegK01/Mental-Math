@@ -97,13 +97,6 @@ class ConfigViewModel(
     fun onDonationCompleted() {
         hideSupportDialog()
         _uiState.update { it.copy(hasDismissedHomeSupportCard = true) }
-        viewModelScope.launch {
-            try {
-                settingsRepository.markHomeSupportCardDismissed()
-            } catch (e: Exception) {
-                Log.w("ConfigViewModel", "Failed to mark home support card dismissed", e)
-            }
-        }
     }
 
     private fun ConfigUiState.toAppSettings(): AppSettings = AppSettings(

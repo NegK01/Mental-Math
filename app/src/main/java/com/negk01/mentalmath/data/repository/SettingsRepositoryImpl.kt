@@ -15,7 +15,16 @@ class SettingsRepositoryImpl(
     }
 
     override suspend fun saveSettings(settings: AppSettings) {
-        settingsDao.insertOrUpdate(settings.toEntity())
+        val current = settingsDao.getSettings()
+        val toSave = if (current != null) {
+            settings.toEntity().copy(
+                hasSeenOnboarding = current.hasSeenOnboarding || settings.hasSeenOnboarding,
+                hasDismissedHomeSupportCard = current.hasDismissedHomeSupportCard || settings.hasDismissedHomeSupportCard
+            )
+        } else {
+            settings.toEntity()
+        }
+        settingsDao.insertOrUpdate(toSave)
     }
 
     override suspend fun markOnboardingShown() {

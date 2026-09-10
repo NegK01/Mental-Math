@@ -1,5 +1,6 @@
 package com.negk01.mentalmath.navigation
 
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.animation.AnimatedVisibility
@@ -82,7 +83,9 @@ fun AppNavigation() {
                 is BillingEvent.Success -> {
                     try {
                         settingsRepository.markHomeSupportCardDismissed()
-                    } catch (_: Exception) {}
+                    } catch (e: Exception) {
+                        Log.w("AppNavigation", "Failed to mark support card dismissed", e)
+                    }
                     val tierLabel = when (event.productId) {
                         BillingConstants.TIP_SMALL -> tier1Label
                         BillingConstants.TIP_MEDIUM -> tier2Label

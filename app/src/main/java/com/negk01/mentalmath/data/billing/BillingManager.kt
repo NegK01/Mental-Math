@@ -21,6 +21,7 @@ import java.util.concurrent.ConcurrentHashMap
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.BufferOverflow
@@ -32,9 +33,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 private const val TAG = "BillingManager"
 private const val RECONNECT_DELAY_MS = 2000L
+private const val MAX_RECONNECT_ATTEMPTS = 3
 
 class BillingManager(
     context: Context,
@@ -62,6 +65,7 @@ class BillingManager(
         .build()
 
     private var isConnecting = false
+    private var reconnectAttempts = 0
 
     fun startConnection() {
         if (billingClient.isReady || isConnecting) return
@@ -71,6 +75,7 @@ class BillingManager(
             override fun onBillingSetupFinished(billingResult: BillingResult) {
                 isConnecting = false
                 if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                    reconnectAttempts = 0
                     loadProducts()
                     consumePendingPurchases()
                 }
@@ -78,9 +83,12 @@ class BillingManager(
 
             override fun onBillingServiceDisconnected() {
                 isConnecting = false
-                scope.launch {
-                    delay(RECONNECT_DELAY_MS)
-                    startConnection()
+                if (reconnectAttempts < MAX_RECONNECT_ATTEMPTS) {
+                    reconnectAttempts++
+                    scope.launch {
+                        delay(RECONNECT_DELAY_MS)
+                        startConnection()
+                    }
                 }
             }
         })
@@ -216,7 +224,7 @@ class BillingManager(
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
-                Log.e(TAG, "Failed to process purchase", e)
+                Log.e(TAG, "Failed to process purchase: ${e.message}")
                 _billingEvents.tryEmit(BillingEvent.Error(e.message))
             } finally {
                 processingTokens.remove(token)
@@ -224,15 +232,16 @@ class BillingManager(
         }
     }
 
-    private suspend fun consume(token: String): BillingResult {
+    private suspend fun consume(token: String): BillingResult = withContext(NonCancellable + Dispatchers.IO) {
         val params = ConsumeParams.newBuilder()
             .setPurchaseToken(token)
             .build()
-        return billingClient.consumePurchase(params).billingResult
+        billingClient.consumePurchase(params).billingResult
     }
 
     fun destroy() {
         isConnecting = false
+        reconnectAttempts = 0
         if (billingClient.isReady) {
             billingClient.endConnection()
         }

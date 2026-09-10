@@ -31,7 +31,7 @@
     <string name="home_calendar_next_month">Next month</string>
     <string name="home_calendar_back_to_today">Back to today</string>
     <string name="home_recent_scores_title">Last 3 games</string>
-    <string name="home_empty_hint">Your recent games will show up here.</string>
+    <string name="home_empty_hint">Your recent games will show up here</string>
     <string name="home_recent_score">%1$d/%2$d</string>
     <string name="home_recent_avg_time">(%1$.1fs)</string>
     <string name="home_start_game">Start game</string>
@@ -106,11 +106,9 @@
     <string name="support_subtitle">Voluntary tip to support development</string>
     <string name="support_description">Mental Math is 100% free and ad-free. If you enjoy training your mind every day, you can leave a voluntary tip to keep improving the project.</string>
     <string name="support_tier_1_label">Simple tip</string>
-    <string name="support_tier_1_price">$0.99</string>
     <string name="support_tier_2_label">Steady support</string>
-    <string name="support_tier_2_price">$2.99</string>
     <string name="support_tier_3_label">Major contribution</string>
-    <string name="support_tier_3_price">$4.99</string>
+    <string name="support_price_placeholder">—</string>
     <string name="support_home_button">Support Mental Math</string>
     <string name="support_thank_you_toast">Thank you for supporting Mental Math! (%1$s)</string>
     <string name="support_thank_you_toast_generic">Thank you for supporting Mental Math!</string>
