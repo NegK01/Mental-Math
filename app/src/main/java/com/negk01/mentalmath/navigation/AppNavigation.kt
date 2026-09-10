@@ -13,12 +13,17 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -63,6 +68,37 @@ fun AppNavigation() {
     val gameRecordRepository = remember(database) { GameRecordRepositoryImpl(database.gameRecordDao()) }
     val billingManager = remember { BillingManager(context.applicationContext) }
 
+    val configViewModel: ConfigViewModel = viewModel(
+        factory = ConfigViewModelFactory(settingsRepository, gameRecordRepository)
+    )
+    val homeViewModel: HomeViewModel = viewModel(
+        factory = HomeViewModelFactory(gameRecordRepository, settingsRepository)
+    )
+    val historyViewModel: HistoryViewModel = viewModel(
+        factory = HistoryViewModelFactory(gameRecordRepository)
+    )
+    val gameViewModel: GameViewModel = viewModel(
+        factory = GameViewModelFactory(gameRecordRepository)
+    )
+
+    val lifecycleOwner = LocalLifecycleOwner.current
+    var pendingToastMessage by remember { mutableStateOf<String?>(null) }
+
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                pendingToastMessage?.let { message ->
+                    Toast.makeText(context.applicationContext, message, Toast.LENGTH_SHORT).show()
+                    pendingToastMessage = null
+                }
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
+
     DisposableEffect(billingManager) {
         billingManager.startConnection()
         onDispose {
@@ -86,6 +122,8 @@ fun AppNavigation() {
                     } catch (e: Exception) {
                         Log.w("AppNavigation", "Failed to mark support card dismissed", e)
                     }
+                    homeViewModel.onDonationCompleted()
+                    configViewModel.onDonationCompleted()
                     val tierLabel = when (event.productId) {
                         BillingConstants.TIP_SMALL -> tier1Label
                         BillingConstants.TIP_MEDIUM -> tier2Label
@@ -102,7 +140,11 @@ fun AppNavigation() {
                     } else {
                         thankYouGeneric
                     }
-                    Toast.makeText(context.applicationContext, message, Toast.LENGTH_SHORT).show()
+                    if (lifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
+                        Toast.makeText(context.applicationContext, message, Toast.LENGTH_SHORT).show()
+                    } else {
+                        pendingToastMessage = message
+                    }
                 }
                 BillingEvent.Pending -> {
                     Toast.makeText(context.applicationContext, pendingMessage, Toast.LENGTH_LONG).show()
@@ -111,19 +153,6 @@ fun AppNavigation() {
             }
         }
     }
-
-    val configViewModel: ConfigViewModel = viewModel(
-        factory = ConfigViewModelFactory(settingsRepository, gameRecordRepository)
-    )
-    val homeViewModel: HomeViewModel = viewModel(
-        factory = HomeViewModelFactory(gameRecordRepository, settingsRepository)
-    )
-    val historyViewModel: HistoryViewModel = viewModel(
-        factory = HistoryViewModelFactory(gameRecordRepository)
-    )
-    val gameViewModel: GameViewModel = viewModel(
-        factory = GameViewModelFactory(gameRecordRepository)
-    )
 
     val configUiState by configViewModel.uiState.collectAsState()
 

@@ -28,8 +28,6 @@ import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -207,18 +205,20 @@ class BillingManager(
 
         scope.launch(Dispatchers.IO) {
             try {
-                val result = consume(token)
-                val debugMessage = result.debugMessage
-                when (result.responseCode) {
-                    BillingClient.BillingResponseCode.OK -> {
-                        val productId = purchase.products.firstOrNull().orEmpty()
-                        _billingEvents.tryEmit(BillingEvent.Success(productId, purchase.quantity))
-                    }
-                    BillingClient.BillingResponseCode.BILLING_UNAVAILABLE -> {
-                        _billingEvents.tryEmit(BillingEvent.Unavailable)
-                    }
-                    else -> {
-                        _billingEvents.tryEmit(BillingEvent.Error(debugMessage))
+                withContext(NonCancellable) {
+                    val result = consume(token)
+                    val debugMessage = result.debugMessage
+                    when (result.responseCode) {
+                        BillingClient.BillingResponseCode.OK -> {
+                            val productId = purchase.products.firstOrNull().orEmpty()
+                            _billingEvents.tryEmit(BillingEvent.Success(productId, purchase.quantity))
+                        }
+                        BillingClient.BillingResponseCode.BILLING_UNAVAILABLE -> {
+                            _billingEvents.tryEmit(BillingEvent.Unavailable)
+                        }
+                        else -> {
+                            _billingEvents.tryEmit(BillingEvent.Error(debugMessage))
+                        }
                     }
                 }
             } catch (e: CancellationException) {
@@ -232,11 +232,11 @@ class BillingManager(
         }
     }
 
-    private suspend fun consume(token: String): BillingResult = withContext(NonCancellable + Dispatchers.IO) {
+    private suspend fun consume(token: String): BillingResult {
         val params = ConsumeParams.newBuilder()
             .setPurchaseToken(token)
             .build()
-        billingClient.consumePurchase(params).billingResult
+        return billingClient.consumePurchase(params).billingResult
     }
 
     fun destroy() {
