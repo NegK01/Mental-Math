@@ -1,0 +1,121 @@
+<resources>
+    <string name="app_name">Mental Math</string>
+
+    <string name="nav_home">Início</string>
+    <string name="nav_history">Histórico</string>
+    <string name="nav_config">Configurações</string>
+
+    <string name="difficulty_easy">Fácil</string>
+    <string name="difficulty_medium">Médio</string>
+    <string name="difficulty_hard">Difícil</string>
+
+    <string name="theme_system">Sistema</string>
+    <string name="theme_light">Claro</string>
+    <string name="theme_original">Original</string>
+    <string name="theme_menta_profundo">Verde Petróleo</string>
+    <string name="theme_oled">OLED</string>
+    <string name="theme_nordic_frost">Nórdico Glacial</string>
+    <string name="theme_royal_dark">Real Escuro</string>
+    <string name="theme_graphite_lime">Grafite Lima</string>
+    <string name="language_system">Sistema</string>
+    <string name="language_english">English</string>
+    <string name="language_spanish">Español</string>
+    <string name="language_portuguese">Português</string>
+
+    <string name="completion_completed">Concluída</string>
+    <string name="completion_abandoned">Abandonada</string>
+
+    <string name="home_title">Mental Math</string>
+    <string name="home_daily_streak_title">Sequência diária</string>
+    <string name="home_daily_streak_value">%1$d</string>
+    <string name="home_calendar_previous_month">Mês anterior</string>
+    <string name="home_calendar_next_month">Próximo mês</string>
+    <string name="home_calendar_back_to_today">Voltar para hoje</string>
+    <string name="home_recent_scores_title">Últimas 3 partidas</string>
+    <string name="home_empty_hint">Suas partidas recentes vão aparecer aqui</string>
+    <string name="home_recent_score">%1$d/%2$d</string>
+    <string name="home_recent_avg_time">(%1$.1fs)</string>
+    <string name="home_start_game">Começar jogo</string>
+    <string name="home_start_game_content_description">Começar jogo</string>
+
+    <string name="history_title">Histórico</string>
+    <string name="history_empty">Nenhuma partida salva ainda</string>
+    <string name="history_empty_hint">Jogue uma partida e ela vai aparecer aqui</string>
+    <string name="history_summary_title">Resumo</string>
+    <string name="history_summary_subtitle">Suas estatísticas recentes para medir ritmo e precisão</string>
+    <string name="history_total_games">Total de partidas</string>
+    <string name="history_average_accuracy">Precisão média</string>
+    <string name="history_average_time">Tempo médio</string>
+    <string name="history_accuracy_value">%1$.0f%%</string>
+    <string name="history_time_value">%1$.1fs</string>
+    <string name="history_best_records_title">Recordes pessoais</string>
+    <string name="history_load_more">Carregar mais</string>
+
+    <string name="config_title">Configurações</string>
+    <string name="config_difficulty_title">Nível de dificuldade</string>
+    <string name="config_sound_title">Efeitos sonoros</string>
+    <string name="config_sound_description">Ative ou desative o feedback sonoro durante a experiência</string>
+    <string name="config_theme_title">Tema do app</string>
+    <string name="config_language_title">Idioma do app</string>
+    <string name="config_delete_history_button">Apagar histórico de pontuações</string>
+    <string name="config_delete_dialog_title">Excluir histórico</string>
+    <string name="config_delete_dialog_message">Esta ação vai excluir todas as partidas salvas deste dispositivo</string>
+    <string name="config_delete_dialog_confirm">Excluir</string>
+    <string name="config_delete_dialog_cancel">Cancelar</string>
+
+    <string name="game_exit">Sair</string>
+    <string name="game_pause">Pausar</string>
+    <string name="game_pause_title">Jogo pausado</string>
+    <string name="game_pause_message">Respire fundo e volte quando quiser continuar a rodada</string>
+    <string name="game_resume">Continuar</string>
+    <string name="game_round_progress">Rodada %1$d de %2$d</string>
+    <string name="game_clear_short">C</string>
+    <string name="game_submit_answer">Enviar resposta</string>
+
+    <string name="results_max_streak">Melhor sequência</string>
+    <string name="results_new_record">Novo recorde</string>
+    <string name="results_first_game">Primeira partida</string>
+    <string name="results_goal_low">Acerte %1$d/%2$d para dominar %3$s</string>
+    <string name="results_goal_next">Pronto para subir para %1$s</string>
+    <string name="results_goal_hard_keep">Mantenha o ritmo no nível Difícil</string>
+    <string name="results_goal_hard_perfect">Nível Difícil dominado. Volte para jogar mais!</string>
+    <string name="results_goal_perfect_next">Perfeito. Pronto para %1$s</string>
+    <string name="results_round_details_empty">Nenhuma rodada para mostrar</string>
+    <string name="results_operator_insight">Prática sugerida: %1$s (média de %2$.1fs)</string>
+    <string name="operator_add">adição</string>
+    <string name="operator_subtract">subtração</string>
+    <string name="operator_multiply">multiplicação</string>
+    <string name="operator_divide">divisão</string>
+    <string name="results_feedback_title_great">Muito bem</string>
+    <string name="results_feedback_title_good">Bom ritmo</string>
+    <string name="results_feedback_title_keep">Continue treinando</string>
+    <string name="results_round_details_title">Detalhes da rodada</string>
+    <string name="results_go_home">Voltar ao início</string>
+    <string name="results_play_again">Jogar de novo</string>
+    <string name="results_round_expression">%1$s = %2$d</string>
+    <string name="results_correct_answer_label">Correto: %1$s</string>
+
+    <string name="common_seconds_int">%1$ds</string>
+
+    <string name="onboarding_title">Boas-vindas ao</string>
+    <string name="onboarding_subtitle">Escolha como você quer jogar</string>
+    <string name="onboarding_section_theme">Escolha seu tema</string>
+    <string name="onboarding_section_difficulty">Escolha sua dificuldade</string>
+    <string name="onboarding_cta">Começar a jogar!</string>
+
+    <string name="support_title">Apoiar o projeto</string>
+    <string name="support_subtitle">Contribuição voluntária para apoiar o desenvolvimento</string>
+    <string name="support_description" formatted="false">O Mental Math é 100% gratuito e sem anúncios. Se você gosta de treinar sua mente todos os dias, pode fazer uma contribuição voluntária para continuarmos melhorando o projeto.</string>
+    <string name="support_tier_1_label">Apoio simples</string>
+    <string name="support_tier_2_label">Apoio constante</string>
+    <string name="support_tier_3_label">Grande contribuição</string>
+    <string name="support_price_placeholder">—</string>
+    <string name="support_home_button">Apoiar o Mental Math</string>
+    <string name="support_thank_you_toast">Obrigado por apoiar o Mental Math! (%1$s)</string>
+    <string name="support_thank_you_toast_generic">Obrigado por apoiar o Mental Math!</string>
+    <string name="support_pending">Pagamento pendente. Será confirmado assim que for processado pelo Google Play.</string>
+    <string name="support_process_payment">Processar pagamento</string>
+    <string name="support_unavailable">O Google Play não está disponível no momento</string>
+    <string name="support_error">Não foi possível concluir a compra</string>
+    <string name="close">Fechar</string>
+</resources>

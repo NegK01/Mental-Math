@@ -5,6 +5,7 @@ import androidx.compose.ui.res.stringResource
 import com.negk01.mentalmath.R
 import com.negk01.mentalmath.domain.model.LanguagePreference
 import com.negk01.mentalmath.ui.components.OptionSelector
+import com.negk01.mentalmath.ui.utils.resolveDisplayLanguage
 import com.negk01.mentalmath.ui.utils.toLabelResId
 
 @Composable
@@ -15,11 +16,11 @@ fun LanguagePreferenceSelector(
     OptionSelector(
         title = stringResource(R.string.config_language_title),
         options = listOf(
-            LanguagePreference.SYSTEM,
             LanguagePreference.ENGLISH,
-            LanguagePreference.SPANISH
+            LanguagePreference.SPANISH,
+            LanguagePreference.PORTUGUESE
         ),
-        selected = selected,
+        selected = resolveDisplayLanguage(selected),
         onSelect = onSelect,
         optionLabelRes = { it.toLabelResId() }
     )

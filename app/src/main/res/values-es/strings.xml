@@ -18,8 +18,9 @@
     <string name="theme_royal_dark">Real Oscuro</string>
     <string name="theme_graphite_lime">Grafito Lima</string>
     <string name="language_system">Sistema</string>
-    <string name="language_spanish">Español</string>
     <string name="language_english">English</string>
+    <string name="language_spanish">Español</string>
+    <string name="language_portuguese">Português</string>
 
     <string name="completion_completed">Completada</string>
     <string name="completion_abandoned">Abandonada</string>

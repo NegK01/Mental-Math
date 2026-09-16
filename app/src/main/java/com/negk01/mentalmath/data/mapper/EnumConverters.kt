@@ -40,12 +40,14 @@ fun String.toThemePreference(): ThemePreference = when (lowercase()) {
 
 fun LanguagePreference.toStorageKey(): String = when (this) {
     LanguagePreference.SYSTEM -> "system"
-    LanguagePreference.SPANISH -> "es"
     LanguagePreference.ENGLISH -> "en"
+    LanguagePreference.SPANISH -> "es"
+    LanguagePreference.PORTUGUESE -> "pt"
 }
 
 fun String.toLanguagePreference(): LanguagePreference = when (lowercase()) {
-    "es" -> LanguagePreference.SPANISH
     "en" -> LanguagePreference.ENGLISH
+    "es" -> LanguagePreference.SPANISH
+    "pt" -> LanguagePreference.PORTUGUESE
     else -> LanguagePreference.SYSTEM
 }

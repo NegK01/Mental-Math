@@ -18,8 +18,9 @@
     <string name="theme_royal_dark">Royal Dark</string>
     <string name="theme_graphite_lime">Graphite Lime</string>
     <string name="language_system">System</string>
-    <string name="language_spanish">Español</string>
     <string name="language_english">English</string>
+    <string name="language_spanish">Español</string>
+    <string name="language_portuguese">Português</string>
 
     <string name="completion_completed">Completed</string>
     <string name="completion_abandoned">Abandoned</string>
