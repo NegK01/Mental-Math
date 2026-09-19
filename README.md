@@ -35,7 +35,7 @@
 - **Daily Streak Calendar:** An interactive visual calendar tracking your daily activity directly on the home screen.
 - **Operator Insights:** Performance analysis focused on addition, subtraction, multiplication, and division.
 - **Dynamic Theme System:** Multiple native visual themes including *Light*, *Dark*, *OLED*, *Deep Teal*, *Nordic Frost*, *Royal Dark*, and *Graphite Lime*.
-- **Native Multilingual Support:** Full localization in Spanish and English with dynamic language switching.
+- **Native Multilingual Support:** Full localization in Spanish, English and Portuguese with dynamic language switching.
 - **Immersive Edge-to-Edge Experience:** Clean, distraction-free interface taking full advantage of the device screen.
 
 ---
@@ -139,7 +139,7 @@ This project is source-available. All rights are reserved by the author, with co
 - **Calendario de Racha Diaria:** Un calendario visual interactivo que rastrea tu actividad diaria directamente en la pantalla de inicio.
 - **Insights por Operador:** Análisis de rendimiento enfocado en suma, resta, multiplicación y división.
 - **Sistema de Temas Dinámicos:** Múltiples temas visuales nativos incluyendo *Light*, *Dark*, *OLED*, *Teal Profundo*, *Nordic Frost*, *Royal Dark* y *Graphite Lime*.
-- **Soporte Multilingüe Nativo:** Localización completa en Español e Inglés con cambio dinámico de idioma.
+- **Soporte Multilingüe Nativo:** Localización completa en Español, Inglés y Portugués con cambio dinámico de idioma.
 - **Experiencia Inmersiva Edge-to-Edge:** Interfaz limpia sin distracciones que aprovecha la pantalla completa del dispositivo.
 
 ---
