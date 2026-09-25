@@ -4,8 +4,9 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -171,8 +172,10 @@ fun AppNavigation() {
             NavHost(
                 navController = navController,
                 startDestination = Routes.HOME,
-                enterTransition = { EnterTransition.None },
-                exitTransition = { ExitTransition.None },
+                enterTransition = { fadeIn(animationSpec = tween(1)) },
+                exitTransition = { fadeOut(animationSpec = tween(1)) },
+                popEnterTransition = { fadeIn(animationSpec = tween(1)) },
+                popExitTransition = { fadeOut(animationSpec = tween(1)) },
                 modifier = Modifier.fillMaxSize()
             ) {
                 composable(Routes.HOME) {

@@ -1,5 +1,6 @@
 package com.negk01.mentalmath.ui.screens.results
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -33,6 +34,10 @@ fun ResultsScreen(
     onPlayAgain: () -> Unit,
     onGoHome: () -> Unit
 ) {
+    BackHandler {
+        onGoHome()
+    }
+
     val exprFormat = stringResource(R.string.results_round_expression)
     val roundDetails = remember(sessionResult) {
         sessionResult?.roundResults?.map { round ->

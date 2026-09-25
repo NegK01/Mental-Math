@@ -1,5 +1,6 @@
 package com.negk01.mentalmath.ui.screens.game
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -38,6 +39,12 @@ fun GameScreen(
     onGoBack: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
+
+    BackHandler(enabled = !uiState.isFinished) {
+        if (!uiState.isPaused) {
+            viewModel.pauseGame()
+        }
+    }
 
     LaunchedEffect(uiState.isFinished) {
         if (uiState.isFinished) {
