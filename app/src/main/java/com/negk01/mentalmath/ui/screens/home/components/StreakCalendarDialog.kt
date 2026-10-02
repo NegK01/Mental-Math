@@ -135,7 +135,7 @@ fun StreakCalendarDialog(
                     text = day.getDisplayName(
                         TextStyle.SHORT,
                         LocalLocale.current.platformLocale
-                    ).take(2),
+                    ).take(3).replaceFirstChar { it.titlecase() },
                     modifier = Modifier.weight(1f),
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.labelMedium,
