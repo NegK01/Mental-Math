@@ -15,33 +15,23 @@ class SettingsRepositoryImpl(
     }
 
     override suspend fun saveSettings(settings: AppSettings) {
-        val current = settingsDao.getSettings()
-        val toSave = if (current != null) {
-            settings.toEntity().copy(
-                hasSeenOnboarding = current.hasSeenOnboarding || settings.hasSeenOnboarding,
-                hasDismissedHomeSupportCard = current.hasDismissedHomeSupportCard || settings.hasDismissedHomeSupportCard
-            )
-        } else {
-            settings.toEntity()
-        }
-        settingsDao.insertOrUpdate(toSave)
+        val entity = settings.toEntity()
+        settingsDao.insertIfMissing(entity)
+        settingsDao.updatePreferences(
+            entity.languagePreference,
+            entity.selectedDifficulty,
+            entity.soundEnabled,
+            entity.themePreference
+        )
     }
 
     override suspend fun markOnboardingShown() {
-        val current = settingsDao.getSettings()
-        if (current == null) {
-            settingsDao.insertOrUpdate(AppSettings.default().copy(hasSeenOnboarding = true).toEntity())
-        } else {
-            settingsDao.markOnboardingShown()
-        }
+        settingsDao.insertIfMissing(AppSettings.default().toEntity())
+        settingsDao.markOnboardingShown()
     }
 
     override suspend fun markHomeSupportCardDismissed() {
-        val current = settingsDao.getSettings()
-        if (current == null) {
-            settingsDao.insertOrUpdate(AppSettings.default().copy(hasDismissedHomeSupportCard = true).toEntity())
-        } else {
-            settingsDao.markHomeSupportCardDismissed()
-        }
+        settingsDao.insertIfMissing(AppSettings.default().toEntity())
+        settingsDao.markHomeSupportCardDismissed()
     }
 }

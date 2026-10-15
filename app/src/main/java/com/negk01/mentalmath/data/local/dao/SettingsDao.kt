@@ -9,8 +9,11 @@ import com.negk01.mentalmath.data.local.entity.SettingsEntity
 @Dao
 interface SettingsDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertOrUpdate(settings: SettingsEntity)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertIfMissing(settings: SettingsEntity)
+
+    @Query("UPDATE settings SET languagePreference = :language, selectedDifficulty = :difficulty, soundEnabled = :soundEnabled, themePreference = :theme WHERE id = 1")
+    suspend fun updatePreferences(language: String, difficulty: String, soundEnabled: Boolean, theme: String)
 
     @Query("SELECT * FROM settings WHERE id = 1")
     suspend fun getSettings(): SettingsEntity?
