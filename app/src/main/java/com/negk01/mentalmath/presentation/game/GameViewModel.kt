@@ -27,7 +27,8 @@ import kotlinx.coroutines.withContext
 private const val ANSWER_FLASH_MILLIS = 300L
 
 class GameViewModel(
-    private val gameRecordRepository: GameRecordRepository
+    private val gameRecordRepository: GameRecordRepository,
+    private val monotonicClock: MonotonicClock = AndroidMonotonicClock
 ) : ViewModel() {
 
     private var currentQuestion: Question? = null
@@ -56,7 +57,7 @@ class GameViewModel(
         streakTracker.reset()
         roundResults.clear()
         accumulatedRoundTimeMillis = 0L
-        roundStartTimeMillis = System.currentTimeMillis()
+        roundStartTimeMillis = monotonicClock.elapsedRealtime()
 
         val firstQuestion = QuestionGenerator.generate(difficulty)
         currentQuestion = firstQuestion
@@ -68,7 +69,8 @@ class GameViewModel(
             questionText = firstQuestion.expression,
             answerInput = "",
             isPaused = false,
-            isFinished = false
+            isFinished = false,
+            hasSession = true
         )
 
         startRoundTimer()
@@ -144,7 +146,7 @@ class GameViewModel(
         val consumedMillis = if (userRanOutOfTime) {
             totalRoundTimeMillis
         } else {
-            val currentElapsed = accumulatedRoundTimeMillis + (System.currentTimeMillis() - roundStartTimeMillis)
+            val currentElapsed = accumulatedRoundTimeMillis + (monotonicClock.elapsedRealtime() - roundStartTimeMillis)
             currentElapsed.coerceIn(0L, totalRoundTimeMillis)
         }
 
@@ -197,7 +199,7 @@ class GameViewModel(
         val nextQuestion = QuestionGenerator.generate(currentDifficulty)
         currentQuestion = nextQuestion
 
-        roundStartTimeMillis = System.currentTimeMillis()
+        roundStartTimeMillis = monotonicClock.elapsedRealtime()
         accumulatedRoundTimeMillis = 0L
 
         _uiState.update { currentState ->
@@ -211,10 +213,11 @@ class GameViewModel(
             )
         }
 
-        startRoundTimer()
+        if (!state.isPaused) startRoundTimer()
     }
 
     fun abandonGame(): Boolean {
+        if (!_uiState.value.hasSession || _uiState.value.isFinished) return false
         timerJob?.cancel()
         flashJob?.cancel()
 
@@ -271,16 +274,17 @@ class GameViewModel(
     fun pauseGame() {
         if (_uiState.value.isPaused) return
         if (_uiState.value.isFinished) return
-        if (_uiState.value.isInputLocked) return
+        if (!_uiState.value.hasSession) return
 
         timerJob?.cancel()
-        accumulatedRoundTimeMillis += (System.currentTimeMillis() - roundStartTimeMillis)
+        val flashing = _uiState.value.isInputLocked
+        if (!flashing) accumulatedRoundTimeMillis += (monotonicClock.elapsedRealtime() - roundStartTimeMillis)
 
         _uiState.update { currentState ->
             currentState.copy(
                 isPaused = true,
-                lastAnswerCorrect = null,
-                isInputLocked = false
+                lastAnswerCorrect = if (flashing) currentState.lastAnswerCorrect else null,
+                isInputLocked = flashing
             )
         }
     }
@@ -289,23 +293,24 @@ class GameViewModel(
         if (!_uiState.value.isPaused) return
         if (_uiState.value.isFinished) return
 
-        roundStartTimeMillis = System.currentTimeMillis()
+        roundStartTimeMillis = monotonicClock.elapsedRealtime()
 
         _uiState.update { currentState ->
             currentState.copy(isPaused = false)
         }
 
-        startRoundTimer()
+        if (!_uiState.value.isInputLocked) startRoundTimer()
     }
 
     private fun startRoundTimer() {
         timerJob?.cancel()
+        if (_uiState.value.isPaused || _uiState.value.isFinished || _uiState.value.isInputLocked) return
 
         val totalRoundTimeMillis = currentTimePerRound * 1000L
 
         timerJob = viewModelScope.launch {
             while (!_uiState.value.isPaused && !_uiState.value.isFinished) {
-                val elapsedMillis = accumulatedRoundTimeMillis + (System.currentTimeMillis() - roundStartTimeMillis)
+                val elapsedMillis = accumulatedRoundTimeMillis + (monotonicClock.elapsedRealtime() - roundStartTimeMillis)
                 val remainingMillis = (totalRoundTimeMillis - elapsedMillis).coerceAtLeast(0L)
                 val remainingSeconds = ceil(remainingMillis / 1000.0).toInt()
 

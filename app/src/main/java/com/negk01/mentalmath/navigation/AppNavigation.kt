@@ -83,6 +83,7 @@ fun AppNavigation() {
     )
 
     val lifecycleOwner = LocalLifecycleOwner.current
+    val activeRoute by rememberUpdatedState(currentRoute)
     var pendingToastMessage by remember { mutableStateOf<String?>(null) }
 
     DisposableEffect(lifecycleOwner) {
@@ -92,6 +93,8 @@ fun AppNavigation() {
                     Toast.makeText(context.applicationContext, message, Toast.LENGTH_SHORT).show()
                     pendingToastMessage = null
                 }
+            } else if (event == Lifecycle.Event.ON_PAUSE && activeRoute == Routes.GAME) {
+                gameViewModel.pauseGame()
             }
         }
         lifecycleOwner.lifecycle.addObserver(observer)
@@ -207,7 +210,16 @@ fun AppNavigation() {
                 }
 
                 composable(Routes.GAME) {
-                    GameScreen(
+                    val gameUiState by gameViewModel.uiState.collectAsState()
+                    LaunchedEffect(gameUiState.hasSession) {
+                        if (!gameUiState.hasSession) {
+                            navController.navigate(Routes.HOME) {
+                                popUpTo(navController.graph.id) { inclusive = false }
+                                launchSingleTop = true
+                            }
+                        }
+                    }
+                    if (gameUiState.hasSession) GameScreen(
                         viewModel = gameViewModel,
                         onNavigateToResults = {
                             navController.navigate(Routes.RESULTS) {
@@ -219,19 +231,29 @@ fun AppNavigation() {
                     )
                 }
 
-                composable(Routes.RESULTS) {
+                composable(Routes.RESULTS) { resultsEntry ->
                     val resultsViewModel: ResultsViewModel = viewModel(
                         factory = ResultsViewModelFactory(gameRecordRepository)
                     )
                     val resultsUiState by resultsViewModel.uiState.collectAsState()
-                    val gameUiState by gameViewModel.uiState.collectAsState()
-                    val sessionResult = gameUiState.sessionResult
-
-                    LaunchedEffect(sessionResult) {
-                        sessionResult?.let { resultsViewModel.loadForSession(it) }
+                    val sessionResult = remember(resultsEntry) {
+                        gameViewModel.uiState.value.sessionResult
                     }
 
-                    ResultsScreen(
+                    LaunchedEffect(resultsEntry) {
+                        if (sessionResult == null) {
+                            navController.navigate(Routes.HOME) {
+                                popUpTo(navController.graph.id) { inclusive = false }
+                                launchSingleTop = true
+                            }
+                        }
+                    }
+                    LaunchedEffect(sessionResult) {
+                        if (sessionResult != null) {
+                            resultsViewModel.loadForSession(sessionResult)
+                        }
+                    }
+                    if (sessionResult != null) ResultsScreen(
                         sessionResult = sessionResult,
                         resultsUiState = resultsUiState,
                         onPlayAgain = {
@@ -245,7 +267,7 @@ fun AppNavigation() {
                                 popUpTo(Routes.HOME) { inclusive = false }
                                 launchSingleTop = true
                             }
-                        }
+                        },
                     )
                 }
             }
