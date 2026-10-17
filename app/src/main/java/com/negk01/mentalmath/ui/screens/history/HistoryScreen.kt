@@ -103,11 +103,11 @@ fun HistoryScreen(
                 }
 
                 uiState.displayRecords.forEachIndexed { index, record ->
-                    item(key = record.playedAt) {
+                    item(key = record.id) {
                         GameRecordItem(record = record)
                     }
                     if ((index + 1) % HistoryViewModel.PAGE_SIZE == 0 && index < uiState.displayRecords.lastIndex) {
-                        item(key = "divider_${record.playedAt}") {
+                        item(key = "divider_${record.id}") {
                             HorizontalDivider(
                                 modifier = Modifier.padding(horizontal = Spacing.Xl),
                                 color = MaterialTheme.colorScheme.surfaceVariant,

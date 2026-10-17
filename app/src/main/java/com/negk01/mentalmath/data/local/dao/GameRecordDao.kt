@@ -21,7 +21,7 @@ interface GameRecordDao {
     // Paginación manual — LIMIT controla el tamaño de página, OFFSET la posición.
     // suspend (no Flow) porque la carga es imperativa: el ViewModel la llama
     // explícitamente en loadMore(), no reactivamente.
-    @Query("SELECT * FROM game_records ORDER BY playedAt DESC LIMIT :limit OFFSET :offset")
+    @Query("SELECT * FROM game_records ORDER BY playedAt DESC, id DESC LIMIT :limit OFFSET :offset")
     suspend fun getRecordsPaged(limit: Int, offset: Int): List<GameRecordEntity>
 
     @Query("DELETE FROM game_records")

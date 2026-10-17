@@ -9,6 +9,7 @@ import com.negk01.mentalmath.domain.model.LanguagePreference
 import com.negk01.mentalmath.domain.model.ThemePreference
 import com.negk01.mentalmath.domain.repository.GameRecordRepository
 import com.negk01.mentalmath.domain.repository.SettingsRepository
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -123,6 +124,8 @@ class ConfigViewModel(
         viewModelScope.launch {
             try {
                 gameRecordRepository.clearAll()
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
                 Log.w("ConfigViewModel", "Failed to clear scores history", e)
             } finally {

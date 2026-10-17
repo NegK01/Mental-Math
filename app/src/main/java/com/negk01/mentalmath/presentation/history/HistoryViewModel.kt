@@ -5,7 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.negk01.mentalmath.domain.model.Difficulty
 import com.negk01.mentalmath.domain.repository.GameRecordRepository
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -34,11 +38,12 @@ class HistoryViewModel(
         onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
     val scrollToTopEvent: SharedFlow<Unit> = _scrollToTopEvent.asSharedFlow()
+    private var pageJob: Job? = null
 
     init {
         viewModelScope.launch { observeStats() }
         viewModelScope.launch { observeNewRecords() }
-        viewModelScope.launch { loadPage() }
+        requestPage()
         viewModelScope.launch { loadBestRecords() }
     }
 
@@ -101,10 +106,13 @@ class HistoryViewModel(
 
     fun loadMore() {
         if (_uiState.value.isLoadingMore || !_uiState.value.hasMore) return
-        viewModelScope.launch {
-            _uiState.update { it.copy(isLoadingMore = true) }
-            loadPage()
-        }
+        requestPage()
+    }
+
+    private fun requestPage() {
+        if (pageJob?.isActive == true) return
+        _uiState.update { it.copy(isLoadingMore = true) }
+        pageJob = viewModelScope.launch { loadPage() }
     }
 
     // Toca el tab de History (1 tap) → emite evento de scroll
@@ -119,6 +127,8 @@ class HistoryViewModel(
     }
 
     private fun resetDisplay(reloadFromDb: Boolean = false) {
+        pageJob?.cancel()
+        pageJob = null
         val current = _uiState.value.displayRecords
         if (!reloadFromDb && current.isNotEmpty()) {
             val firstPage = current.take(PAGE_SIZE)
@@ -129,7 +139,7 @@ class HistoryViewModel(
             ) }
         } else {
             _uiState.update { it.copy(displayRecords = emptyList(), hasMore = false, isLoadingMore = false) }
-            viewModelScope.launch { loadPage() }
+            requestPage()
         }
     }
 
@@ -141,6 +151,7 @@ class HistoryViewModel(
                 limit = PAGE_SIZE,
                 offset = offset
             )
+            currentCoroutineContext().ensureActive()
 
             _uiState.update { current ->
                 current.copy(
@@ -149,7 +160,10 @@ class HistoryViewModel(
                     isLoadingMore = false
                 )
             }
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
+            currentCoroutineContext().ensureActive()
             Log.w("HistoryViewModel", "Failed to load paged records", e)
             _uiState.update { it.copy(isLoadingMore = false) }
         }
