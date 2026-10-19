@@ -15,7 +15,8 @@ data class GameUiState(
     val lastAnswerCorrect: Boolean? = null,
     val isInputLocked: Boolean = false,
     val sessionResult: GameSessionResult? = null,
-    val hasSession: Boolean = false
+    val hasSession: Boolean = false,
+    val savedRecordId: Long? = null
 ) {
     val timerUrgency: TimerUrgency get() = when {
         timeLeftSeconds <= 5  -> TimerUrgency.CRITICAL

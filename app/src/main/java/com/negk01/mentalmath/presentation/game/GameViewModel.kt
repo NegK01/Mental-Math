@@ -14,15 +14,14 @@ import com.negk01.mentalmath.domain.model.RoundResult
 import com.negk01.mentalmath.domain.model.getGameConfig
 import com.negk01.mentalmath.domain.repository.GameRecordRepository
 import kotlin.math.ceil
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 private const val ANSWER_FLASH_MILLIS = 300L
 
@@ -253,21 +252,23 @@ class GameViewModel(
 
     private fun saveCompletedGame(sessionResult: GameSessionResult) {
         viewModelScope.launch {
-            withContext(NonCancellable) {
-                try {
-                    gameRecordRepository.insert(
-                        GameRecord.fromCompletedSession(
-                            difficulty = sessionResult.difficulty,
-                            correctAnswers = sessionResult.correctAnswers,
-                            totalRounds = sessionResult.totalRounds,
-                            averageResponseTimeMillis = sessionResult.averageResponseTimeMillis,
-                            maxStreak = sessionResult.maxStreak
-                        )
+            val recordId = try {
+                gameRecordRepository.insert(
+                    GameRecord.fromCompletedSession(
+                        difficulty = sessionResult.difficulty,
+                        correctAnswers = sessionResult.correctAnswers,
+                        totalRounds = sessionResult.totalRounds,
+                        averageResponseTimeMillis = sessionResult.averageResponseTimeMillis,
+                        maxStreak = sessionResult.maxStreak
                     )
-                } catch (e: Exception) {
-                    Log.w("GameViewModel", "Failed to save game record", e)
-                }
+                )
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Log.w("GameViewModel", "Failed to save game record", e)
+                return@launch
             }
+            _uiState.update { it.copy(savedRecordId = recordId) }
         }
     }
 

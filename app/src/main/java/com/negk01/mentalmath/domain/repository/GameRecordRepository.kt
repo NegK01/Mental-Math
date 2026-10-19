@@ -5,7 +5,7 @@ import com.negk01.mentalmath.domain.model.GameRecord
 import kotlinx.coroutines.flow.Flow
 
 interface GameRecordRepository {
-    suspend fun insert(record: GameRecord)
+    suspend fun insert(record: GameRecord): Long
 
     // Flow completo — para HomeViewModel (racha + recientes) y métricas globales en HistoryViewModel
     fun getAllRecords(): Flow<List<GameRecord>>
@@ -17,5 +17,5 @@ interface GameRecordRepository {
 
     suspend fun getBestRecordForDifficulty(difficulty: Difficulty): GameRecord?
 
-    suspend fun getPreviousBestRecordForDifficulty(difficulty: Difficulty): GameRecord?
+    suspend fun getPreviousBestRecordForDifficulty(difficulty: Difficulty, currentRecordId: Long): GameRecord?
 }

@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 interface GameRecordDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(record: GameRecordEntity)
+    suspend fun insert(record: GameRecordEntity): Long
 
     // Usado para HomeViewModel (racha + recientes) y métricas globales en HistoryViewModel.
     // Nunca se usa para renderizar la lista visible de History — eso va por getRecordsPaged.
@@ -38,9 +38,9 @@ interface GameRecordDao {
     @Query(
         "SELECT * FROM game_records " +
         "WHERE difficulty = :difficulty " +
-        "AND id != (SELECT MAX(id) FROM game_records WHERE difficulty = :difficulty) " +
+        "AND id != :currentRecordId " +
         "ORDER BY (CAST(correctAnswers AS REAL) / totalRounds) DESC, averageResponseTimeMillis ASC " +
         "LIMIT 1"
     )
-    suspend fun getPreviousBestRecordForDifficulty(difficulty: String): GameRecordEntity?
+    suspend fun getPreviousBestRecordForDifficulty(difficulty: String, currentRecordId: Long): GameRecordEntity?
 }

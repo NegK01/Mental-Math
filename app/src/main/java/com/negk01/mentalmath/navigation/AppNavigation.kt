@@ -236,6 +236,7 @@ fun AppNavigation() {
                         factory = ResultsViewModelFactory(gameRecordRepository)
                     )
                     val resultsUiState by resultsViewModel.uiState.collectAsState()
+                    val gameUiState by gameViewModel.uiState.collectAsState()
                     val sessionResult = remember(resultsEntry) {
                         gameViewModel.uiState.value.sessionResult
                     }
@@ -248,9 +249,9 @@ fun AppNavigation() {
                             }
                         }
                     }
-                    LaunchedEffect(sessionResult) {
+                    LaunchedEffect(sessionResult, gameUiState.savedRecordId) {
                         if (sessionResult != null) {
-                            resultsViewModel.loadForSession(sessionResult)
+                            resultsViewModel.loadForSession(sessionResult, gameUiState.savedRecordId)
                         }
                     }
                     if (sessionResult != null) ResultsScreen(

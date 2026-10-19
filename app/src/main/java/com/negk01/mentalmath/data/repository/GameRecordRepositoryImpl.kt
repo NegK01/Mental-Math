@@ -14,9 +14,7 @@ class GameRecordRepositoryImpl(
     private val gameRecordDao: GameRecordDao
 ) : GameRecordRepository {
 
-    override suspend fun insert(record: GameRecord) {
-        gameRecordDao.insert(record.toEntity())
-    }
+    override suspend fun insert(record: GameRecord): Long = gameRecordDao.insert(record.toEntity())
 
     override fun getAllRecords(): Flow<List<GameRecord>> {
         return gameRecordDao.getAllRecords().map { list ->
@@ -36,7 +34,7 @@ class GameRecordRepositoryImpl(
         return gameRecordDao.getBestRecordForDifficulty(difficulty.toStorageKey())?.toDomain()
     }
 
-    override suspend fun getPreviousBestRecordForDifficulty(difficulty: Difficulty): GameRecord? {
-        return gameRecordDao.getPreviousBestRecordForDifficulty(difficulty.toStorageKey())?.toDomain()
+    override suspend fun getPreviousBestRecordForDifficulty(difficulty: Difficulty, currentRecordId: Long): GameRecord? {
+        return gameRecordDao.getPreviousBestRecordForDifficulty(difficulty.toStorageKey(), currentRecordId)?.toDomain()
     }
 }
