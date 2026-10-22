@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -44,24 +43,22 @@ import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 
-private val DaysOfWeek = listOf(
-    DayOfWeek.MONDAY,
-    DayOfWeek.TUESDAY,
-    DayOfWeek.WEDNESDAY,
-    DayOfWeek.THURSDAY,
-    DayOfWeek.FRIDAY,
-    DayOfWeek.SATURDAY,
-    DayOfWeek.SUNDAY
-)
+private val DaysOfWeek = DayOfWeek.entries
 
 @Composable
 fun StreakCalendarDialog(
     onDismiss: () -> Unit,
+    today: LocalDate,
     streakStartDate: LocalDate?,
     streakEndDate: LocalDate?
 ) {
     var currentMonth by remember {
-        mutableStateOf(YearMonth.now())
+        mutableStateOf(YearMonth.from(today))
+    }
+    val locale = LocalLocale.current.platformLocale
+    val monthFormatter = remember(locale) { DateTimeFormatter.ofPattern("MMMM yyyy", locale) }
+    val monthTitle = remember(currentMonth, monthFormatter) {
+        currentMonth.format(monthFormatter).replaceFirstChar { it.titlecase(locale) }
     }
 
     AppDialog(
@@ -69,7 +66,6 @@ fun StreakCalendarDialog(
         dismissOnScrimTap = true,
         verticalArrangement = Arrangement.Top
     ) {
-        // Selector de mes y año
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
@@ -90,19 +86,14 @@ fun StreakCalendarDialog(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = currentMonth.format(
-                        DateTimeFormatter.ofPattern(
-                            "MMMM yyyy",
-                            LocalLocale.current.platformLocale
-                        )
-                    ).replaceFirstChar { it.uppercase() },
+                    text = monthTitle,
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurface
                 )
 
-                val isCurrentMonth = currentMonth == YearMonth.now()
+                val isCurrentMonth = currentMonth == YearMonth.from(today)
                 Text(
                     text = stringResource(R.string.home_calendar_back_to_today),
                     style = MaterialTheme.typography.labelMedium,
@@ -110,7 +101,9 @@ fun StreakCalendarDialog(
                     color = if (isCurrentMonth) Color.Transparent else MaterialTheme.colorScheme.primary,
                     modifier = Modifier
                         .clip(RoundedCornerShape(Radius.Sm))
-                        .clickable(enabled = !isCurrentMonth) { currentMonth = YearMonth.now() }
+                        .clickable(enabled = !isCurrentMonth) {
+                            currentMonth = YearMonth.from(today)
+                        }
                         .padding(horizontal = Spacing.Sm, vertical = Spacing.Xs)
                 )
             }
@@ -128,14 +121,16 @@ fun StreakCalendarDialog(
 
         Spacer(modifier = Modifier.height(Spacing.Md))
 
-        // Días de la semana
-        Row(modifier = Modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(Spacing.Xs)
+        ) {
             DaysOfWeek.forEach { day ->
                 Text(
                     text = day.getDisplayName(
                         TextStyle.SHORT,
-                        LocalLocale.current.platformLocale
-                    ).take(3).replaceFirstChar { it.titlecase() },
+                        locale
+                    ).take(3).replaceFirstChar { it.titlecase(locale) },
                     modifier = Modifier.weight(1f),
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.labelMedium,
@@ -147,9 +142,9 @@ fun StreakCalendarDialog(
 
         Spacer(modifier = Modifier.height(Spacing.Sm))
 
-        // Grilla estandarizada de 6 semanas
         CalendarGrid(
             month = currentMonth,
+            today = today,
             startDate = streakStartDate,
             endDate = streakEndDate
         )
@@ -159,25 +154,13 @@ fun StreakCalendarDialog(
 @Composable
 private fun CalendarGrid(
     month: YearMonth,
+    today: LocalDate,
     startDate: LocalDate?,
     endDate: LocalDate?
 ) {
-    val firstDayOfMonth = month.atDay(1)
-
-    val firstDayOffset = when (firstDayOfMonth.dayOfWeek) {
-        DayOfWeek.MONDAY -> 0
-        DayOfWeek.TUESDAY -> 1
-        DayOfWeek.WEDNESDAY -> 2
-        DayOfWeek.THURSDAY -> 3
-        DayOfWeek.FRIDAY -> 4
-        DayOfWeek.SATURDAY -> 5
-        DayOfWeek.SUNDAY -> 6
-    }
-
     val daysInMonth = month.lengthOfMonth()
-    val today = remember { LocalDate.now() }
+    val firstDayOffset = month.atDay(1).dayOfWeek.value - 1
 
-    // Fijamos siempre 6 semanas (42 celdas) para altura constante sin saltos de UI
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(Spacing.Xs)
@@ -194,16 +177,14 @@ private fun CalendarGrid(
                     if (dayNumber in 1..daysInMonth) {
                         val date = month.atDay(dayNumber)
                         val isToday = date == today
-                        val isStart = startDate != null && date == startDate
-                        val isEnd = endDate != null && date == endDate
+                        val isBoundary = date == startDate || date == endDate
                         val isInRange = startDate != null && endDate != null &&
-                                !date.isBefore(startDate) && !date.isAfter(endDate)
+                                date in startDate..endDate
 
                         CalendarDay(
-                            date = date,
+                            dayNumber = dayNumber,
                             isToday = isToday,
-                            isStart = isStart,
-                            isEnd = isEnd,
+                            isBoundary = isBoundary,
                             isInRange = isInRange,
                             modifier = Modifier.weight(1f)
                         )
@@ -222,15 +203,12 @@ private fun CalendarGrid(
 
 @Composable
 private fun CalendarDay(
-    date: LocalDate,
+    dayNumber: Int,
     isToday: Boolean,
-    isStart: Boolean,
-    isEnd: Boolean,
+    isBoundary: Boolean,
     isInRange: Boolean,
     modifier: Modifier = Modifier
 ) {
-    val isBoundary = isStart || isEnd
-
     val backgroundColor = when {
         isBoundary -> MaterialTheme.colorScheme.primary
         isInRange -> MaterialTheme.colorScheme.primary.copy(alpha = 0.20f)
@@ -251,7 +229,7 @@ private fun CalendarDay(
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = date.dayOfMonth.toString(),
+            text = dayNumber.toString(),
             style = MaterialTheme.typography.bodyMedium,
             fontWeight = if (isToday || isInRange) FontWeight.Bold else FontWeight.Normal,
             color = textColor

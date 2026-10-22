@@ -12,10 +12,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.negk01.mentalmath.data.billing.BillingManager
 import com.negk01.mentalmath.domain.model.Difficulty
 import com.negk01.mentalmath.domain.model.ThemePreference
@@ -40,7 +40,7 @@ fun HomeScreen(
     onDifficultyChange: (Difficulty) -> Unit,
     onStartGame: () -> Unit
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Box(modifier = Modifier.fillMaxSize()) {
         Scaffold(
@@ -100,6 +100,7 @@ fun HomeScreen(
             if (uiState.showCalendarDialog) {
                 StreakCalendarDialog(
                     onDismiss = viewModel::hideCalendarDialog,
+                    today = uiState.today,
                     streakStartDate = uiState.streakStartDate,
                     streakEndDate = uiState.streakEndDate
                 )
@@ -115,4 +116,3 @@ fun HomeScreen(
         }
     }
 }
-

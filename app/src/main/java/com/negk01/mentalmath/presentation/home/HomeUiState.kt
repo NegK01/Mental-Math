@@ -4,6 +4,7 @@ import com.negk01.mentalmath.domain.model.GameRecord
 import java.time.LocalDate
 
 data class HomeUiState(
+    val today: LocalDate = LocalDate.now(),
     val dailyStreak: Int = 0,
     val recentRecords: List<GameRecord> = emptyList(),
     val showOnboarding: Boolean = false,
