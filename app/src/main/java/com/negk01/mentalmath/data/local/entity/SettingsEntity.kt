@@ -11,5 +11,6 @@ data class SettingsEntity(
     val soundEnabled: Boolean,
     val themePreference: String,
     val hasSeenOnboarding: Boolean = false,
-    val hasDismissedHomeSupportCard: Boolean = false
+    val hasDismissedHomeSupportCard: Boolean = false,
+    val notificationsEnabled: Boolean = false
 )

@@ -118,4 +118,16 @@
     <string name="support_unavailable">Google Play no está disponible en este momento</string>
     <string name="support_error">No se pudo completar la compra</string>
     <string name="close">Cerrar</string>
+
+    <string name="notification_channel_streak_name">Recordatorios de racha</string>
+    <string name="notification_channel_streak_description">Avisos diarios para mantener tu racha de práctica</string>
+    <string name="notification_streak_stage1_title">¡Mantén tu racha viva! 🔥</string>
+    <string name="notification_streak_stage1_message">Llevas %d días seguidos practicando. Haz tu sesión de hoy.</string>
+    <string name="notification_streak_stage1_message_one">Llevas 1 día de práctica. Haz tu sesión de hoy.</string>
+    <string name="notification_streak_stage2_title">Racha interrumpida ⏳</string>
+    <string name="notification_streak_stage2_message">Se ha roto tu racha, pero no pasa nada. Dedica 2 minutos hoy para empezar una nueva.</string>
+    <string name="notification_streak_stage3_title">Momento de entrenar 🧠</string>
+    <string name="notification_streak_stage3_message">No dejes que se oxiden tus reflejos numéricos. Haz una ronda rápida de 2 minutos.</string>
+    <string name="notification_streak_stage4_title">¿Listo para volver a entrenar?</string>
+    <string name="notification_streak_stage4_message">Te extrañamos en Mental Math. Dejaremos de recordártelo por ahora, vuelve cuando quieras.</string>
 </resources>

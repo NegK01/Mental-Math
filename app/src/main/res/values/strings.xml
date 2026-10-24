@@ -118,4 +118,16 @@
     <string name="support_unavailable">Google Play is currently unavailable</string>
     <string name="support_error">Unable to complete the purchase</string>
     <string name="close">Close</string>
+
+    <string name="notification_channel_streak_name">Streak Reminders</string>
+    <string name="notification_channel_streak_description">Daily reminders to keep your practice streak alive</string>
+    <string name="notification_streak_stage1_title">Keep your streak alive! 🔥</string>
+    <string name="notification_streak_stage1_message">You have a %d-day practice streak. Complete today\'s session!</string>
+    <string name="notification_streak_stage1_message_one">You have a 1-day practice streak. Complete today\'s session!</string>
+    <string name="notification_streak_stage2_title">Streak broken ⏳</string>
+    <string name="notification_streak_stage2_message">Your streak was broken, but that\'s okay! Take 2 minutes today to start a new one.</string>
+    <string name="notification_streak_stage3_title">Time to train 🧠</string>
+    <string name="notification_streak_stage3_message">Keep your numerical reflexes sharp. Jump in for a quick 2-minute round!</string>
+    <string name="notification_streak_stage4_title">Ready to train again?</string>
+    <string name="notification_streak_stage4_message">We miss you at Mental Math. We\'ll stop reminding you for now—come back anytime!</string>
 </resources>

@@ -43,4 +43,10 @@ interface GameRecordDao {
         "LIMIT 1"
     )
     suspend fun getPreviousBestRecordForDifficulty(difficulty: String, currentRecordId: Long): GameRecordEntity?
+
+    @Query("SELECT playedAt FROM game_records ORDER BY playedAt DESC")
+    suspend fun getAllPlayedTimestamps(): List<Long>
+
+    @Query("SELECT playedAt FROM game_records ORDER BY playedAt DESC LIMIT 1")
+    suspend fun getLastPlayedTimestamp(): Long?
 }

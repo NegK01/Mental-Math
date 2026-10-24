@@ -118,4 +118,16 @@
     <string name="support_unavailable">O Google Play não está disponível no momento</string>
     <string name="support_error">Não foi possível concluir a compra</string>
     <string name="close">Fechar</string>
+
+    <string name="notification_channel_streak_name">Lembretes de sequência</string>
+    <string name="notification_channel_streak_description">Avisos diários para manter sua sequência de prática</string>
+    <string name="notification_streak_stage1_title">Mantenha sua sequência viva! 🔥</string>
+    <string name="notification_streak_stage1_message">Você está há %d dias seguidos praticando. Faça sua sessão de hoje!</string>
+    <string name="notification_streak_stage1_message_one">Você está há 1 dia praticando. Faça sua sessão de hoje!</string>
+    <string name="notification_streak_stage2_title">Sequência interrompida ⏳</string>
+    <string name="notification_streak_stage2_message">Sua sequência foi perdida, mas não tem problema! Dedique 2 minutos hoje para começar uma nova.</string>
+    <string name="notification_streak_stage3_title">Hora de treinar 🧠</string>
+    <string name="notification_streak_stage3_message">Mantenha seus reflexos afiados. Jogue uma rodada rápida de 2 minutos!</string>
+    <string name="notification_streak_stage4_title">Pronto para voltar a treinar?</string>
+    <string name="notification_streak_stage4_message">Sentimos sua falta no Mental Math. Vamos parar de enviar lembretes por enquanto, volte quando quiser!</string>
 </resources>

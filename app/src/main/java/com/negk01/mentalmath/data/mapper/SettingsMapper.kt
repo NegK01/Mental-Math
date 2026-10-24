@@ -10,7 +10,8 @@ fun SettingsEntity.toDomain(): AppSettings {
         soundEnabled = soundEnabled,
         themePreference = themePreference.toThemePreference(),
         hasSeenOnboarding = hasSeenOnboarding,
-        hasDismissedHomeSupportCard = hasDismissedHomeSupportCard
+        hasDismissedHomeSupportCard = hasDismissedHomeSupportCard,
+        notificationsEnabled = notificationsEnabled
     )
 }
 
@@ -22,6 +23,7 @@ fun AppSettings.toEntity(): SettingsEntity {
         soundEnabled = soundEnabled,
         themePreference = themePreference.toStorageKey(),
         hasSeenOnboarding = hasSeenOnboarding,
-        hasDismissedHomeSupportCard = hasDismissedHomeSupportCard
+        hasDismissedHomeSupportCard = hasDismissedHomeSupportCard,
+        notificationsEnabled = notificationsEnabled
     )
 }
