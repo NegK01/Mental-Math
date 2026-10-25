@@ -12,5 +12,8 @@ data class ConfigUiState(
     val showSupportDialog: Boolean = false,
     val showDeleteHistoryDialog: Boolean = false,
     val hasSeenOnboarding: Boolean = false,
-    val hasDismissedHomeSupportCard: Boolean = false
+    val hasDismissedHomeSupportCard: Boolean = false,
+    val notificationsEnabled: Boolean = false,
+    val hasRequestedNotificationPermission: Boolean = false,
+    val isSettingsLoaded: Boolean = false
 )

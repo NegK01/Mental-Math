@@ -24,10 +24,12 @@ import com.negk01.mentalmath.ui.screens.config.components.DangerZone
 import com.negk01.mentalmath.ui.screens.config.components.DeleteHistoryDialog
 import com.negk01.mentalmath.ui.screens.config.components.DifficultySelector
 import com.negk01.mentalmath.ui.screens.config.components.LanguagePreferenceSelector
+import com.negk01.mentalmath.ui.screens.config.components.NotificationSettingCard
 import com.negk01.mentalmath.ui.screens.config.components.ConfigSupportCard
 import com.negk01.mentalmath.ui.screens.config.components.ThemePreferenceSelector
 import com.negk01.mentalmath.ui.theme.BottomNavContentPadding
 import com.negk01.mentalmath.ui.theme.Spacing
+import com.negk01.mentalmath.ui.utils.rememberNotificationPermissionState
 
 @Composable
 fun ConfigScreen(
@@ -35,6 +37,11 @@ fun ConfigScreen(
     billingManager: BillingManager
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val notificationPermission = rememberNotificationPermissionState(
+        hasRequestedPermission = uiState.hasRequestedNotificationPermission,
+        onPermissionRequested = viewModel::onNotificationPermissionRequested,
+        onGranted = { viewModel.onNotificationsEnabledChanged(true) }
+    )
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background
@@ -91,6 +98,20 @@ fun ConfigScreen(
                 }
 
                 item {
+                    NotificationSettingCard(
+                        checked = uiState.notificationsEnabled && notificationPermission.isEnabled,
+                        enabled = uiState.isSettingsLoaded,
+                        onCheckedChange = { shouldEnable ->
+                            if (shouldEnable) {
+                                notificationPermission.request()
+                            } else {
+                                viewModel.onNotificationsEnabledChanged(false)
+                            }
+                        }
+                    )
+                }
+
+                item {
                     ConfigSupportCard(
                         onClick = viewModel::showSupportDialog
                     )
@@ -121,4 +142,3 @@ fun ConfigScreen(
         }
     }
 }
-

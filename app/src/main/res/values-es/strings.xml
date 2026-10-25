@@ -130,4 +130,6 @@
     <string name="notification_streak_stage3_message">No dejes que se oxiden tus reflejos numéricos. Haz una ronda rápida de 2 minutos.</string>
     <string name="notification_streak_stage4_title">¿Listo para volver a entrenar?</string>
     <string name="notification_streak_stage4_message">Te extrañamos en Mental Math. Dejaremos de recordártelo por ahora, vuelve cuando quieras.</string>
+    <string name="config_notifications_title">Recordatorios de racha</string>
+    <string name="config_notifications_description">Un recordatorio diario para no perder tu racha de práctica</string>
 </resources>

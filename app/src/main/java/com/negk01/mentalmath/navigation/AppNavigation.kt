@@ -35,6 +35,8 @@ import com.negk01.mentalmath.data.billing.BillingConstants
 import com.negk01.mentalmath.data.billing.BillingEvent
 import com.negk01.mentalmath.data.billing.BillingManager
 import com.negk01.mentalmath.data.local.db.DatabaseProvider
+import com.negk01.mentalmath.data.notification.NotificationHelper
+import com.negk01.mentalmath.data.notification.StreakNotificationScheduler
 import com.negk01.mentalmath.data.repository.GameRecordRepositoryImpl
 import com.negk01.mentalmath.data.repository.SettingsRepositoryImpl
 import com.negk01.mentalmath.presentation.config.ConfigViewModel
@@ -81,6 +83,15 @@ fun AppNavigation() {
     val gameViewModel: GameViewModel = viewModel(
         factory = GameViewModelFactory(gameRecordRepository)
     )
+
+    LaunchedEffect(gameViewModel) {
+        gameViewModel.completedGameSaves.collect {
+            NotificationHelper.cancelStreakNotification(context)
+            if (configViewModel.uiState.value.notificationsEnabled) {
+                StreakNotificationScheduler.replaceReminderAfterGame(context)
+            }
+        }
+    }
 
     val lifecycleOwner = LocalLifecycleOwner.current
     val activeRoute by rememberUpdatedState(currentRoute)
@@ -165,6 +176,15 @@ fun AppNavigation() {
         val currentLocales = AppCompatDelegate.getApplicationLocales()
         if (targetLocales != currentLocales) {
             AppCompatDelegate.setApplicationLocales(targetLocales)
+        }
+    }
+
+    LaunchedEffect(configUiState.isSettingsLoaded, configUiState.notificationsEnabled) {
+        if (!configUiState.isSettingsLoaded) return@LaunchedEffect
+        if (configUiState.notificationsEnabled) {
+            StreakNotificationScheduler.keepOrScheduleNextReminder(context)
+        } else {
+            StreakNotificationScheduler.cancelReminderChain(context)
         }
     }
 
@@ -268,7 +288,7 @@ fun AppNavigation() {
                                 popUpTo(Routes.HOME) { inclusive = false }
                                 launchSingleTop = true
                             }
-                        },
+                        }
                     )
                 }
             }

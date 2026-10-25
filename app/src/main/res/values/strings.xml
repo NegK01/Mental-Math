@@ -130,4 +130,6 @@
     <string name="notification_streak_stage3_message">Keep your numerical reflexes sharp. Jump in for a quick 2-minute round!</string>
     <string name="notification_streak_stage4_title">Ready to train again?</string>
     <string name="notification_streak_stage4_message">We miss you at Mental Math. We\'ll stop reminding you for now—come back anytime!</string>
+    <string name="config_notifications_title">Streak Reminders</string>
+    <string name="config_notifications_description">A daily reminder so you never lose your practice streak</string>
 </resources>

@@ -34,4 +34,14 @@ class SettingsRepositoryImpl(
         settingsDao.insertIfMissing(AppSettings.default().toEntity())
         settingsDao.markHomeSupportCardDismissed()
     }
+
+    override suspend fun markNotificationPermissionRequested() {
+        settingsDao.insertIfMissing(AppSettings.default().toEntity())
+        settingsDao.markNotificationPermissionRequested()
+    }
+
+    override suspend fun updateNotificationsEnabled(enabled: Boolean) {
+        settingsDao.insertIfMissing(AppSettings.default().toEntity())
+        settingsDao.updateNotificationsEnabled(enabled)
+    }
 }

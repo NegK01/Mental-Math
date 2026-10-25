@@ -7,7 +7,8 @@ data class AppSettings(
     val themePreference: ThemePreference,
     val hasSeenOnboarding: Boolean = false,
     val hasDismissedHomeSupportCard: Boolean = false,
-    val notificationsEnabled: Boolean = false
+    val notificationsEnabled: Boolean = false,
+    val hasRequestedNotificationPermission: Boolean = false
 ) {
     companion object {
         fun default() = AppSettings(
@@ -17,7 +18,8 @@ data class AppSettings(
             themePreference = ThemePreference.SYSTEM,
             hasSeenOnboarding = false,
             hasDismissedHomeSupportCard = false,
-            notificationsEnabled = false
+            notificationsEnabled = false,
+            hasRequestedNotificationPermission = false
         )
     }
 }

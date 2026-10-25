@@ -130,4 +130,6 @@
     <string name="notification_streak_stage3_message">Mantenha seus reflexos afiados. Jogue uma rodada rápida de 2 minutos!</string>
     <string name="notification_streak_stage4_title">Pronto para voltar a treinar?</string>
     <string name="notification_streak_stage4_message">Sentimos sua falta no Mental Math. Vamos parar de enviar lembretes por enquanto, volte quando quiser!</string>
+    <string name="config_notifications_title">Lembretes de sequência</string>
+    <string name="config_notifications_description">Um lembrete diário para não perder sua sequência de prática</string>
 </resources>

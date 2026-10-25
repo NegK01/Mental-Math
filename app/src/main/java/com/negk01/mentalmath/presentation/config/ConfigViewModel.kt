@@ -39,11 +39,40 @@ class ConfigViewModel(
                         soundEnabled = settings.soundEnabled,
                         themePreference = settings.themePreference,
                         hasSeenOnboarding = settings.hasSeenOnboarding,
-                        hasDismissedHomeSupportCard = settings.hasDismissedHomeSupportCard
+                        hasDismissedHomeSupportCard = settings.hasDismissedHomeSupportCard,
+                        notificationsEnabled = settings.notificationsEnabled,
+                        hasRequestedNotificationPermission = settings.hasRequestedNotificationPermission,
+                        isSettingsLoaded = true
                     )
                 }
             } catch (e: Exception) {
                 Log.w("ConfigViewModel", "Failed to load settings", e)
+            }
+        }
+    }
+
+    suspend fun onNotificationPermissionRequested(): Boolean {
+        try {
+            settingsRepository.markNotificationPermissionRequested()
+            _uiState.update { it.copy(hasRequestedNotificationPermission = true) }
+            return true
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            Log.w("ConfigViewModel", "Failed to save notification permission request", e)
+            return false
+        }
+    }
+
+    fun onNotificationsEnabledChanged(enabled: Boolean) {
+        viewModelScope.launch {
+            try {
+                settingsRepository.updateNotificationsEnabled(enabled)
+                _uiState.update { it.copy(notificationsEnabled = enabled) }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Log.w("ConfigViewModel", "Failed to update notificationsEnabled", e)
             }
         }
     }
@@ -106,7 +135,9 @@ class ConfigViewModel(
         soundEnabled = soundEnabled,
         themePreference = themePreference,
         hasSeenOnboarding = hasSeenOnboarding,
-        hasDismissedHomeSupportCard = hasDismissedHomeSupportCard
+        hasDismissedHomeSupportCard = hasDismissedHomeSupportCard,
+        notificationsEnabled = notificationsEnabled,
+        hasRequestedNotificationPermission = hasRequestedNotificationPermission
     )
 
     private fun saveSettings(settings: AppSettings, onFailure: (() -> Unit)? = null) {

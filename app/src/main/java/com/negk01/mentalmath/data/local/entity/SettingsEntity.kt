@@ -12,5 +12,6 @@ data class SettingsEntity(
     val themePreference: String,
     val hasSeenOnboarding: Boolean = false,
     val hasDismissedHomeSupportCard: Boolean = false,
-    val notificationsEnabled: Boolean = false
+    val notificationsEnabled: Boolean = false,
+    val hasRequestedNotificationPermission: Boolean = false
 )

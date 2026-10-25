@@ -42,6 +42,7 @@ abstract class AppDatabase : RoomDatabase() {
         val MIGRATION_5_6 = object : Migration(5, 6) {
             override fun migrate(db: SupportSQLiteDatabase) {
                 db.execSQL("ALTER TABLE settings ADD COLUMN notificationsEnabled INTEGER NOT NULL DEFAULT 0")
+                db.execSQL("ALTER TABLE settings ADD COLUMN hasRequestedNotificationPermission INTEGER NOT NULL DEFAULT 0")
                 db.execSQL("CREATE TABLE IF NOT EXISTS reminder_progress (id INTEGER NOT NULL PRIMARY KEY, lastPlayedAt INTEGER NOT NULL, stagePriority INTEGER NOT NULL)")
             }
         }

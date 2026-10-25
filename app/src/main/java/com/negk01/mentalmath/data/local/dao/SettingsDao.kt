@@ -23,4 +23,10 @@ interface SettingsDao {
 
     @Query("UPDATE settings SET hasDismissedHomeSupportCard = 1 WHERE id = 1")
     suspend fun markHomeSupportCardDismissed()
+
+    @Query("UPDATE settings SET hasRequestedNotificationPermission = 1 WHERE id = 1")
+    suspend fun markNotificationPermissionRequested()
+
+    @Query("UPDATE settings SET notificationsEnabled = :enabled WHERE id = 1")
+    suspend fun updateNotificationsEnabled(enabled: Boolean)
 }

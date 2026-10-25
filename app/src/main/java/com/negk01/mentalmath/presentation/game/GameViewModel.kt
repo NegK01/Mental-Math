@@ -16,10 +16,12 @@ import com.negk01.mentalmath.domain.repository.GameRecordRepository
 import kotlin.math.ceil
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -45,6 +47,8 @@ class GameViewModel(
 
     private val _uiState = MutableStateFlow(GameUiState())
     val uiState: StateFlow<GameUiState> = _uiState.asStateFlow()
+    private val _completedGameSaves = Channel<Unit>(Channel.BUFFERED)
+    val completedGameSaves = _completedGameSaves.receiveAsFlow()
 
     fun startGame(difficulty: Difficulty) {
         timerJob?.cancel()
@@ -269,6 +273,7 @@ class GameViewModel(
                 return@launch
             }
             _uiState.update { it.copy(savedRecordId = recordId) }
+            _completedGameSaves.send(Unit)
         }
     }
 

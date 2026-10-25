@@ -11,7 +11,8 @@ fun SettingsEntity.toDomain(): AppSettings {
         themePreference = themePreference.toThemePreference(),
         hasSeenOnboarding = hasSeenOnboarding,
         hasDismissedHomeSupportCard = hasDismissedHomeSupportCard,
-        notificationsEnabled = notificationsEnabled
+        notificationsEnabled = notificationsEnabled,
+        hasRequestedNotificationPermission = hasRequestedNotificationPermission
     )
 }
 
@@ -24,6 +25,7 @@ fun AppSettings.toEntity(): SettingsEntity {
         themePreference = themePreference.toStorageKey(),
         hasSeenOnboarding = hasSeenOnboarding,
         hasDismissedHomeSupportCard = hasDismissedHomeSupportCard,
-        notificationsEnabled = notificationsEnabled
+        notificationsEnabled = notificationsEnabled,
+        hasRequestedNotificationPermission = hasRequestedNotificationPermission
     )
 }

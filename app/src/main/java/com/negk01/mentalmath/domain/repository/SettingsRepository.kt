@@ -7,4 +7,6 @@ interface SettingsRepository {
     suspend fun saveSettings(settings: AppSettings)
     suspend fun markOnboardingShown()
     suspend fun markHomeSupportCardDismissed()
+    suspend fun updateNotificationsEnabled(enabled: Boolean)
+    suspend fun markNotificationPermissionRequested()
 }
