@@ -86,10 +86,13 @@ class ConfigViewModel(
     }
 
     fun onSoundEnabledChanged(enabled: Boolean) {
+        if (!_uiState.value.isSettingsLoaded || _uiState.value.isSavingSound) return
         val previous = _uiState.value.soundEnabled
-        _uiState.update { it.copy(soundEnabled = enabled) }
+        _uiState.update { it.copy(soundEnabled = enabled, isSavingSound = true) }
         saveSettings(_uiState.value.toAppSettings(), onFailure = {
             _uiState.update { it.copy(soundEnabled = previous) }
+        }, onComplete = {
+            _uiState.update { it.copy(isSavingSound = false) }
         })
     }
 
@@ -140,13 +143,19 @@ class ConfigViewModel(
         hasRequestedNotificationPermission = hasRequestedNotificationPermission
     )
 
-    private fun saveSettings(settings: AppSettings, onFailure: (() -> Unit)? = null) {
+    private fun saveSettings(
+        settings: AppSettings,
+        onFailure: (() -> Unit)? = null,
+        onComplete: (() -> Unit)? = null
+    ) {
         viewModelScope.launch {
             try {
                 settingsRepository.saveSettings(settings)
             } catch (e: Exception) {
                 Log.w("ConfigViewModel", "Failed to save settings", e)
                 onFailure?.invoke()
+            } finally {
+                onComplete?.invoke()
             }
         }
     }

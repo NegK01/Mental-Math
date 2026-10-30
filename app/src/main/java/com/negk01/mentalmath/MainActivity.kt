@@ -2,6 +2,7 @@ package com.negk01.mentalmath
 
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.media.AudioManager
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +13,7 @@ import com.negk01.mentalmath.ui.utils.ImmersiveAppContent
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        volumeControlStream = AudioManager.STREAM_MUSIC
         if (resources.configuration.smallestScreenWidthDp < 600) {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT
         }

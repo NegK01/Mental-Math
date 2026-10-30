@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,6 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -39,6 +41,7 @@ import com.negk01.mentalmath.data.notification.NotificationHelper
 import com.negk01.mentalmath.data.notification.StreakNotificationScheduler
 import com.negk01.mentalmath.data.repository.GameRecordRepositoryImpl
 import com.negk01.mentalmath.data.repository.SettingsRepositoryImpl
+import com.negk01.mentalmath.domain.model.GameSound
 import com.negk01.mentalmath.presentation.config.ConfigViewModel
 import com.negk01.mentalmath.presentation.config.ConfigViewModelFactory
 import com.negk01.mentalmath.presentation.game.GameViewModel
@@ -49,6 +52,7 @@ import com.negk01.mentalmath.presentation.home.HomeViewModel
 import com.negk01.mentalmath.presentation.home.HomeViewModelFactory
 import com.negk01.mentalmath.presentation.results.ResultsViewModel
 import com.negk01.mentalmath.presentation.results.ResultsViewModelFactory
+import com.negk01.mentalmath.ui.audio.GameSoundPlayer
 import com.negk01.mentalmath.ui.components.BottomNavBar
 import com.negk01.mentalmath.ui.screens.config.ConfigScreen
 import com.negk01.mentalmath.ui.screens.game.GameScreen
@@ -61,6 +65,8 @@ import com.negk01.mentalmath.ui.utils.toLocaleListCompat
 @Composable
 fun AppNavigation() {
     val context = LocalContext.current
+    val applicationContext = context.applicationContext
+    val soundPlayer = remember(applicationContext) { GameSoundPlayer(applicationContext) }
     val navController = rememberNavController()
 
     val navBackStackEntry = navController.currentBackStackEntryAsState().value
@@ -171,6 +177,48 @@ fun AppNavigation() {
 
     val configUiState by configViewModel.uiState.collectAsState()
 
+    DisposableEffect(lifecycleOwner, soundPlayer) {
+        soundPlayer.setForeground(lifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED))
+        val observer = LifecycleEventObserver { _, event ->
+            when (event) {
+                Lifecycle.Event.ON_RESUME -> soundPlayer.setForeground(true)
+                Lifecycle.Event.ON_PAUSE -> soundPlayer.setForeground(false)
+                else -> Unit
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+            soundPlayer.setForeground(false)
+        }
+    }
+
+    DisposableEffect(soundPlayer) {
+        onDispose { soundPlayer.release() }
+    }
+
+    LaunchedEffect(gameViewModel, soundPlayer) {
+        gameViewModel.soundEvents.collect { sound ->
+            if (activeRoute == Routes.GAME && !gameViewModel.uiState.value.isPaused) {
+                soundPlayer.play(sound)
+            }
+        }
+    }
+
+    LaunchedEffect(gameViewModel.uiState, soundPlayer) {
+        gameViewModel.uiState.collect { state ->
+            if (state.isPaused) soundPlayer.stop()
+        }
+    }
+
+    SideEffect {
+        soundPlayer.setEnabled(configUiState.isSettingsLoaded && configUiState.soundEnabled)
+    }
+
+    LaunchedEffect(currentRoute, soundPlayer) {
+        soundPlayer.stop()
+    }
+
     LaunchedEffect(configUiState.languagePreference) {
         val targetLocales = configUiState.languagePreference.toLocaleListCompat()
         val currentLocales = AppCompatDelegate.getApplicationLocales()
@@ -272,6 +320,15 @@ fun AppNavigation() {
                     LaunchedEffect(sessionResult, gameUiState.savedRecordId) {
                         if (sessionResult != null) {
                             resultsViewModel.loadForSession(sessionResult, gameUiState.savedRecordId)
+                        }
+                    }
+                    LaunchedEffect(resultsViewModel, resultsEntry, soundPlayer) {
+                        resultsEntry.lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                            resultsViewModel.uiState.collect {
+                                if (resultsViewModel.consumeRecordCelebration()) {
+                                    soundPlayer.play(GameSound.PERSONAL_BEST)
+                                }
+                            }
                         }
                     }
                     if (sessionResult != null) ResultsScreen(

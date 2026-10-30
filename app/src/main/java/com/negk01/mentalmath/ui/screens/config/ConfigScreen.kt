@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.VolumeUp
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -25,6 +27,7 @@ import com.negk01.mentalmath.ui.screens.config.components.DeleteHistoryDialog
 import com.negk01.mentalmath.ui.screens.config.components.DifficultySelector
 import com.negk01.mentalmath.ui.screens.config.components.LanguagePreferenceSelector
 import com.negk01.mentalmath.ui.screens.config.components.NotificationSettingCard
+import com.negk01.mentalmath.ui.screens.config.components.OptionSwitch
 import com.negk01.mentalmath.ui.screens.config.components.ConfigSupportCard
 import com.negk01.mentalmath.ui.screens.config.components.ThemePreferenceSelector
 import com.negk01.mentalmath.ui.theme.BottomNavContentPadding
@@ -80,20 +83,21 @@ fun ConfigScreen(
                     )
                 }
 
-                // DEV 2: Feature de sonido deshabilitada. Descomentar y conectar cuando se implemente el audio en GameViewModel. Requiere: SoundManager, lógica en GameViewModel. SettingsRepository ya tiene soundEnabled.
-                // item {
-                //     OptionSwitch(
-                //         title = stringResource(R.string.config_sound_title),
-                //         description = stringResource(R.string.config_sound_description),
-                //         checked = uiState.soundEnabled,
-                //         onCheckedChange = viewModel::onSoundEnabledChanged
-                //     )
-                // }
-
                 item {
                     ThemePreferenceSelector(
                         selected = uiState.themePreference,
                         onSelect = viewModel::onThemePreferenceSelected
+                    )
+                }
+
+                item {
+                    OptionSwitch(
+                        title = stringResource(R.string.config_sound_title),
+                        description = stringResource(R.string.config_sound_description),
+                        icon = Icons.AutoMirrored.Rounded.VolumeUp,
+                        checked = uiState.soundEnabled,
+                        onCheckedChange = viewModel::onSoundEnabledChanged,
+                        enabled = uiState.isSettingsLoaded && !uiState.isSavingSound
                     )
                 }
 

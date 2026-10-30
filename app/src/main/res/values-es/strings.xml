@@ -54,7 +54,7 @@
     <string name="config_title">Ajustes</string>
     <string name="config_difficulty_title">Nivel de dificultad</string>
     <string name="config_sound_title">Efectos de sonido</string>
-    <string name="config_sound_description">Activa o desactiva el audio de apoyo durante la experiencia</string>
+    <string name="config_sound_description">Tonos suaves de apoyo durante el juego</string>
     <string name="config_theme_title">Tema de la app</string>
     <string name="config_language_title">Idioma de la app</string>
     <string name="config_delete_history_button">Borrar historial de puntuaciones</string>

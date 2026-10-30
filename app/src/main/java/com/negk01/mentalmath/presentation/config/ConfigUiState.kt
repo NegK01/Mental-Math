@@ -8,6 +8,7 @@ data class ConfigUiState(
     val languagePreference: LanguagePreference = LanguagePreference.SYSTEM,
     val selectedDifficulty: Difficulty = Difficulty.MEDIUM,
     val soundEnabled: Boolean = true,
+    val isSavingSound: Boolean = false,
     val themePreference: ThemePreference = ThemePreference.SYSTEM,
     val showSupportDialog: Boolean = false,
     val showDeleteHistoryDialog: Boolean = false,

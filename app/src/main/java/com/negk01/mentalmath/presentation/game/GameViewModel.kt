@@ -7,6 +7,7 @@ import com.negk01.mentalmath.domain.game.QuestionGenerator
 import com.negk01.mentalmath.domain.game.StreakTracker
 import com.negk01.mentalmath.domain.model.Difficulty
 import com.negk01.mentalmath.domain.model.GameRecord
+import com.negk01.mentalmath.domain.model.GameSound
 import com.negk01.mentalmath.domain.model.CompletionStatus
 import com.negk01.mentalmath.domain.model.GameSessionResult
 import com.negk01.mentalmath.domain.model.Question
@@ -18,8 +19,10 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
@@ -49,6 +52,8 @@ class GameViewModel(
     val uiState: StateFlow<GameUiState> = _uiState.asStateFlow()
     private val _completedGameSaves = Channel<Unit>(Channel.BUFFERED)
     val completedGameSaves = _completedGameSaves.receiveAsFlow()
+    private val _soundEvents = MutableSharedFlow<GameSound>(extraBufferCapacity = 1)
+    val soundEvents = _soundEvents.asSharedFlow()
 
     fun startGame(difficulty: Difficulty) {
         timerJob?.cancel()
@@ -144,6 +149,14 @@ class GameViewModel(
 
     private fun triggerAnswerFlash(isCorrect: Boolean, userRanOutOfTime: Boolean) {
         timerJob?.cancel()
+
+        _soundEvents.tryEmit(
+            when {
+                isCorrect -> GameSound.CORRECT
+                userRanOutOfTime -> GameSound.TIMEOUT
+                else -> GameSound.INCORRECT
+            }
+        )
 
         val totalRoundTimeMillis = currentTimePerRound * 1000L
         val consumedMillis = if (userRanOutOfTime) {

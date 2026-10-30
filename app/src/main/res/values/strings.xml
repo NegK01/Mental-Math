@@ -54,7 +54,7 @@
     <string name="config_title">Settings</string>
     <string name="config_difficulty_title">Difficulty level</string>
     <string name="config_sound_title">Sound effects</string>
-    <string name="config_sound_description">Enable or disable audio feedback during the experience</string>
+    <string name="config_sound_description">Gentle feedback tones while you play</string>
     <string name="config_theme_title">App theme</string>
     <string name="config_language_title">App language</string>
     <string name="config_delete_history_button">Delete score history</string>
