@@ -105,9 +105,10 @@ class ConfigViewModel(
     }
 
     fun onLanguagePreferenceSelected(languagePreference: LanguagePreference) {
+        val previous = _uiState.value.languagePreference
         _uiState.update { it.copy(languagePreference = languagePreference) }
         saveSettings(_uiState.value.toAppSettings(), onFailure = {
-            _uiState.update { it.copy(languagePreference = LanguagePreference.SYSTEM) }
+            _uiState.update { it.copy(languagePreference = previous) }
         })
     }
 

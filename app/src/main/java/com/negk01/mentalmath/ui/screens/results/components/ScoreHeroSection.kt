@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -24,7 +23,6 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.negk01.mentalmath.R
@@ -83,13 +81,13 @@ fun ScoreHeroSection(
         is NextGoalState.LowAccuracy -> stringResource(R.string.results_goal_low,
             nextGoal.targetCorrect,
             nextGoal.totalRounds,
-            stringResource(difficulty?.toLabelResId() ?: R.string.difficulty_medium))
+            stringResource(difficulty?.toLabelResId() ?: R.string.difficulty_medium).lowercase())
         is NextGoalState.StepUp -> stringResource(R.string.results_goal_next,
-            stringResource(nextGoal.nextDifficulty.toLabelResId()))
+            stringResource(nextGoal.nextDifficulty.toLabelResId()).lowercase())
         is NextGoalState.HardKeep -> stringResource(R.string.results_goal_hard_keep)
         is NextGoalState.HardPerfect -> stringResource(R.string.results_goal_hard_perfect)
         is NextGoalState.PerfectNext -> stringResource(R.string.results_goal_perfect_next,
-            stringResource(nextGoal.nextDifficulty.toLabelResId()))
+            stringResource(nextGoal.nextDifficulty.toLabelResId()).lowercase())
     }
 
     val trackColor = MaterialTheme.colorScheme.surfaceVariant

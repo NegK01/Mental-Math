@@ -42,7 +42,7 @@
     <string name="history_empty">No saved games yet</string>
     <string name="history_empty_hint">Play a game and it will appear here</string>
     <string name="history_summary_title">Overview</string>
-    <string name="history_summary_subtitle">Your recent stats to measure pace and accuracy</string>
+    <string name="history_summary_subtitle">Your stats to track pace and accuracy</string>
     <string name="history_total_games">Games played</string>
     <string name="history_average_accuracy">Average accuracy</string>
     <string name="history_average_time">Average time</string>
@@ -77,8 +77,8 @@
     <string name="results_first_game">First game</string>
     <string name="results_goal_low">Aim for %1$d/%2$d to master %3$s</string>
     <string name="results_goal_next">Step up to %1$s</string>
-    <string name="results_goal_hard_keep">Keep the HARD pace</string>
-    <string name="results_goal_hard_perfect">HARD mastered. Come back for more</string>
+    <string name="results_goal_hard_keep">Keep up the pace on hard</string>
+    <string name="results_goal_hard_perfect">Hard mastered. Come back for more</string>
     <string name="results_goal_perfect_next">Perfect. Ready for %1$s</string>
     <string name="results_round_details_empty">No rounds to show</string>
     <string name="results_operator_insight">Suggested practice: %1$s (%2$.1fs avg)</string>
@@ -93,7 +93,7 @@
     <string name="results_go_home">Back home</string>
     <string name="results_play_again">Play again</string>
     <string name="results_round_expression">%1$s = %2$d</string>
-    <string name="results_correct_answer_label">Correct: %1$s</string>
+    <string name="results_correct_answer_label">Correct answer: %1$s</string>
 
     <string name="common_seconds_int">%1$ds</string>
 
@@ -105,9 +105,9 @@
 
     <string name="support_title">Support the project</string>
     <string name="support_subtitle">Voluntary tip to support development</string>
-    <string name="support_description">Mental Math is 100% free and ad-free. If you enjoy training your mind every day, you can leave a voluntary tip to keep improving the project.</string>
+    <string name="support_description" formatted="false">Mental Math is 100% free and ad-free. If you enjoy training your mind every day, you can leave a voluntary tip to keep improving the project.</string>
     <string name="support_tier_1_label">Simple tip</string>
-    <string name="support_tier_2_label">Steady support</string>
+    <string name="support_tier_2_label">Special support</string>
     <string name="support_tier_3_label">Major contribution</string>
     <string name="support_price_placeholder">—</string>
     <string name="support_home_button">Support Mental Math</string>
@@ -120,16 +120,16 @@
     <string name="close">Close</string>
 
     <string name="notification_channel_streak_name">Streak Reminders</string>
-    <string name="notification_channel_streak_description">Daily reminders to keep your practice streak alive</string>
+    <string name="notification_channel_streak_description">Reminders to help maintain your practice streak</string>
     <string name="notification_streak_stage1_title">Keep your streak alive! 🔥</string>
     <string name="notification_streak_stage1_message">You have a %d-day practice streak. Complete today\'s session!</string>
     <string name="notification_streak_stage1_message_one">You have a 1-day practice streak. Complete today\'s session!</string>
     <string name="notification_streak_stage2_title">Streak broken ⏳</string>
     <string name="notification_streak_stage2_message">Your streak was broken, but that\'s okay! Take 2 minutes today to start a new one.</string>
     <string name="notification_streak_stage3_title">Time to train 🧠</string>
-    <string name="notification_streak_stage3_message">Keep your numerical reflexes sharp. Jump in for a quick 2-minute round!</string>
+    <string name="notification_streak_stage3_message">Keep your numerical reflexes sharp. Jump in for a quick 2-minute session!</string>
     <string name="notification_streak_stage4_title">Ready to train again?</string>
     <string name="notification_streak_stage4_message">We miss you at Mental Math. We\'ll stop reminding you for now—come back anytime!</string>
     <string name="config_notifications_title">Streak Reminders</string>
-    <string name="config_notifications_description">A daily reminder so you never lose your practice streak</string>
+    <string name="config_notifications_description">Reminders to help maintain your practice streak</string>
 </resources>

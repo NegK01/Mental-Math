@@ -9,8 +9,6 @@ data class GameSessionResult(
     val roundResults: List<RoundResult>,
     val maxStreak: Int
 ) {
-    val averageResponseTimeSeconds: Double get() = averageResponseTimeMillis / 1000.0
-
     companion object {
         fun fromRounds(
             difficulty: Difficulty,

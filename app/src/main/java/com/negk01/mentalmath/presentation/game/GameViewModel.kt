@@ -347,7 +347,6 @@ class GameViewModel(
     }
 
     override fun onCleared() {
-        super.onCleared()
         timerJob?.cancel()
         flashJob?.cancel()
     }

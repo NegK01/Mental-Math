@@ -42,7 +42,7 @@
     <string name="history_empty">Aún no hay partidas guardadas</string>
     <string name="history_empty_hint">Juega una partida y aparecerá aquí</string>
     <string name="history_summary_title">Resumen</string>
-    <string name="history_summary_subtitle">Tus estadísticas recientes para medir ritmo y precisión</string>
+    <string name="history_summary_subtitle">Tus estadísticas para seguir tu ritmo y precisión</string>
     <string name="history_total_games">Total de partidas</string>
     <string name="history_average_accuracy">Precisión promedio</string>
     <string name="history_average_time">Tiempo promedio</string>
@@ -75,11 +75,11 @@
     <string name="results_max_streak">Racha máxima</string>
     <string name="results_new_record">Nuevo récord</string>
     <string name="results_first_game">Primera partida</string>
-    <string name="results_goal_low">Acierta %1$d/%2$d para dominar %3$s</string>
-    <string name="results_goal_next">Listo para subir a %1$s</string>
-    <string name="results_goal_hard_keep">Mantén el ritmo en HARD</string>
-    <string name="results_goal_hard_perfect">HARD dominado. Vuelve por más</string>
-    <string name="results_goal_perfect_next">Perfecto. Listo para %1$s</string>
+    <string name="results_goal_low">Acierta %1$d/%2$d para dominar el nivel %3$s</string>
+    <string name="results_goal_next">Listo para subir al nivel %1$s</string>
+    <string name="results_goal_hard_keep">Mantén el ritmo en el nivel difícil</string>
+    <string name="results_goal_hard_perfect">Nivel difícil dominado. Vuelve por más</string>
+    <string name="results_goal_perfect_next">Perfecto. Listo para el nivel %1$s</string>
     <string name="results_round_details_empty">Sin rondas para mostrar</string>
     <string name="results_operator_insight">Práctica sugerida: %1$s (%2$.1fs prom)</string>
     <string name="operator_add">suma</string>
@@ -93,7 +93,7 @@
     <string name="results_go_home">Volver al inicio</string>
     <string name="results_play_again">Jugar de nuevo</string>
     <string name="results_round_expression">%1$s = %2$d</string>
-    <string name="results_correct_answer_label">Correcto: %1$s</string>
+    <string name="results_correct_answer_label">Respuesta correcta: %1$s</string>
 
     <string name="common_seconds_int">%1$ds</string>
 
@@ -105,9 +105,9 @@
 
     <string name="support_title">Apoyar el proyecto</string>
     <string name="support_subtitle">Propina voluntaria para apoyar el desarrollo</string>
-    <string name="support_description">Mental Math es 100% gratuita y sin anuncios. Si disfrutas entrenando tu mente a diario, puedes dejar una propina voluntaria para seguir mejorando el proyecto.</string>
+    <string name="support_description" formatted="false">Mental Math es 100% gratuita y sin anuncios. Si disfrutas entrenando tu mente a diario, puedes dejar una propina voluntaria para seguir mejorando el proyecto.</string>
     <string name="support_tier_1_label">Propina simple</string>
-    <string name="support_tier_2_label">Apoyo constante</string>
+    <string name="support_tier_2_label">Apoyo especial</string>
     <string name="support_tier_3_label">Gran contribución</string>
     <string name="support_price_placeholder">—</string>
     <string name="support_home_button">Apoyar a Mental Math</string>
@@ -120,16 +120,16 @@
     <string name="close">Cerrar</string>
 
     <string name="notification_channel_streak_name">Recordatorios de racha</string>
-    <string name="notification_channel_streak_description">Avisos diarios para mantener tu racha de práctica</string>
+    <string name="notification_channel_streak_description">Recordatorios para mantener tu racha de práctica</string>
     <string name="notification_streak_stage1_title">¡Mantén tu racha viva! 🔥</string>
     <string name="notification_streak_stage1_message">Llevas %d días seguidos practicando. Haz tu sesión de hoy.</string>
     <string name="notification_streak_stage1_message_one">Llevas 1 día de práctica. Haz tu sesión de hoy.</string>
     <string name="notification_streak_stage2_title">Racha interrumpida ⏳</string>
     <string name="notification_streak_stage2_message">Se ha roto tu racha, pero no pasa nada. Dedica 2 minutos hoy para empezar una nueva.</string>
     <string name="notification_streak_stage3_title">Momento de entrenar 🧠</string>
-    <string name="notification_streak_stage3_message">No dejes que se oxiden tus reflejos numéricos. Haz una ronda rápida de 2 minutos.</string>
+    <string name="notification_streak_stage3_message">No dejes que se oxiden tus reflejos numéricos. Haz una sesión rápida de 2 minutos.</string>
     <string name="notification_streak_stage4_title">¿Listo para volver a entrenar?</string>
-    <string name="notification_streak_stage4_message">Te extrañamos en Mental Math. Dejaremos de recordártelo por ahora, vuelve cuando quieras.</string>
+    <string name="notification_streak_stage4_message">Te extrañamos en Mental Math. Dejaremos de recordártelo por ahora. Vuelve cuando quieras.</string>
     <string name="config_notifications_title">Recordatorios de racha</string>
-    <string name="config_notifications_description">Un recordatorio diario para no perder tu racha de práctica</string>
+    <string name="config_notifications_description">Recordatorios para mantener tu racha de práctica</string>
 </resources>

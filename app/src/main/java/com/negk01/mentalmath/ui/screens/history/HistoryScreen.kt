@@ -35,7 +35,8 @@ import com.negk01.mentalmath.ui.theme.BottomNavContentPadding
 import com.negk01.mentalmath.ui.theme.Opacity
 import com.negk01.mentalmath.ui.theme.Spacing
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.isActive
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.ensureActive
 
 @Composable
 fun HistoryScreen(
@@ -51,8 +52,8 @@ fun HistoryScreen(
                     listState.scrollToItem(2)
                 }
                 listState.animateScrollToItem(0)
-            } catch (e: CancellationException) {
-                if (!coroutineContext.isActive) throw e
+            } catch (_: CancellationException) {
+                currentCoroutineContext().ensureActive()
             }
         }
     }

@@ -42,7 +42,7 @@
     <string name="history_empty">Nenhuma partida salva ainda</string>
     <string name="history_empty_hint">Jogue uma partida e ela vai aparecer aqui</string>
     <string name="history_summary_title">Resumo</string>
-    <string name="history_summary_subtitle">Suas estatísticas recentes para medir ritmo e precisão</string>
+    <string name="history_summary_subtitle">Suas estatísticas para acompanhar ritmo e precisão</string>
     <string name="history_total_games">Total de partidas</string>
     <string name="history_average_accuracy">Precisão média</string>
     <string name="history_average_time">Tempo médio</string>
@@ -57,7 +57,7 @@
     <string name="config_sound_description">Tons suaves de apoio durante o jogo</string>
     <string name="config_theme_title">Tema do app</string>
     <string name="config_language_title">Idioma do app</string>
-    <string name="config_delete_history_button">Apagar histórico de pontuações</string>
+    <string name="config_delete_history_button">Excluir histórico de pontuações</string>
     <string name="config_delete_dialog_title">Excluir histórico</string>
     <string name="config_delete_dialog_message">Esta ação vai excluir todas as partidas salvas deste dispositivo</string>
     <string name="config_delete_dialog_confirm">Excluir</string>
@@ -75,11 +75,11 @@
     <string name="results_max_streak">Melhor sequência</string>
     <string name="results_new_record">Novo recorde</string>
     <string name="results_first_game">Primeira partida</string>
-    <string name="results_goal_low">Acerte %1$d/%2$d para dominar %3$s</string>
-    <string name="results_goal_next">Pronto para subir para %1$s</string>
-    <string name="results_goal_hard_keep">Mantenha o ritmo no nível Difícil</string>
-    <string name="results_goal_hard_perfect">Nível Difícil dominado. Volte para jogar mais!</string>
-    <string name="results_goal_perfect_next">Perfeito. Pronto para %1$s</string>
+    <string name="results_goal_low">Acerte %1$d/%2$d para dominar o nível %3$s</string>
+    <string name="results_goal_next">Avance para o nível %1$s</string>
+    <string name="results_goal_hard_keep">Mantenha o ritmo no nível difícil</string>
+    <string name="results_goal_hard_perfect">Nível difícil dominado. Volte para jogar mais!</string>
+    <string name="results_goal_perfect_next">Perfeito. Pronto para o nível %1$s</string>
     <string name="results_round_details_empty">Nenhuma rodada para mostrar</string>
     <string name="results_operator_insight">Prática sugerida: %1$s (média de %2$.1fs)</string>
     <string name="operator_add">adição</string>
@@ -89,11 +89,11 @@
     <string name="results_feedback_title_great">Muito bem</string>
     <string name="results_feedback_title_good">Bom ritmo</string>
     <string name="results_feedback_title_keep">Continue treinando</string>
-    <string name="results_round_details_title">Detalhes da rodada</string>
+    <string name="results_round_details_title">Detalhes por rodada</string>
     <string name="results_go_home">Voltar ao início</string>
     <string name="results_play_again">Jogar de novo</string>
     <string name="results_round_expression">%1$s = %2$d</string>
-    <string name="results_correct_answer_label">Correto: %1$s</string>
+    <string name="results_correct_answer_label">Resposta correta: %1$s</string>
 
     <string name="common_seconds_int">%1$ds</string>
 
@@ -107,7 +107,7 @@
     <string name="support_subtitle">Contribuição voluntária para apoiar o desenvolvimento</string>
     <string name="support_description" formatted="false">O Mental Math é 100% gratuito e sem anúncios. Se você gosta de treinar sua mente todos os dias, pode fazer uma contribuição voluntária para continuarmos melhorando o projeto.</string>
     <string name="support_tier_1_label">Apoio simples</string>
-    <string name="support_tier_2_label">Apoio constante</string>
+    <string name="support_tier_2_label">Apoio especial</string>
     <string name="support_tier_3_label">Grande contribuição</string>
     <string name="support_price_placeholder">—</string>
     <string name="support_home_button">Apoiar o Mental Math</string>
@@ -120,16 +120,16 @@
     <string name="close">Fechar</string>
 
     <string name="notification_channel_streak_name">Lembretes de sequência</string>
-    <string name="notification_channel_streak_description">Avisos diários para manter sua sequência de prática</string>
+    <string name="notification_channel_streak_description">Lembretes para manter sua sequência de prática</string>
     <string name="notification_streak_stage1_title">Mantenha sua sequência viva! 🔥</string>
-    <string name="notification_streak_stage1_message">Você está há %d dias seguidos praticando. Faça sua sessão de hoje!</string>
-    <string name="notification_streak_stage1_message_one">Você está há 1 dia praticando. Faça sua sessão de hoje!</string>
+    <string name="notification_streak_stage1_message">Você tem uma sequência de %d dias de prática. Faça sua sessão de hoje!</string>
+    <string name="notification_streak_stage1_message_one">Você tem uma sequência de 1 dia de prática. Faça sua sessão de hoje!</string>
     <string name="notification_streak_stage2_title">Sequência interrompida ⏳</string>
     <string name="notification_streak_stage2_message">Sua sequência foi perdida, mas não tem problema! Dedique 2 minutos hoje para começar uma nova.</string>
     <string name="notification_streak_stage3_title">Hora de treinar 🧠</string>
-    <string name="notification_streak_stage3_message">Mantenha seus reflexos afiados. Jogue uma rodada rápida de 2 minutos!</string>
+    <string name="notification_streak_stage3_message">Mantenha seus reflexos numéricos afiados. Faça uma sessão rápida de 2 minutos!</string>
     <string name="notification_streak_stage4_title">Pronto para voltar a treinar?</string>
-    <string name="notification_streak_stage4_message">Sentimos sua falta no Mental Math. Vamos parar de enviar lembretes por enquanto, volte quando quiser!</string>
+    <string name="notification_streak_stage4_message">Sentimos sua falta no Mental Math. Vamos parar de enviar lembretes por enquanto. Volte quando quiser!</string>
     <string name="config_notifications_title">Lembretes de sequência</string>
-    <string name="config_notifications_description">Um lembrete diário para não perder sua sequência de prática</string>
+    <string name="config_notifications_description">Lembretes para manter sua sequência de prática</string>
 </resources>

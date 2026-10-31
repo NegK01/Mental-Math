@@ -1,6 +1,5 @@
 package com.negk01.mentalmath.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import com.negk01.mentalmath.ui.utils.findActivity
 import androidx.compose.foundation.isSystemInDarkTheme
